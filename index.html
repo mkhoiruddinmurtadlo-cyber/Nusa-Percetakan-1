@@ -1900,17 +1900,6 @@ window.onpopstate = function(event) {
 
   // Sudah di Beranda → Kembali → Konfirmasi keluar
   const yakin = confirm('Apakah Anda yakin ingin keluar?');
-
-  // Pilih Batal → tetap di Beranda dan
-  // Kembali berikutnya tetap menampilkan konfirmasi
-  if (!yakin) {
-    history.pushState(
-      { page: 'home', searchOpen: false },
-      '',
-      '#home'
-    );
-    currentPage = 'home';
-    return;
   }
 
   // Pilih OK → logout → halaman Login
