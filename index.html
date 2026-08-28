@@ -1898,14 +1898,18 @@ window.onpopstate = function(event) {
     return;
   }
 
-  // 5. Jika sudah berada di Beranda, Back memicu konfirmasi keluar aplikasi.
-  if (currentPage === 'home') {
+  // 5. Jika sudah berada di Beranda, tekan Back = konfirmasi keluar
+if (currentPage === 'home') {
     const yakin = confirm('Apakah Anda yakin ingin keluar?');
-    if (!yakin) {
-  history.pushState({ page: 'home' }, '', '#home');
-  currentPage = 'home';
-  return;
-  }
+
+    if (yakin) {
+        nusaLogoutFromBack();
+    } else {
+        history.pushState({ page: 'home' }, '', '#home');
+    }
+
+    return;
+}
 
     // Jika dikonfirmasi, logout dan tampilkan halaman Login.
     nusaLogoutFromBack();
