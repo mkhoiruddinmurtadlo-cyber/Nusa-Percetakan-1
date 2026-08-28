@@ -1902,11 +1902,10 @@ window.onpopstate = function(event) {
   if (currentPage === 'home') {
     const yakin = confirm('Apakah Anda yakin ingin keluar?');
     if (!yakin) {
-      history.pushState({ page: 'home', searchOpen: false }, '', '#home');
-      currentPage = 'home';
-      scrollToTopInstant();
-      return;
-    }
+  history.pushState({ page: 'home' }, '', '#home');
+  currentPage = 'home';
+  return;
+  }
 
     // Jika dikonfirmasi, logout dan tampilkan halaman Login.
     nusaLogoutFromBack();
