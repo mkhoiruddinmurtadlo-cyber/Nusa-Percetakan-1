@@ -1893,27 +1893,31 @@ window.onpopstate = function(event) {
   }
 
   // 4. Back berikutnya dari Katalog/Riwayat/Transaksi/Kalkulator langsung ke Beranda.
+window.onpopstate = function(event) {
+
+  // Dari menu lain → Kembali → Beranda
   if (currentPage !== 'home') {
     showPage('home');
     return;
   }
 
-  // 5. Jika sudah berada di Beranda, tekan Back = konfirmasi keluar
-if (currentPage === 'home') {
-    const yakin = confirm('Apakah Anda yakin ingin keluar?');
+  // Sudah di Beranda → Kembali → Konfirmasi keluar
+  const yakin = confirm('Apakah Anda yakin ingin keluar?');
 
-    if (yakin) {
-        nusaLogoutFromBack();
-    } else {
-        history.pushState({ page: 'home' }, '', '#home');
-    }
-
+  // Pilih Batal → tetap di Beranda dan
+  // Kembali berikutnya tetap menampilkan konfirmasi
+  if (!yakin) {
+    history.pushState(
+      { page: 'home', searchOpen: false },
+      '',
+      '#home'
+    );
+    currentPage = 'home';
     return;
-}
-
-    // Jika dikonfirmasi, logout dan tampilkan halaman Login.
-    nusaLogoutFromBack();
   }
+
+  // Pilih OK → logout → halaman Login
+  nusaLogoutFromBack();
 };
 
 /* Logout khusus tombol Back setelah konfirmasi sudah diberikan */
