@@ -1892,10 +1892,7 @@ window.onpopstate = function(event) {
     return;
   }
 
-  // 4. Back berikutnya dari Katalog/Riwayat/Transaksi/Kalkulator langsung ke Beranda.
-window.onpopstate = function(event) {
-
-  // Dari menu lain → Kembali → Beranda
+  // 4. Dari menu lain → Kembali → Beranda
   if (currentPage !== 'home') {
     showPage('home');
     return;
