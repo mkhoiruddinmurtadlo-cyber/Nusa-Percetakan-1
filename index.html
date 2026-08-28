@@ -1898,14 +1898,6 @@ window.onpopstate = function(event) {
     return;
   }
 
-  // Sudah di Beranda → Kembali → Konfirmasi keluar
-  const yakin = confirm('Apakah Anda yakin ingin keluar?');
-  }
-
-  // Pilih OK → logout → halaman Login
-  nusaLogoutFromBack();
-};
-
 /* Logout khusus tombol Back setelah konfirmasi sudah diberikan */
 async function nusaLogoutFromBack() {
   try {
