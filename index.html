@@ -1895,9 +1895,6 @@ window.onpopstate = function(event) {
     showPage('home');
     return;
   }
-
-  // 5. Jika sudah berada di Beranda, Back memicu konfirmasi keluar aplikasi.
-  if (currentPage === 'home') {
     const yakin = confirm('Apakah Anda yakin ingin keluar?');
     if (!yakin) {
       history.pushState({ page: 'home', searchOpen: false }, '', '#home');
