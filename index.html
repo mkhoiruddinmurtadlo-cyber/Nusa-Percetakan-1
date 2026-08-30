@@ -2061,15 +2061,20 @@ window.onpopstate = function(event) {
   const authScreen = document.getElementById('authScreen');
   const loggedIn = !!nusaUser;
 
-  // Login adalah root aplikasi. Back 1x tidak boleh membuka history menu.
+  // LOGIN = ROOT APLIKASI
+  // Back 1x dari Login tidak kembali ke Beranda/menu sebelumnya.
+  // Coba tutup aplikasi/jendela.
   if (!loggedIn || (authScreen && !authScreen.classList.contains('hidden'))) {
     try {
       window.close();
     } catch (_) {}
-    // Jika lingkungan menolak window.close(), tetap kunci pengguna di Login.
+
+    // Jika browser tidak mengizinkan window.close(),
+    // tetap jadikan Login sebagai root.
     setTimeout(() => {
       if (!nusaUser) nusaSetLoginHistoryRoot();
     }, 80);
+
     return;
   }
 
@@ -2077,28 +2082,46 @@ window.onpopstate = function(event) {
   const modalNota = document.getElementById('modalNota');
   if (modalNota && !modalNota.classList.contains('hidden')) {
     closeModalNota();
-    history.pushState({ page: currentPage, searchOpen: false }, '', '#' + currentPage);
+    history.pushState(
+      { page: currentPage, searchOpen: false },
+      '',
+      '#' + currentPage
+    );
     return;
   }
 
   // Pencarian Katalog terbuka -> tutup pencarian.
   const catalogSearchBox = document.getElementById('searchBox');
-  if (currentPage === 'catalog' && catalogSearchBox &&
-      !catalogSearchBox.classList.contains('hidden')) {
+  if (
+    currentPage === 'catalog' &&
+    catalogSearchBox &&
+    !catalogSearchBox.classList.contains('hidden')
+  ) {
     closeCatalogSearch(false);
     currentPage = 'catalog';
-    history.replaceState({ page: 'catalog', searchOpen: false }, '', '#catalog');
+    history.replaceState(
+      { page: 'catalog', searchOpen: false },
+      '',
+      '#catalog'
+    );
     scrollToTopInstant();
     return;
   }
 
   // Pencarian Riwayat terbuka -> tutup pencarian.
   const historySearchBox = document.getElementById('historySearchBox');
-  if (currentPage === 'history' && historySearchBox &&
-      !historySearchBox.classList.contains('hidden')) {
-    closeHistorySearch(false);
+  if (
+    currentPage === 'history' &&
+    historySearchBox &&
+    !historySearchBox.classList.contains('hidden')
+  ) {
+    closeHistory(false);
     currentPage = 'history';
-    history.replaceState({ page: 'history', searchOpen: false }, '', '#history');
+    history.replaceState(
+      { page: 'history', searchOpen: false },
+      '',
+      '#history'
+    );
     scrollToTopInstant();
     return;
   }
@@ -2106,17 +2129,19 @@ window.onpopstate = function(event) {
   // Menu selain Beranda -> kembali ke Beranda.
   if (currentPage !== 'home') {
     showPage('home', null, false);
+
     history.replaceState(
       { page: 'home', searchOpen: false, homeGuard: true },
       '',
       '#home'
     );
+
     currentPage = 'home';
     scrollToTopInstant();
     return;
   }
 
-  // Beranda -> selalu minta konfirmasi keluar.
+  // BERANDA -> tampilkan konfirmasi keluar.
   const yakin = confirm('Apakah Anda yakin ingin keluar?');
 
   if (yakin) {
@@ -2124,13 +2149,15 @@ window.onpopstate = function(event) {
     return;
   }
 
-  // Batal -> buat satu state Beranda lagi supaya Back berikutnya
-  // tetap menampilkan konfirmasi.
+  // BATAL -> tetap di Beranda.
+  // Tambahkan 1 history Beranda agar Back berikutnya
+  // kembali menampilkan konfirmasi keluar.
   history.pushState(
     { page: 'home', searchOpen: false, homeGuard: true },
     '',
     '#home'
   );
+
   currentPage = 'home';
   scrollToTopInstant();
 };
