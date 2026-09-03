@@ -28,19 +28,6 @@
   box-sizing: border-box;
 }
 
-/* Mematikan semua transisi dan animasi di seluruh Beranda */
-#home, #home *, #home::before, #home::after, #home *::before, #home *::after,
-#main > section:has(#home) {
-  animation: none !important;
-  -webkit-animation: none !important;
-  animation-delay: 0s !important;
-  transition: none !important;
-  -webkit-transition: none !important;
-  transform: none !important;
-  -webkit-transform: none !important;
-  opacity: 1 !important;
-}
-
 body {
   margin: 0;
   background: #f5f8f5;
@@ -108,119 +95,93 @@ body {
   color: #0F3822;
 }
 
-/* Dashboard Card Baru sesuai Referensi Gambar */
-#home-app-card {
-  position: relative;
-  width: 100%;
-  padding: 24px 22px;
-  border-radius: 28px;
-  background: radial-gradient(circle at top right, #1f5737 0%, #113d25 50%, #0c2e1b 100%);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 16px 36px rgba(15,56,34,0.24);
-  color: #fff;
-  box-sizing: border-box;
-  overflow: hidden;
+/* Auth Screen */
+body.auth-locked .app { display:none !important; }
+#authScreen {
+  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  padding:20px; background:#f5f8f5; font-family:'Plus Jakarta Sans',sans-serif;
+}
+#authScreen.hidden { display:none; }
+.auth-card {
+  width:min(420px,100%); background:#fff; border-radius:24px; padding:24px;
+  box-shadow:0 18px 50px rgba(15,56,34,.14); border:1px solid #d9eadb;
+}
+.auth-logo { width:78px; height:78px; object-fit:contain; display:block; margin:0 auto 12px; }
+.auth-title { text-align:center; color:#0F3822; font-size:22px; font-weight:900; margin:0; }
+.auth-sub { text-align:center; color:#66816b; font-size:12px; margin:6px 0 20px; }
+.auth-input { width:100%; border:1px solid #cfe2d2; border-radius:14px; padding:13px 14px; margin-top:9px; font-size:14px; font-weight:700; }
+.auth-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 5px rgba(0,0,0,.15);
+}
+.auth-btn { width:100%; border:0; border-radius:14px; padding:13px 14px; margin-top:12px; background:#0F3822; color:#fff; font-weight:800; cursor:pointer; }
+.auth-note { font-size:10px; color:#78907c; text-align:center; margin-top:14px; line-height:1.5; }
+#authError { color:#b42318; font-size:11px; font-weight:700; margin-top:10px; text-align:center; }
+
+/* Account Bar */
+#accountBar { 
+  position:fixed; 
+  top:8px; 
+  right:max(8px, calc((100vw - 520px)/2 + 8px)); 
+  z-index:45; 
+  display:flex; 
+  align-items:center; 
+  gap:6px; 
+}
+#accountBar button, #logoutBtn { 
+  border:0; 
+  border-radius:999px; 
+  padding:7px 10px; 
+  background:rgba(255,255,255,.16); 
+  color:#fff; 
+  font-size:10px; 
+  font-weight:800; 
+  cursor:pointer; 
+  transition:all .2s ease; 
+}
+#accountBar button:hover, #logoutBtn:hover { 
+  background:rgba(255,255,255,.24); 
+  transform:scale(1.05); 
+}
+#accountBar button:active, #logoutBtn:active { 
+  transform:scale(0.98); 
+}
+#logoutBtn { 
+  background:rgba(220, 38, 38, 0.8); 
+}
+#logoutBtn:hover { 
+  background:rgba(220, 38, 38, 1); 
+}
+@media (max-width:520px){ 
+  #accountBar { right:8px; } 
 }
 
-/* Lingkaran aksen lengkung abstrak di latar belakang kartu */
-#home-app-card::before {
-  content: "";
-  position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 220px;
-  height: 220px;
-  border: 1px solid rgba(184, 238, 98, 0.12);
-  border-radius: 50%;
-  pointer-events: none;
+.password-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
 }
-#home-app-card::after {
-  content: "";
-  position: absolute;
-  bottom: -80px;
-  right: -40px;
-  width: 260px;
-  height: 260px;
-  border: 1px solid rgba(184, 238, 98, 0.08);
-  border-radius: 50%;
-  pointer-events: none;
+.password-wrap input{
+  width:100%;
+  padding-right:48px;
 }
-
-#home-app-card .home-app-card-label {
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  font-weight: 800;
-  color: #B8EE62;
-  text-transform: uppercase;
+.password-toggle{
+  position:absolute;
+  right:6px;
+  top:50%;
+  transform:translateY(-50%);
+  width:40px;
+  height:40px;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-
-#home-app-card .home-app-card-title {
-  margin: 14px 0 10px;
-  font-size: 28px;
-  line-height: 1.15;
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-}
-
-#home-app-card .home-app-card-title span {
-  color: #B8EE62;
-}
-
-#home-app-card .home-app-card-quote {
-  margin: 0 0 18px;
-  font-size: 12px;
-  line-height: 1.5;
-  font-weight: 500;
-  color: rgba(255,255,255,0.85);
-  max-width: 92%;
-}
-
-#home-app-card .home-app-card-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(18, 59, 36, 0.75);
-  border: 1px solid rgba(184, 238, 98, 0.3);
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #ffffff;
-  backdrop-filter: blur(4px);
-}
-
-#home-app-card .home-app-card-status-dot {
-  width: 8px;
-  height: 8px;
-  background: #B8EE62;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #B8EE62;
-}
-
-/* Custom Input & Card styling */
-.tx-item { border: 1px solid #b7e4bc; border-radius: 16px; padding: 14px; background: #fff; }
-.tx-item-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.tx-item-grid .full { grid-column: 1 / -1; }
-.tx-summary { background: #e8f7ea; border: 1px solid #b7e4bc; border-radius: 14px; padding: 12px; font-size: 12px; }
-.tx-history-card { border: 1px solid #d9eadb; border-radius: 16px; padding: 14px; background: #fff; }
-.tx-history-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; font-size: 10px; }
-.tx-history-label { color: #66816b; font-size: 9px; font-weight: 700; }
-.tx-history-value { font-weight: 800; color: #0F3822; font-size: 11px; }
-
-/* Calculator Keypad */
-.calc-btn { min-height: 54px; font-size: 19px; font-weight: 800; border-radius: 14px; border: 1px solid #d6e8d8; background: #fff; }
-.calc-op { background: #dff5e2; border-color: #b7e4bc; font-size: 20px; }
-.calc-eq { background: #52ad60; color: #fff; border-color: #52ad60; font-size: 20px; }
-.calc-danger { background: #e8f7ea; color: #438f4f; }
-
-input, select, textarea {
-  outline: none;
-  font-weight: 700 !important;
-}
-input::placeholder, textarea::placeholder {
-  color: #a0aba3 !important;
-  font-weight: 600 !important;
+.password-toggle:active{
+  background:rgba(0,0,0,.06);
 }
 
 /* Toast */
@@ -238,195 +199,10 @@ input::placeholder, textarea::placeholder {
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.18);
   white-space: nowrap;
+  display: none;
 }
 
-/* PDF Printable Layout Styling A4 */
-.pdf-a4-container {
-  background: #ffffff;
-  color: #111827;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  padding: 18px;
-  font-size: 11px;
-}
-.pdf-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  font-size: 10px;
-}
-.pdf-table th, .pdf-table td {
-  border: 1px solid #d1d5db;
-  padding: 6px 8px;
-  text-align: left;
-}
-.pdf-table th {
-  background-color: #0F3822;
-  color: #ffffff;
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: 9px;
-}
-.pdf-table tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-
-@keyframes blink-cursor {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.calc-cursor {
-  animation: blink-cursor 1s infinite;
-}
-
-/* Judul Katalog & Riwayat tetap terlihat saat kembali dari pencarian */
-#catalog > .flex.justify-between.items-center,
-#history > .flex.justify-between.items-center {
-  position: relative;
-  z-index: 2;
-  flex-shrink: 0;
-}
-#catalog #searchBox,
-#history #historySearchBox {
-  position: relative;
-  z-index: 1;
-}
-/* ===== SUPABASE LOGIN ===== */
-body.auth-locked .app { display:none !important; }
-#authScreen {
-  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
-  padding:20px; background:#f5f8f5; font-family:'Plus Jakarta Sans',sans-serif;
-}
-#authScreen.hidden { display:none; }
-.auth-card {
-  width:min(420px,100%); background:#fff; border-radius:24px; padding:24px;
-  box-shadow:0 18px 50px rgba(15,56,34,.14); border:1px solid #d9eadb;
-}
-.auth-logo { width:78px; height:78px; object-fit:contain; display:block; margin:0 auto 12px; }
-.auth-title { text-align:center; color:#0F3822; font-size:22px; font-weight:900; margin:0; }
-.auth-sub { text-align:center; color:#66816b; font-size:12px; margin:6px 0 20px; }
-.auth-input { width:100%; border:1px solid #cfe2d2; border-radius:14px; padding:13px 14px; margin-top:9px; font-size:14px; }
-.auth-btn:active {
-  transform: scale(0.97);
-  box-shadow: 0 2px 5px rgba(0,0,0,.15);
-}
-
-.auth-btn { width:100%; border:0; border-radius:14px; padding:13px 14px; margin-top:12px; background:#0F3822; color:#fff; font-weight:800; }
-.auth-note { font-size:10px; color:#78907c; text-align:center; margin-top:14px; line-height:1.5; }
-#authError { color:#b42318; font-size:11px; font-weight:700; margin-top:10px; text-align:center; }
-#accountBar { position:fixed; top:8px; right:max(8px, calc((100vw - 520px)/2 + 8px)); z-index:45; display:flex; align-items:center; gap:6px; }
-#accountBar button, #logoutBtn { border:0; border-radius:999px; padding:7px 10px; background:rgba(255,255,255,.16); color:#fff; font-size:10px; font-weight:800; cursor:pointer; transition:all .2s ease; }
-#accountBar button:hover, #logoutBtn:hover { background:rgba(255,255,255,.24); transform:scale(1.05); }
-#accountBar button:active, #logoutBtn:active { transform:scale(0.98); }
-#logoutBtn { background:rgba(220, 38, 38, 0.8); }
-#logoutBtn:hover { background:rgba(220, 38, 38, 1); }
-@media (max-width:520px){ #accountBar { right:8px; } }
-
-.password-wrap{position:relative;display:flex;align-items:center}
-.password-wrap input{width:100%;padding-right:48px}
-.password-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:transparent;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center}
-.password-toggle:active{background:rgba(0,0,0,.06)}
-
-</style>
-<meta name="nusa-version" content="supabase-sync-v4-login-refresh-safe-v3">
-
-<style id="BERANDA-RINGKASAN-JARAK-SERAGAM-FINAL">
-/* Beranda: jarak Pemasukan, Pengeluaran, Komisi, dan Laba Bersih dibuat seragam. */
-#home #beranda-finance-cards{
-  gap:12px !important;
-}
-#home #beranda-finance-cards > *,
-#home #beranda-finance-cards ~ div.bg-\[\#214f29\],
-#home #beranda-finance-cards ~ div.gradient:has(#todayProfit),
-#home #beranda-finance-cards ~ div.bg-\[\#e8f7ea\]{
-  margin-top:0 !important;
-  margin-bottom:0 !important;
-}
-#home #beranda-finance-cards ~ div.bg-\[\#214f29\],
-#home #beranda-finance-cards ~ div.gradient:has(#todayProfit),
-#home #beranda-finance-cards ~ div.bg-\[\#e8f7ea\]{
-  margin-top:12px !important;
-}
-</style>
-
-
-<style id="BERANDA-4-KARTU-JARAK-SERAGAM-V2">
-/* Menyatukan empat kartu ringkasan Beranda agar jaraknya benar-benar sama. */
-#home #beranda-finance-cards{
-  display:flex !important;
-  flex-direction:column !important;
-  gap:12px !important;
-}
-
-/* Pemasukan dan Pengeluaran tetap menjadi item biasa di kelompok. */
-#home #beranda-finance-cards #beranda-pemasukan-card,
-#home #beranda-finance-cards #beranda-pengeluaran-card{
-  margin:0 !important;
-}
-
-/* Jika Komisi/Laba Bersih berada di luar wrapper lama,
-   reset margin lalu gunakan jarak 12px dari kartu sebelumnya. */
-#home #beranda-finance-cards ~ div:has(#allProfit),
-#home #beranda-finance-cards ~ div:has(#todayProfit){
-  margin-top:12px !important;
-  margin-bottom:0 !important;
-}
-
-/* Hilangkan margin bawaan pada kartu yang menyebabkan jarak ganda. */
-#home #beranda-finance-cards ~ div:has(#allProfit) > *,
-#home #beranda-finance-cards ~ div:has(#todayProfit) > *{
-  margin-top:0 !important;
-  margin-bottom:0 !important;
-}
-</style>
-
-
-<style id="BERANDA-MENU-UTAMA-LIME-PUTIH">
-/* Beranda sebagai menu utama: lingkaran putih, ikon dan judul lime neon green. */
-.nav a.active:first-child .ico,
-.nav a.active[data-page="home"] .ico,
-.nav a[href="#home"].active .ico {
-  background:#ffffff !important;
-}
-.nav a.active:first-child .ico i,
-.nav a.active[data-page="home"] .ico i,
-.nav a[href="#home"].active .ico i {
-  color:#FFFFFF !important;
-  stroke:#FFFFFF !important;
-}
-.nav a.active:first-child .label,
-.nav a.active[data-page="home"] .label,
-.nav a[href="#home"].active .label {
-  color:#FFFFFF !important;
-}
-</style>
-
-
-<style id="BERANDA-IKON-UKURAN-SAMA-DENGAN-MENU-LAIN">
-/* Hanya ukuran ikon Beranda dikembalikan sama dengan ikon menu lainnya. */
-.nav a.active:first-child .ico i,
-.nav a.active[data-page="home"] .ico i,
-.nav a[href="#home"].active .ico i {
-  width:22px !important;
-  height:22px !important;
-  font-size:22px !important;
-}
-</style>
-
-
-<style id="SEMUA-IKON-MENU-20X20-FINAL">
-/* Semua ikon menu navigasi: 20x20 px. */
-.nav .ico i,
-.nav .ico svg {
-  width:22px !important;
-  height:22px !important;
-  font-size:22px !important;
-}
-</style>
-
-
-<style id="NUSA-REFRESH-LOGO-SPLASH">
-/* Saat refresh, tampilkan identitas NUsa Percetakan pada latar putih,
-   bukan halaman kosong/putih atau halaman login/beranda yang berkedip. */
+/* Refresh Splash */
 #nusaRefreshSplash{
   position:fixed;
   inset:0;
@@ -451,64 +227,8 @@ body.auth-locked .app { display:none !important; }
   object-fit:contain;
   display:block;
 }
-@media (prefers-reduced-motion: reduce){
-  #nusaRefreshSplash{transition:none}
-}
-</style>
 
-
-<style id="BERANDA-KARTU-LEBIH-RAMPING">
-#home #beranda-jumlah-laba-bersih-card,
-#home > div.bg-\\[#0F3822\\].shadow-sm {
-  padding-top: 9px !important;
-  padding-bottom: 9px !important;
-}
-</style>
-
-
-<style id="DASHBOARD-TEKS-DAN-KARTU-LEBIH-RAMPING">
-/* Hanya kartu angka Dashboard: teks diperkecil dan tinggi dirampingkan. */
-#home #beranda-finance-cards > div:not(:first-child),
-#home #beranda-jumlah-laba-bersih-card,
-#home > div.bg-\[\#0F3822\].shadow-sm {
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
-}
-
-#home #beranda-finance-cards > div:not(:first-child) i,
-#home #beranda-jumlah-laba-bersih-card i,
-#home > div.bg-\[\#0F3822\].shadow-sm i {
-  width: 18px !important;
-  height: 18px !important;
-  margin-bottom: 2px !important;
-}
-
-#home #beranda-finance-cards > div:not(:first-child) span,
-#home #beranda-jumlah-laba-bersih-card span,
-#home > div.bg-\[\#0F3822\].shadow-sm span {
-  font-size: 11px !important;
-}
-
-#home #beranda-finance-cards > div:not(:first-child) b,
-#home #beranda-jumlah-laba-bersih-card b,
-#home > div.bg-\[\#0F3822\].shadow-sm b {
-  font-size: 12px !important;
-}
-</style>
-
-
-<style id="DASHBOARD-KEUANGAN-100PX">
-/* Hanya kartu DASHBOARD KEUANGAN tepat di bawah header. */
-#home #home-app-card {
-  height: 160px !important;
-  min-height: 160px !important;
-  padding: 12px 16px !important;
-  overflow: hidden !important;
-}
-</style>
-
-
-<style id="HEADER-80PX">
+/* Header */
 .app > header.gradient {
   height: 60px !important;
   min-height: 60px !important;
@@ -517,147 +237,6 @@ body.auth-locked .app { display:none !important; }
   padding-bottom: 0 !important;
   display: flex !important;
   align-items: center !important;
-}
-</style>
-
-
-<style id="DASHBOARD-KEUANGAN-180PX-PROPORSIONAL">
-/* Kartu DASHBOARD KEUANGAN: 180px dengan isi dibuat proporsional. */
-#home #home-app-card {
-  height: 180px !important;
-  min-height: 180px !important;
-  max-height: 180px !important;
-  padding: 18px 20px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-}
-
-#home #home-app-card .home-app-card-label {
-  font-size: 9px !important;
-  margin-bottom: 0 !important;
-}
-
-#home #home-app-card .home-app-card-title {
-  margin: 8px 0 6px !important;
-  font-size: 24px !important;
-  line-height: 1.12 !important;
-}
-
-#home #home-app-card .home-app-card-quote {
-  margin: 0 0 10px !important;
-  font-size: 11px !important;
-  line-height: 1.4 !important;
-  max-width: 94% !important;
-}
-
-#home #home-app-card .home-app-card-status-badge {
-  padding: 6px 11px !important;
-  gap: 6px !important;
-  font-size: 10px !important;
-}
-
-#home #home-app-card .home-app-card-status-dot {
-  width: 7px !important;
-  height: 7px !important;
-}
-</style>
-
-
-<style id="DATA-SIAP-DIGUNAKAN-PROPORSIONAL">
-/* Badge "Data siap digunakan" dibuat proporsional terhadap kartu 180px. */
-#home #home-app-card .home-app-card-status-badge {
-  padding: 7px 12px !important;
-  gap: 7px !important;
-  font-size: 10px !important;
-  line-height: 1.2 !important;
-}
-
-#home #home-app-card .home-app-card-status-dot {
-  width: 7px !important;
-  height: 7px !important;
-  flex: 0 0 7px !important;
-}
-</style>
-
-
-<style id="DATA-SIAP-BORDER-PROPORSIONAL">
-/* Garis tepi badge mengikuti ukuran teks secara proporsional. */
-#home #home-app-card .home-app-card-status-badge {
-  padding: 6px 10px !important;
-  gap: 6px !important;
-  font-size: 10px !important;
-  line-height: 1.2 !important;
-  border-width: 1px !important;
-  border-radius: 8px !important;
-  width: fit-content !important;
-  max-width: max-content !important;
-}
-</style>
-
-
-<style id="NUSA-DATE-TIME-BAR">
-#nusaDateTimeBar {
-  width: 100%;
-  min-height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: #ffffff;
-  color: #0F3822;
-  border-bottom: 1px solid #e4eee5;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-#nusaDateTimeBar svg {
-  width: 14px !important;
-  height: 14px !important;
-  flex: 0 0 14px;
-}
-</style>
-
-
-<style id="DASHBOARD-NOMINAL-DIPERBESAR">
-/* Perbesar hanya nominal pada 4 kartu Dashboard. */
-#home #beranda-finance-cards > div:not(:first-child) b,
-#home #beranda-jumlah-laba-bersih-card b,
-#home > div.bg-\[\#0F3822\].shadow-sm b {
-  font-size: 16px !important;
-  line-height: 1.2 !important;
-}
-</style>
-
-
-<style id="DASHBOARD-LABEL-DAN-NOMINAL-15PX">
-/* Pemasukan, Pengeluaran, Komisi, Laba Bersih beserta nilainya = 15px. */
-#home #beranda-finance-cards > div:not(:first-child) span,
-#home #beranda-finance-cards > div:not(:first-child) b,
-#home #beranda-jumlah-laba-bersih-card span,
-#home #beranda-jumlah-laba-bersih-card b,
-#home > div.bg-\[\#0F3822\].shadow-sm span,
-#home > div.bg-\[\#0F3822\].shadow-sm b {
-  font-size: 15px !important;
-  line-height: 1.2 !important;
-}
-</style>
-
-
-<style id="DASHBOARD-PENYESUAIAN-FINAL">
-/* Komisi: ikon dan teks sejajar seperti kartu Pengeluaran, rata kiri. */
-#home #beranda-finance-cards ~ div:has(#allProfit) .flex.items-center.justify-between > .flex.flex-col.items-start {
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-  text-align: left !important;
-}
-#home #beranda-finance-cards ~ div:has(#allProfit) .flex.items-center.justify-between > .flex.flex-col.items-start i {
-  margin-bottom: 2px !important;
-}
-
-/* Header: jarak teks dibuat lebih rapat dan proporsional. */
-.app > header.gradient {
   padding-left: 16px !important;
   padding-right: 16px !important;
 }
@@ -670,337 +249,7 @@ body.auth-locked .app { display:none !important; }
   line-height: 1.15 !important;
   font-size: 10px !important;
 }
-
-/* Label dan nominal 4 kartu Dashboard = 13px. */
-#home #beranda-finance-cards > div:not(:first-child) span,
-#home #beranda-finance-cards > div:not(:first-child) b,
-#home #beranda-jumlah-laba-bersih-card span,
-#home #beranda-jumlah-laba-bersih-card b,
-#home > div.bg-\[\#0F3822\].shadow-sm span,
-#home > div.bg-\[\#0F3822\].shadow-sm b {
-  font-size: 13px !important;
-  line-height: 1.2 !important;
-}
-
-/* Baris tanggal/waktu hanya tampil di Beranda. */
-#nusaDateTimeBar {
-  display: none !important;
-}
-body.nusa-home-active #nusaDateTimeBar {
-  display: flex !important;
-}
 </style>
-
-
-<style id="NAV-MENU-SEPERTI-REFERENSI">
-/* Navigasi bawah dibuat seperti referensi: floating, hijau gelap, sudut membulat,
-   5 menu proporsional, dan tombol aktif lime. Tidak menggunakan gambar. */
-.nav {
-  left: 50% !important;
-  bottom: 10px !important;
-  transform: translateX(-50%) !important;
-  width: min(500px, calc(100% - 20px)) !important;
-  height: 104px !important;
-  padding: 8px 8px 9px !important;
-  border-radius: 34px !important;
-  background: #0F3822 !important;
-  box-shadow: 0 12px 28px rgba(15,56,34,.22) !important;
-  display: grid !important;
-  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-  gap: 2px !important;
-  align-items: center !important;
-}
-
-.nav button {
-  min-width: 0 !important;
-  min-height: 86px !important;
-  height: 86px !important;
-  padding: 4px 2px !important;
-  border-radius: 28px !important;
-  color: #b8c9bd !important;
-  background: transparent !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 5px !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  line-height: 1.1 !important;
-}
-
-.nav .ico {
-  width: 48px !important;
-  height: 48px !important;
-  margin: 0 !important;
-  border-radius: 16px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: transparent !important;
-  color: #c7d5cb !important;
-}
-
-.nav .ico i,
-.nav .ico svg {
-  width: 25px !important;
-  height: 25px !important;
-  font-size: 25px !important;
-  stroke-width: 2.1 !important;
-}
-
-.nav button > span:last-child {
-  display: block !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  max-width: 100% !important;
-}
-
-.nav button.active {
-  color: #ffffff !important;
-  font-weight: 800 !important;
-  background: transparent !important;
-}
-
-.nav button.active .ico,
-.nav a.active:first-child .ico,
-.nav a.active[data-page="home"] .ico,
-.nav a[href="#home"].active .ico {
-  width: 56px !important;
-  height: 56px !important;
-  border-radius: 18px !important;
-  background: #B8EE62 !important;
-  color: #0F3822 !important;
-}
-
-.nav button.active .ico i,
-.nav button.active .ico svg,
-.nav a.active:first-child .ico i,
-.nav a.active[data-page="home"] .ico i,
-.nav a[href="#home"].active .ico i {
-  color: #0F3822 !important;
-  stroke: #0F3822 !important;
-  width: 26px !important;
-  height: 26px !important;
-}
-
-.nav button.active > span:last-child {
-  color: #ffffff !important;
-}
-
-@media (max-width: 380px) {
-  .nav {
-    width: calc(100% - 14px) !important;
-    bottom: 7px !important;
-    height: 96px !important;
-    border-radius: 30px !important;
-    padding: 6px !important;
-  }
-  .nav button {
-    min-height: 82px !important;
-    height: 82px !important;
-    gap: 4px !important;
-    font-size: 10px !important;
-  }
-  .nav .ico {
-    width: 44px !important;
-    height: 44px !important;
-  }
-  .nav button.active .ico,
-  .nav a.active:first-child .ico,
-  .nav a.active[data-page="home"] .ico,
-  .nav a[href="#home"].active .ico {
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 16px !important;
-  }
-  .nav button.active .ico i,
-  .nav button.active .ico svg {
-    width: 24px !important;
-    height: 24px !important;
-  }
-}
-</style>
-
-
-<style id="NAV-TINGGI-60PX">
-/* Tinggi kartu/menu navigasi dibuat 60px. */
-.nav {
-  height: 60px !important;
-  min-height: 60px !important;
-  padding: 4px 8px !important;
-  border-radius: 28px !important;
-}
-.nav button {
-  height: 52px !important;
-  min-height: 52px !important;
-  padding: 2px !important;
-  gap: 2px !important;
-}
-.nav .ico {
-  width: 30px !important;
-  height: 30px !important;
-  border-radius: 10px !important;
-}
-.nav .ico i,
-.nav .ico svg {
-  width: 20px !important;
-  height: 20px !important;
-  font-size: 20px !important;
-}
-.nav button.active .ico,
-.nav a.active:first-child .ico,
-.nav a.active[data-page="home"] .ico,
-.nav a[href="#home"].active .ico {
-  width: 36px !important;
-  height: 36px !important;
-  border-radius: 11px !important;
-}
-.nav button.active .ico i,
-.nav button.active .ico svg,
-.nav a.active:first-child .ico i,
-.nav a.active[data-page="home"] .ico i,
-.nav a[href="#home"].active .ico i {
-  width: 21px !important;
-  height: 21px !important;
-}
-.nav button {
-  font-size: 10px !important;
-  line-height: 1 !important;
-}
-@media (max-width: 380px) {
-  .nav {
-    height: 60px !important;
-    min-height: 60px !important;
-    padding: 4px 5px !important;
-    bottom: 7px !important;
-  }
-  .nav button {
-    height: 52px !important;
-    min-height: 52px !important;
-    font-size: 9px !important;
-  }
-}
-</style>
-
-
-<style id="NAV-TINGGI-70PX-PROPORSIONAL">
-/* Navigasi 70px dengan isi proporsional. */
-.nav {
-  height: 70px !important;
-  min-height: 70px !important;
-  padding: 5px 8px !important;
-  border-radius: 30px !important;
-}
-.nav button {
-  height: 60px !important;
-  min-height: 60px !important;
-  padding: 2px !important;
-  gap: 3px !important;
-  font-size: 10px !important;
-  line-height: 1.05 !important;
-}
-.nav .ico {
-  width: 34px !important;
-  height: 34px !important;
-  border-radius: 11px !important;
-}
-.nav .ico i,
-.nav .ico svg {
-  width: 21px !important;
-  height: 21px !important;
-  font-size: 21px !important;
-}
-.nav button.active .ico,
-.nav a.active:first-child .ico,
-.nav a.active[data-page="home"] .ico,
-.nav a[href="#home"].active .ico {
-  width: 42px !important;
-  height: 42px !important;
-  border-radius: 13px !important;
-}
-.nav button.active .ico i,
-.nav button.active .ico svg,
-.nav a.active:first-child .ico i,
-.nav a.active[data-page="home"] .ico i,
-.nav a[href="#home"].active .ico i {
-  width: 22px !important;
-  height: 22px !important;
-}
-@media (max-width: 380px) {
-  .nav {
-    height: 70px !important;
-    min-height: 70px !important;
-    padding: 5px 6px !important;
-  }
-  .nav button {
-    height: 60px !important;
-    min-height: 60px !important;
-    font-size: 9px !important;
-  }
-}
-</style>
-
-
-<style id="NAV-IKON-JUDUL-DIPERBESAR">
-/* Perbesar ikon dan judul menu, tetap proporsional dengan tinggi navigasi 70px. */
-.nav button {
-  gap: 4px !important;
-  font-size: 11px !important;
-  font-weight: 800 !important;
-}
-.nav .ico {
-  width: 38px !important;
-  height: 38px !important;
-  border-radius: 12px !important;
-}
-.nav .ico i,
-.nav .ico svg {
-  width: 23px !important;
-  height: 23px !important;
-  font-size: 23px !important;
-}
-.nav button.active .ico,
-.nav a.active:first-child .ico,
-.nav a.active[data-page="home"] .ico,
-.nav a[href="#home"].active .ico {
-  width: 46px !important;
-  height: 46px !important;
-  border-radius: 14px !important;
-}
-.nav button.active .ico i,
-.nav button.active .ico svg,
-.nav a.active:first-child .ico i,
-.nav a.active[data-page="home"] .ico i,
-.nav a[href="#home"].active .ico i {
-  width: 24px !important;
-  height: 24px !important;
-}
-@media (max-width: 380px) {
-  .nav button {
-    font-size: 10px !important;
-    gap: 3px !important;
-  }
-  .nav .ico {
-    width: 36px !important;
-    height: 36px !important;
-  }
-  .nav .ico i,
-  .nav .ico svg {
-    width: 22px !important;
-    height: 22px !important;
-  }
-  .nav button.active .ico,
-  .nav a.active:first-child .ico,
-  .nav a.active[data-page="home"] .ico,
-  .nav a[href="#home"].active .ico {
-    width: 43px !important;
-    height: 43px !important;
-  }
-}
-</style>
-
 
 </head>
 <body>
@@ -1038,39 +287,40 @@ body.nusa-home-active #nusaDateTimeBar {
 </div>
 
 <!-- Main App -->
-<div class="app">
+<div class="app" style="display:none;">
   <header class="gradient flex items-center justify-between px-4 py-3">
     <div>
       <h1 class="text-white font-black text-lg flex items-center gap-1">
-        <i data-lucide="home"></i> Nusa Percetakan
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4"></path></svg>
+        Nusa Percetakan
       </h1>
       <p class="text-green-200 text-xs">Sistem Manajemen Keuangan</p>
     </div>
   </header>
 
   <main id="main" class="pb-24 px-4">
-    <!-- Dynamic content will be loaded here -->
+    <p style="text-align: center; color: #0F3822; margin-top: 20px;">Loading...</p>
   </main>
 
   <nav class="nav">
     <button data-page="home" class="active">
-      <div class="ico"><i data-lucide="home"></i></div>
+      <div class="ico"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4"></path></svg></div>
       <span class="label">Beranda</span>
     </button>
     <button data-page="catalog">
-      <div class="ico"><i data-lucide="book"></i></div>
+      <div class="ico"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"></path></svg></div>
       <span class="label">Katalog</span>
     </button>
     <button data-page="calculator">
-      <div class="ico"><i data-lucide="calculator"></i></div>
+      <div class="ico"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></div>
       <span class="label">Kalkulator</span>
     </button>
     <button data-page="history">
-      <div class="ico"><i data-lucide="history"></i></div>
+      <div class="ico"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
       <span class="label">Riwayat</span>
     </button>
     <button data-page="settings">
-      <div class="ico"><i data-lucide="settings"></i></div>
+      <div class="ico"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></div>
       <span class="label">Pengaturan</span>
     </button>
   </nav>
@@ -1079,9 +329,20 @@ body.nusa-home-active #nusaDateTimeBar {
 <div id="toast"></div>
 
 <script>
+// Sembunyikan splash screen
+window.addEventListener('load', () => {
+  const splash = document.getElementById('nusaRefreshSplash');
+  if (splash) {
+    setTimeout(() => {
+      splash.classList.add('nusa-refresh-splash-hide');
+    }, 500);
+  }
+});
+
 // Toast notification
 function showToast(msg) {
   const toast = document.getElementById('toast');
+  if (!toast) return;
   toast.textContent = msg;
   toast.style.display = 'block';
   setTimeout(() => { toast.style.display = 'none'; }, 2000);
@@ -1098,29 +359,85 @@ function handleLogout() {
 
 // Setup logout button
 document.addEventListener('DOMContentLoaded', () => {
-  const logoutBtn = document.getElementById('logoutBtn');
-  const userEmailBtn = document.getElementById('userEmailBtn');
-  
-  logoutBtn.addEventListener('click', handleLogout);
-  
-  // Check if user is logged in and show buttons
-  const user = localStorage.getItem('supabase_user');
-  if (user) {
-    try {
-      const userData = JSON.parse(user);
-      logoutBtn.style.display = 'block';
-      if (userData.email) {
-        userEmailBtn.textContent = userData.email.substring(0, 3) + '...';
-        userEmailBtn.style.display = 'block';
-      }
-    } catch (e) {
-      console.error('Error parsing user data:', e);
+  try {
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userEmailBtn = document.getElementById('userEmailBtn');
+    const authScreen = document.getElementById('authScreen');
+    const app = document.querySelector('.app');
+    
+    if (!logoutBtn || !userEmailBtn || !authScreen || !app) {
+      console.error('DOM elements not found');
+      return;
     }
+    
+    logoutBtn.addEventListener('click', handleLogout);
+    
+    // Check if user is logged in and show buttons
+    const user = localStorage.getItem('supabase_user');
+    if (user) {
+      try {
+        const userData = JSON.parse(user);
+        logoutBtn.style.display = 'block';
+        if (userData.email) {
+          userEmailBtn.textContent = userData.email.substring(0, 3) + '...';
+          userEmailBtn.style.display = 'block';
+        }
+        // Show app, hide auth
+        app.style.display = 'block';
+        authScreen.classList.add('hidden');
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+        authScreen.classList.remove('hidden');
+        app.style.display = 'none';
+      }
+    } else {
+      // Show auth, hide app
+      authScreen.classList.remove('hidden');
+      app.style.display = 'none';
+    }
+    
+  } catch (e) {
+    console.error('Error in DOMContentLoaded:', e);
   }
 });
 
-// Lucide icons setup
-lucide.createIcons();
+// Toggle password visibility
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('togglePassword');
+  const passwordInput = document.getElementById('authPassword');
+  
+  if (toggleBtn && passwordInput) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+      toggleBtn.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+  }
+});
+
+// Login handler
+document.addEventListener('DOMContentLoaded', () => {
+  const loginBtn = document.getElementById('loginBtn');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', () => {
+      const email = document.getElementById('authEmail')?.value;
+      const password = document.getElementById('authPassword')?.value;
+      
+      if (!email || !password) {
+        const errorDiv = document.getElementById('authError');
+        if (errorDiv) errorDiv.textContent = 'Email dan password harus diisi';
+        return;
+      }
+      
+      // Simpan user data (demo)
+      localStorage.setItem('supabase_user', JSON.stringify({ email }));
+      localStorage.setItem('supabase_auth_token', 'token_' + Date.now());
+      
+      location.reload();
+    });
+  }
+});
 </script>
 
 </body>
