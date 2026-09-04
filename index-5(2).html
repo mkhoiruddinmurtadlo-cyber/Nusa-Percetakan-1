@@ -1,0 +1,4428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="application-name" content="Nusa Percetakan">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180.png">
+<link rel="preload" as="image" href="./logo.png">
+
+<title>Keuangan NUsa Percetakan</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Mematikan semua transisi dan animasi di seluruh Beranda */
+#home, #home *, #home::before, #home::after, #home *::before, #home *::after,
+#main > section:has(#home) {
+  animation: none !important;
+  -webkit-animation: none !important;
+  animation-delay: 0s !important;
+  transition: none !important;
+  -webkit-transition: none !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  opacity: 1 !important;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  scroll-behavior: auto !important;
+}
+body {
+  background: #f5f8f5;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #193022;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+.app {
+  max-width: 520px;
+  min-height: 100vh;
+  margin: auto;
+  background: #fff;
+  box-shadow: 0 0 30px rgba(0,0,0,0.06);
+}
+
+.gradient {
+  background: #0F3822;
+}
+
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) !important;
+  width: min(520px, 100%);
+  z-index: 50;
+  background: #0F3822 !important;
+  border-radius: 22px 22px 0 0;
+  padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+}
+
+.nav button {
+  color: #b7cbb9;
+  min-height: 54px;
+  border: none;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 700;
+  outline: none;
+}
+
+.nav .ico {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 3px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav .ico i, .nav .ico svg {
+  width: 22px;
+  height: 22px;
+}
+
+.nav button.active {
+  color: #fff;
+  font-weight: 800;
+}
+
+.nav button.active .ico {
+  background: #B8EE62;
+  color: #0F3822;
+}
+
+/* Dashboard Card Baru sesuai Referensi Gambar */
+#home-app-card {
+  position: relative;
+  width: 100%;
+  padding: 24px 22px;
+  border-radius: 28px;
+  background: radial-gradient(circle at top right, #1f5737 0%, #113d25 50%, #0c2e1b 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 16px 36px rgba(15,56,34,0.24);
+  color: #fff;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Lingkaran aksen lengkung abstrak di latar belakang kartu */
+#home-app-card::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  border: 1px solid rgba(184, 238, 98, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+#home-app-card::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  right: -40px;
+  width: 260px;
+  height: 260px;
+  border: 1px solid rgba(184, 238, 98, 0.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#home-app-card .home-app-card-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  font-weight: 800;
+  color: #B8EE62;
+  text-transform: uppercase;
+}
+
+#home-app-card .home-app-card-title {
+  margin: 14px 0 10px;
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+#home-app-card .home-app-card-title span {
+  color: #B8EE62;
+}
+
+#home-app-card .home-app-card-quote {
+  margin: 0 0 18px;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  max-width: 92%;
+}
+
+#home-app-card .home-app-card-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(18, 59, 36, 0.75);
+  border: 1px solid rgba(184, 238, 98, 0.3);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  backdrop-filter: blur(4px);
+}
+
+#home-app-card .home-app-card-status-dot {
+  width: 8px;
+  height: 8px;
+  background: #B8EE62;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #B8EE62;
+}
+
+/* Custom Input & Card styling */
+.tx-item { border: 1px solid #b7e4bc; border-radius: 16px; padding: 14px; background: #fff; }
+.tx-item-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tx-item-grid .full { grid-column: 1 / -1; }
+.tx-summary { background: #e8f7ea; border: 1px solid #b7e4bc; border-radius: 14px; padding: 12px; font-size: 12px; }
+.tx-history-card { border: 1px solid #d9eadb; border-radius: 16px; padding: 14px; background: #fff; }
+.tx-history-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; font-size: 10px; }
+.tx-history-label { color: #66816b; font-size: 9px; font-weight: 700; }
+.tx-history-value { font-weight: 800; color: #0F3822; font-size: 11px; }
+
+/* Calculator Keypad */
+.calc-btn { min-height: 54px; font-size: 19px; font-weight: 800; border-radius: 14px; border: 1px solid #d6e8d8; background: #fff; }
+.calc-op { background: #dff5e2; border-color: #b7e4bc; font-size: 20px; }
+.calc-eq { background: #52ad60; color: #fff; border-color: #52ad60; font-size: 20px; }
+.calc-danger { background: #e8f7ea; color: #438f4f; }
+
+input, select, textarea {
+  outline: none;
+  font-weight: 700 !important;
+}
+input::placeholder, textarea::placeholder {
+  color: #a0aba3 !important;
+  font-weight: 600 !important;
+}
+
+/* Dialog pilihan: desain mengikuti konfirmasi Keluar */
+#nusaChoiceDialog .nusa-choice-option {
+  width: 100%;
+  text-align: left;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #0F3822;
+  background: #f5f8f5;
+  transition: background-color .15s ease, transform .15s ease;
+}
+#nusaChoiceDialog .nusa-choice-option:hover { background: #e8f7ea; }
+#nusaChoiceDialog .nusa-choice-option:active { transform: scale(.98); }
+#nusaChoiceDialog .nusa-choice-option.selected { background: #dff5e2; box-shadow: inset 0 0 0 1px #b7e4bc; }
+[data-choice-select] { cursor: pointer; }
+
+/* Toast */
+#toast {
+  position: fixed;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: #0F3822;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  white-space: nowrap;
+}
+
+/* PDF Printable Layout Styling A4 */
+.pdf-a4-container {
+  background: #ffffff;
+  color: #111827;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  padding: 18px;
+  font-size: 11px;
+}
+.pdf-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 10px;
+}
+.pdf-table th, .pdf-table td {
+  border: 1px solid #d1d5db;
+  padding: 6px 8px;
+  text-align: left;
+}
+.pdf-table th {
+  background-color: #0F3822;
+  color: #ffffff;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 9px;
+}
+.pdf-table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.calc-cursor {
+  animation: blink-cursor 1s infinite;
+}
+
+/* Judul Katalog & Riwayat tetap terlihat saat kembali dari pencarian */
+#catalog > .flex.justify-between.items-center,
+#history > .flex.justify-between.items-center {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+#catalog #searchBox,
+#history #historySearchBox {
+  position: relative;
+  z-index: 1;
+}
+/* ===== SUPABASE LOGIN ===== */
+body.auth-locked .app { display:none !important; }
+#authScreen {
+  position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  padding:20px; background:#f5f8f5; font-family:'Plus Jakarta Sans',sans-serif;
+}
+#authScreen.hidden { display:none; }
+.auth-card {
+  width:min(420px,100%); background:#fff; border-radius:24px; padding:24px;
+  box-shadow:0 18px 50px rgba(15,56,34,.14); border:1px solid #d9eadb;
+}
+.auth-logo { width:78px; height:78px; object-fit:contain; display:block; margin:0 auto 12px; }
+.auth-title { text-align:center; color:#0F3822; font-size:22px; font-weight:900; margin:0; }
+.auth-sub { text-align:center; color:#66816b; font-size:12px; margin:6px 0 20px; }
+.auth-input { width:100%; border:1px solid #cfe2d2; border-radius:14px; padding:13px 14px; margin-top:9px; font-size:14px; }
+.auth-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 5px rgba(0,0,0,.15);
+}
+
+.auth-btn { width:100%; border:0; border-radius:14px; padding:13px 14px; margin-top:12px; background:#0F3822; color:#fff; font-weight:800; }
+.auth-note { font-size:10px; color:#78907c; text-align:center; margin-top:14px; line-height:1.5; }
+#authError { color:#b42318; font-size:11px; font-weight:700; margin-top:10px; text-align:center; }
+#accountBar { position:fixed; top:8px; right:max(8px, calc((100vw - 520px)/2 + 8px)); z-index:45; display:flex; align-items:center; gap:6px; }
+#accountBar button { border:0; border-radius:999px; padding:7px 10px; background:rgba(255,255,255,.16); color:#fff; font-size:10px; font-weight:800; }
+@media (max-width:520px){ #accountBar { right:8px; } }
+
+.password-wrap{position:relative;display:flex;align-items:center}
+.password-wrap input{width:100%;padding-right:48px}
+.password-toggle{position:absolute;right:6px;top:57%;transform:translateY(-50%);width:40px;height:40px;border:0;background:transparent;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.password-toggle:active{background:rgba(0,0,0,.06)}
+
+</style>
+<meta name="nusa-version" content="supabase-sync-v4-login-refresh-safe-v3">
+
+<style id="BERANDA-RINGKASAN-JARAK-SERAGAM-FINAL">
+/* Beranda: jarak Pemasukan, Pengeluaran, Komisi, dan Laba Bersih dibuat seragam. */
+#home #beranda-finance-cards{
+  gap:12px !important;
+}
+#home #beranda-finance-cards > *,
+#home #beranda-finance-cards ~ div.bg-\[\#214f29\],
+#home #beranda-finance-cards ~ div.gradient:has(#todayProfit),
+#home #beranda-finance-cards ~ div.bg-\[\#e8f7ea\]{
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+}
+#home #beranda-finance-cards ~ div.bg-\[\#214f29\],
+#home #beranda-finance-cards ~ div.gradient:has(#todayProfit),
+#home #beranda-finance-cards ~ div.bg-\[\#e8f7ea\]{
+  margin-top:12px !important;
+}
+</style>
+
+
+<style id="BERANDA-4-KARTU-JARAK-SERAGAM-V2">
+/* Menyatukan empat kartu ringkasan Beranda agar jaraknya benar-benar sama. */
+#home #beranda-finance-cards{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+}
+
+/* Pemasukan dan Pengeluaran tetap menjadi item biasa di kelompok. */
+#home #beranda-finance-cards #beranda-pemasukan-card,
+#home #beranda-finance-cards #beranda-pengeluaran-card{
+  margin:0 !important;
+}
+
+/* Jika Komisi/Laba Bersih berada di luar wrapper lama,
+   reset margin lalu gunakan jarak 12px dari kartu sebelumnya. */
+#home #beranda-finance-cards ~ div:has(#allProfit),
+#home #beranda-finance-cards ~ div:has(#todayProfit){
+  margin-top:12px !important;
+  margin-bottom:0 !important;
+}
+
+/* Hilangkan margin bawaan pada kartu yang menyebabkan jarak ganda. */
+#home #beranda-finance-cards ~ div:has(#allProfit) > *,
+#home #beranda-finance-cards ~ div:has(#todayProfit) > *{
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+}
+</style>
+
+
+<style id="BERANDA-MENU-UTAMA-LIME-PUTIH">
+/* Beranda sebagai menu utama: lingkaran putih, ikon dan judul lime neon green. */
+.nav a.active:first-child .ico,
+.nav a.active[data-page="home"] .ico,
+.nav a[href="#home"].active .ico {
+  background:#ffffff !important;
+}
+.nav a.active:first-child .ico i,
+.nav a.active[data-page="home"] .ico i,
+.nav a[href="#home"].active .ico i {
+  color:#FFFFFF !important;
+  stroke:#FFFFFF !important;
+}
+.nav a.active:first-child .label,
+.nav a.active[data-page="home"] .label,
+.nav a[href="#home"].active .label {
+  color:#FFFFFF !important;
+}
+</style>
+
+
+<style id="BERANDA-IKON-UKURAN-SAMA-DENGAN-MENU-LAIN">
+/* Hanya ukuran ikon Beranda dikembalikan sama dengan ikon menu lainnya. */
+.nav a.active:first-child .ico i,
+.nav a.active[data-page="home"] .ico i,
+.nav a[href="#home"].active .ico i {
+  width:22px !important;
+  height:22px !important;
+  font-size:22px !important;
+}
+</style>
+
+
+<style id="SEMUA-IKON-MENU-20X20-FINAL">
+/* Semua ikon menu navigasi: 20x20 px. */
+.nav .ico i,
+.nav .ico svg {
+  width:22px !important;
+  height:22px !important;
+  font-size:22px !important;
+}
+</style>
+
+
+<style id="BERANDA-KARTU-LEBIH-RAMPING">
+#home #beranda-jumlah-laba-bersih-card,
+#home > div.bg-\\[#0F3822\\].shadow-sm {
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+}
+</style>
+
+
+<style id="DASHBOARD-TEKS-DAN-KARTU-LEBIH-RAMPING">
+/* Hanya kartu angka Dashboard: teks diperkecil dan tinggi dirampingkan. */
+#home #beranda-finance-cards > div:not(:first-child),
+#home #beranda-jumlah-laba-bersih-card,
+#home > div.bg-\[\#0F3822\].shadow-sm {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+#home #beranda-finance-cards > div:not(:first-child) i,
+#home #beranda-jumlah-laba-bersih-card i,
+#home > div.bg-\[\#0F3822\].shadow-sm i {
+  width: 18px !important;
+  height: 18px !important;
+  margin-bottom: 2px !important;
+}
+
+#home #beranda-finance-cards > div:not(:first-child) span,
+#home #beranda-jumlah-laba-bersih-card span,
+#home > div.bg-\[\#0F3822\].shadow-sm span {
+  font-size: 11px !important;
+}
+
+#home #beranda-finance-cards > div:not(:first-child) b,
+#home #beranda-jumlah-laba-bersih-card b,
+#home > div.bg-\[\#0F3822\].shadow-sm b {
+  font-size: 12px !important;
+}
+</style>
+
+
+<style id="DASHBOARD-KEUANGAN-100PX">
+/* Hanya kartu DASHBOARD KEUANGAN tepat di bawah header. */
+#home #home-app-card {
+  height: 160px !important;
+  min-height: 160px !important;
+  padding: 12px 16px !important;
+  overflow: hidden !important;
+}
+</style>
+
+
+<style id="HEADER-80PX">
+.app > header.gradient {
+  height: 60px !important;
+  min-height: 60px !important;
+  max-height: 60px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+</style>
+
+
+<style id="DASHBOARD-KEUANGAN-180PX-PROPORSIONAL">
+/* Kartu DASHBOARD KEUANGAN: 180px dengan isi dibuat proporsional. */
+#home #home-app-card {
+  height: 180px !important;
+  min-height: 180px !important;
+  max-height: 180px !important;
+  padding: 18px 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+#home #home-app-card .home-app-card-label {
+  font-size: 9px !important;
+  margin-bottom: 0 !important;
+}
+
+#home #home-app-card .home-app-card-title {
+  margin: 8px 0 6px !important;
+  font-size: 24px !important;
+  line-height: 1.12 !important;
+}
+
+#home #home-app-card .home-app-card-quote {
+  margin: 0 0 10px !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+  max-width: 94% !important;
+}
+
+#home #home-app-card .home-app-card-status-badge {
+  padding: 6px 11px !important;
+  gap: 6px !important;
+  font-size: 10px !important;
+}
+
+#home #home-app-card .home-app-card-status-dot {
+  width: 7px !important;
+  height: 7px !important;
+}
+</style>
+
+
+<style id="DATA-SIAP-DIGUNAKAN-PROPORSIONAL">
+/* Badge "Data siap digunakan" dibuat proporsional terhadap kartu 180px. */
+#home #home-app-card .home-app-card-status-badge {
+  padding: 7px 12px !important;
+  gap: 7px !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+}
+
+#home #home-app-card .home-app-card-status-dot {
+  width: 7px !important;
+  height: 7px !important;
+  flex: 0 0 7px !important;
+}
+</style>
+
+
+<style id="DATA-SIAP-BORDER-PROPORSIONAL">
+/* Garis tepi badge mengikuti ukuran teks secara proporsional. */
+#home #home-app-card .home-app-card-status-badge {
+  padding: 6px 10px !important;
+  gap: 6px !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  border-width: 1px !important;
+  border-radius: 8px !important;
+  width: fit-content !important;
+  max-width: max-content !important;
+}
+</style>
+
+
+<style id="NUSA-DATE-TIME-BAR">
+#nusaDateTimeBar {
+  width: 100%;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #ffffff;
+  color: #0F3822;
+  border-bottom: 1px solid #e4eee5;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+#nusaDateTimeBar svg {
+  width: 14px !important;
+  height: 14px !important;
+  flex: 0 0 14px;
+}
+</style>
+
+
+<style id="DASHBOARD-NOMINAL-DIPERBESAR">
+/* Perbesar hanya nominal pada 4 kartu Dashboard. */
+#home #beranda-finance-cards > div:not(:first-child) b,
+#home #beranda-jumlah-laba-bersih-card b,
+#home > div.bg-\[\#0F3822\].shadow-sm b {
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+}
+</style>
+
+
+<style id="DASHBOARD-LABEL-DAN-NOMINAL-15PX">
+/* Pemasukan, Pengeluaran, Komisi, Laba Bersih beserta nilainya = 15px. */
+#home #beranda-finance-cards > div:not(:first-child) span,
+#home #beranda-finance-cards > div:not(:first-child) b,
+#home #beranda-jumlah-laba-bersih-card span,
+#home #beranda-jumlah-laba-bersih-card b,
+#home > div.bg-\[\#0F3822\].shadow-sm span,
+#home > div.bg-\[\#0F3822\].shadow-sm b {
+  font-size: 15px !important;
+  line-height: 1.2 !important;
+}
+</style>
+
+
+<style id="DASHBOARD-PENYESUAIAN-FINAL">
+/* Komisi: ikon dan teks sejajar seperti kartu Pengeluaran, rata kiri. */
+#home #beranda-finance-cards ~ div:has(#allProfit) .flex.items-center.justify-between > .flex.flex-col.items-start {
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+#home #beranda-finance-cards ~ div:has(#allProfit) .flex.items-center.justify-between > .flex.flex-col.items-start i {
+  margin-bottom: 2px !important;
+}
+
+/* Header: jarak teks dibuat lebih rapat dan proporsional. */
+.app > header.gradient {
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+.app > header.gradient h1 {
+  line-height: 1.08 !important;
+  gap: 6px !important;
+}
+.app > header.gradient p {
+  margin-top: 3px !important;
+  line-height: 1.15 !important;
+  font-size: 10px !important;
+}
+
+/* Label dan nominal 4 kartu Dashboard = 13px. */
+#home #beranda-finance-cards > div:not(:first-child) span,
+#home #beranda-finance-cards > div:not(:first-child) b,
+#home #beranda-jumlah-laba-bersih-card span,
+#home #beranda-jumlah-laba-bersih-card b,
+#home > div.bg-\[\#0F3822\].shadow-sm span,
+#home > div.bg-\[\#0F3822\].shadow-sm b {
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+}
+
+/* Baris tanggal/waktu hanya tampil di Beranda. */
+#nusaDateTimeBar {
+  display: none !important;
+}
+body.nusa-home-active #nusaDateTimeBar {
+  display: flex !important;
+}
+</style>
+
+
+<style id="NAV-MENU-SEPERTI-REFERENSI">
+/* Navigasi bawah dibuat seperti referensi: floating, hijau gelap, sudut membulat,
+   5 menu proporsional, dan tombol aktif lime. Tidak menggunakan gambar. */
+.nav {
+  left: 50% !important;
+  bottom: 10px !important;
+  transform: translateX(-50%) !important;
+  width: min(500px, calc(100% - 20px)) !important;
+  height: 104px !important;
+  padding: 8px 8px 9px !important;
+  border-radius: 34px !important;
+  background: #0F3822 !important;
+  box-shadow: 0 12px 28px rgba(15,56,34,.22) !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 2px !important;
+  align-items: center !important;
+}
+
+.nav button {
+  min-width: 0 !important;
+  min-height: 86px !important;
+  height: 86px !important;
+  padding: 4px 2px !important;
+  border-radius: 28px !important;
+  color: #b8c9bd !important;
+  background: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.nav .ico {
+  width: 48px !important;
+  height: 48px !important;
+  margin: 0 !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  color: #c7d5cb !important;
+}
+
+.nav .ico i,
+.nav .ico svg {
+  width: 25px !important;
+  height: 25px !important;
+  font-size: 25px !important;
+  stroke-width: 2.1 !important;
+}
+
+.nav button > span:last-child {
+  display: block !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 100% !important;
+}
+
+.nav button.active {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  background: transparent !important;
+}
+
+.nav button.active .ico,
+.nav a.active:first-child .ico,
+.nav a.active[data-page="home"] .ico,
+.nav a[href="#home"].active .ico {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 18px !important;
+  background: #B8EE62 !important;
+  color: #0F3822 !important;
+}
+
+.nav button.active .ico i,
+.nav button.active .ico svg,
+.nav a.active:first-child .ico i,
+.nav a.active[data-page="home"] .ico i,
+.nav a[href="#home"].active .ico i {
+  color: #0F3822 !important;
+  stroke: #0F3822 !important;
+  width: 26px !important;
+  height: 26px !important;
+}
+
+.nav button.active > span:last-child {
+  color: #ffffff !important;
+}
+
+@media (max-width: 380px) {
+  .nav {
+    width: calc(100% - 14px) !important;
+    bottom: 7px !important;
+    height: 96px !important;
+    border-radius: 30px !important;
+    padding: 6px !important;
+  }
+  .nav button {
+    min-height: 82px !important;
+    height: 82px !important;
+    gap: 4px !important;
+    font-size: 10px !important;
+  }
+  .nav .ico {
+    width: 44px !important;
+    height: 44px !important;
+  }
+  .nav button.active .ico,
+  .nav a.active:first-child .ico,
+  .nav a.active[data-page="home"] .ico,
+  .nav a[href="#home"].active .ico {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 16px !important;
+  }
+  .nav button.active .ico i,
+  .nav button.active .ico svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+</style>
+
+
+<style id="NAV-TINGGI-60PX">
+/* Tinggi kartu/menu navigasi dibuat 60px. */
+.nav {
+  height: 60px !important;
+  min-height: 60px !important;
+  padding: 4px 8px !important;
+  border-radius: 28px !important;
+}
+.nav button {
+  height: 52px !important;
+  min-height: 52px !important;
+  padding: 2px !important;
+  gap: 2px !important;
+}
+.nav .ico {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 10px !important;
+}
+.nav .ico i,
+.nav .ico svg {
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 20px !important;
+}
+.nav button.active .ico,
+.nav a.active:first-child .ico,
+.nav a.active[data-page="home"] .ico,
+.nav a[href="#home"].active .ico {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 11px !important;
+}
+.nav button.active .ico i,
+.nav button.active .ico svg,
+.nav a.active:first-child .ico i,
+.nav a.active[data-page="home"] .ico i,
+.nav a[href="#home"].active .ico i {
+  width: 21px !important;
+  height: 21px !important;
+}
+.nav button {
+  font-size: 10px !important;
+  line-height: 1 !important;
+}
+@media (max-width: 380px) {
+  .nav {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 4px 5px !important;
+    bottom: 7px !important;
+  }
+  .nav button {
+    height: 52px !important;
+    min-height: 52px !important;
+    font-size: 9px !important;
+  }
+}
+</style>
+
+
+<style id="NAV-TINGGI-70PX-PROPORSIONAL">
+/* Navigasi 70px dengan isi proporsional. */
+.nav {
+  height: 70px !important;
+  min-height: 70px !important;
+  padding: 5px 8px !important;
+  border-radius: 30px !important;
+}
+.nav button {
+  height: 60px !important;
+  min-height: 60px !important;
+  padding: 2px !important;
+  gap: 3px !important;
+  font-size: 10px !important;
+  line-height: 1.05 !important;
+}
+.nav .ico {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 11px !important;
+}
+.nav .ico i,
+.nav .ico svg {
+  width: 21px !important;
+  height: 21px !important;
+  font-size: 21px !important;
+}
+.nav button.active .ico,
+.nav a.active:first-child .ico,
+.nav a.active[data-page="home"] .ico,
+.nav a[href="#home"].active .ico {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 13px !important;
+}
+.nav button.active .ico i,
+.nav button.active .ico svg,
+.nav a.active:first-child .ico i,
+.nav a.active[data-page="home"] .ico i,
+.nav a[href="#home"].active .ico i {
+  width: 22px !important;
+  height: 22px !important;
+}
+@media (max-width: 380px) {
+  .nav {
+    height: 70px !important;
+    min-height: 70px !important;
+    padding: 5px 6px !important;
+  }
+  .nav button {
+    height: 60px !important;
+    min-height: 60px !important;
+    font-size: 9px !important;
+  }
+}
+</style>
+
+
+<style id="NAV-IKON-JUDUL-DIPERBESAR">
+/* Perbesar ikon dan judul menu, tetap proporsional dengan tinggi navigasi 70px. */
+.nav button {
+  gap: 4px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+.nav .ico {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 12px !important;
+}
+.nav .ico i,
+.nav .ico svg {
+  width: 23px !important;
+  height: 23px !important;
+  font-size: 23px !important;
+}
+.nav button.active .ico,
+.nav a.active:first-child .ico,
+.nav a.active[data-page="home"] .ico,
+.nav a[href="#home"].active .ico {
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 14px !important;
+}
+.nav button.active .ico i,
+.nav button.active .ico svg,
+.nav a.active:first-child .ico i,
+.nav a.active[data-page="home"] .ico i,
+.nav a[href="#home"].active .ico i {
+  width: 24px !important;
+  height: 24px !important;
+}
+@media (max-width: 380px) {
+  .nav button {
+    font-size: 10px !important;
+    gap: 3px !important;
+  }
+  .nav .ico {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .nav .ico i,
+  .nav .ico svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .nav button.active .ico,
+  .nav a.active:first-child .ico,
+  .nav a.active[data-page="home"] .ico,
+  .nav a[href="#home"].active .ico {
+    width: 43px !important;
+    height: 43px !important;
+  }
+}
+</style>
+
+
+<style id="KOMISI-SEJAJAR-PENGELUARAN">
+/* Pada Beranda, ikon dan judul Komisi digeser ke kiri agar
+   posisinya proporsional dan sejajar dengan Pengeluaran. */
+#home #beranda-finance-cards ~ div:has(#allProfit) .flex.items-center.justify-between > .flex.flex-col.items-start {
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  width: auto !important;
+}
+
+/* Komisi disamakan persis dengan Laba Bersih: tidak ada padding tambahan. */
+#home #beranda-finance-cards ~ div:has(#allProfit) .flex.items-center.justify-between {
+  padding-left: 0 !important;
+}
+#home #beranda-finance-cards ~ div:has(#allProfit) .flex.flex-col.items-start {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+#home #beranda-finance-cards ~ div:has(#allProfit) .flex.items-center.justify-between {
+  justify-content: space-between !important;
+}
+</style>
+
+
+<style id="HOME-QUOTE-WHITE">
+#home #home-app-card .home-app-card-quote {
+  color: #FFFFFF !important;
+}
+</style>
+
+
+<style id="LAPORAN-RINGKASAN-PUTIH-DAN-TUKAR-TOMBOL">
+#history .bg-\[\#0F3822\] p.text-xs.font-bold.text-\[\#a0c4aa\] {
+  color: #FFFFFF !important;
+}
+
+/* Tukar posisi tombol Laporan Transaksi dan Laporan Komisi.
+   Tetap mempertahankan fungsi masing-masing. */
+#historyActionButtons {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+}
+</style>
+
+
+<style id="LAPORAN-KOMISI-TENGAH-LIME">
+/* Tombol Laporan Komisi berada di tengah, di antara tombol aksi lainnya. */
+#historyActionButtons {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+  align-items: center !important;
+}
+#historyActionButtons > button {
+  justify-self: center !important;
+}
+#historyActionButtons > button[onclick="openLaporanKomisiPreview()"] {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  background: #0F3822 !important;
+  color: #B8EE62 !important;
+}
+#historyActionButtons > button[onclick="openHistoryNotaPreview()"] {
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+}
+#historyActionButtons > button[onclick="toggleHistorySearch()"] {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+}
+
+/* Teks "Laporan Transaksi" pada kartu Ringkasan menjadi lime neon green. */
+#history .bg-\[\#0F3822\] p.text-xs.font-bold.text-\[\#FFFFFF\],
+#history .bg-\[\#0F3822\] p.text-xs.font-bold {
+  color: #B8EE62 !important;
+}
+</style>
+
+
+<style id="NILAI-RINGKASAN-PUTIH">
+/* Nilai pada kartu Ringkasan Laporan dibuat putih. */
+#history #hin,
+#history #hout,
+#history #hprofit,
+#history #hgpansor {
+  color: #FFFFFF !important;
+}
+</style>
+
+
+<style id="LAPORAN-FILTER-TEXT-PUTIH">
+/* Teks "Semua | Semua Periode" pada menu Laporan dibuat putih. */
+#history #filterTitle {
+  color: #FFFFFF !important;
+}
+</style>
+
+
+<style id="LAPORAN-KIRI-KOMISI-TENGAH">
+/* Laporan Transaksi paling kiri, Laporan Komisi tetap di tengah. */
+#historyActionButtons {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: center !important;
+}
+#historyActionButtons > button[onclick="openHistoryNotaPreview()"] {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  justify-self: center !important;
+}
+#historyActionButtons > button[onclick="openLaporanKomisiPreview()"] {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  justify-self: center !important;
+}
+#historyActionButtons > button[onclick="toggleHistorySearch()"] {
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+  justify-self: center !important;
+}
+</style>
+
+
+<style id="HOME-EXTRA-DASHBOARD-FIXED">
+#homeExtraDashboard { margin-bottom: 96px !important; }
+#homeProfitChart svg { width:100%; height:105px; display:block; }
+#homeTodayActivity .activity-row {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; padding:9px 0; border-bottom:1px solid #edf3ee;
+}
+#homeTodayActivity .activity-row:last-child { border-bottom:0; }
+#homeTodayActivity .activity-name {
+  min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-size:11px; font-weight:700; color:#294235;
+}
+#homeTodayActivity .activity-value {
+  flex:none; font-size:11px; font-weight:800; color:#0F3822;
+}
+</style>
+
+
+<style id="HOME-EXTRA-DASHBOARD-POSISI-FINAL">
+#home {
+  gap: 12px !important;
+}
+#homeExtraDashboard {
+  width: 100% !important;
+  margin-top: -2px !important;
+  margin-bottom: 96px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+#homeExtraDashboard > div {
+  width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+#homeExtraDashboard > div:first-child {
+  padding: 12px 14px 9px !important;
+}
+#homeExtraDashboard > div:last-child {
+  padding: 12px 14px !important;
+}
+#homeProfitChart,
+#homeProfitChart svg {
+  height: 88px !important;
+}
+</style>
+
+
+<style id="HOME-SPACING-PROPORSIONAL">
+/* Jarak antar kartu Beranda dibuat mengikuti ritme kartu di atas. */
+#homeExtraDashboard {
+  margin-top: 8px !important;
+  gap: 10px !important;
+}
+#home #beranda-jumlah-laba-bersih-card {
+  margin-bottom: 0 !important;
+}
+#homeExtraDashboard > div {
+  margin-top: 0 !important;
+}
+</style>
+
+
+<style id="KATALOG-NAV-HURUF-TIDAK-TERPOTONG">
+/* Hanya judul Katalog pada navigasi: bagian bawah huruf tidak terpotong. */
+.nav button:nth-child(2) > span:last-child {
+  line-height: 1.25 !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  padding-bottom: 1px !important;
+}
+</style>
+
+
+<style id="NAV-PROPORSIONAL-DAN-PREVIEW-NO-X">
+/* Navigasi: ukuran ikon dan judul dibuat seimbang serta sejajar.
+   Tampilan aktif tetap boleh berbeda sesuai desain aktif. */
+.nav button {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+.nav button .ico {
+  width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 38px !important;
+}
+.nav button .ico i,
+.nav button .ico svg {
+  width: 23px !important;
+  height: 23px !important;
+  flex: 0 0 23px !important;
+}
+.nav button > span:last-child {
+  height: 13px !important;
+  min-height: 13px !important;
+  line-height: 13px !important;
+  display: block !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  max-width: none !important;
+  text-align: center !important;
+}
+/* Menu aktif tetap mempertahankan ukuran aktif yang sudah ada. */
+.nav button.active .ico {
+  flex: 0 0 auto !important;
+}
+
+/* Pada tiga tampilan preview, simbol X pojok disembunyikan. */
+#modalNota #btnCloseModalNotaTop {
+  display: none !important;
+}
+</style>
+
+<style id="PREVIEW-NAV-HIDE-FIX">
+/* Navigasi benar-benar hilang saat preview nota/laporan, termasuk pada CSS display:grid !important. */
+.nav.preview-hidden {
+  display: none !important;
+}
+</style>
+
+<style id="PREVIEW-SCROLL-LOCK">
+/* Kunci scroll halaman saat salah satu preview dibuka; area preview tetap bisa scroll. */
+html.preview-page-scroll-locked,
+body.preview-page-scroll-locked {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+</style>
+
+<style id="PREVIEW-X-HIDE">
+#modalNota.preview-no-x > div > div:first-child > button[onclick="closeModalNota()"] {
+  display: none !important;
+}
+</style>
+
+<style id="BATAL-BUTTON-DEEP-FOREST-LIME">
+/* SEMUA tombol "Batal": kartu Deep Forest Green, teks + ikon Lime Neon Green. */
+#productCancelBtn,
+button[onclick="batalTransaksi()"],
+button[onclick="cancelExpenseTx()"],
+button[onclick="nusaCloseLogoutDialog()"],
+button[onclick="nusaCloseDeleteDialog()"] {
+  background: #0F3822 !important;
+  color: #B8EE62 !important;
+  border-color: #0F3822 !important;
+}
+
+#productCancelBtn *,
+button[onclick="batalTransaksi()"] *,
+button[onclick="cancelExpenseTx()"] *,
+button[onclick="nusaCloseLogoutDialog()"] *,
+button[onclick="nusaCloseDeleteDialog()"] * {
+  color: #B8EE62 !important;
+  stroke: #B8EE62 !important;
+}
+</style>
+
+
+<style id="BATAL-CHOICE-DIALOG-DEEP-FOREST-LIME">
+/* Tombol Batal pada semua dialog pilihan (Transaksi & Laporan):
+   tampil sebagai kartu Deep Forest Green dengan teks/ikon Lime Neon Green. */
+#nusaChoiceDialog button[onclick="nusaCloseChoiceDialog()"] {
+  width: 100% !important;
+  min-height: 44px !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.75rem !important;
+  background: #0F3822 !important;
+  color: #B8EE62 !important;
+  border: 1px solid #0F3822 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 10px rgba(15,56,34,.16) !important;
+  transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease !important;
+}
+#nusaChoiceDialog button[onclick="nusaCloseChoiceDialog()"]:hover {
+  background: #163d25 !important;
+  color: #B8EE62 !important;
+}
+#nusaChoiceDialog button[onclick="nusaCloseChoiceDialog()"]:active {
+  background: #0F3822 !important;
+  color: #B8EE62 !important;
+  transform: scale(.98) !important;
+}
+#nusaChoiceDialog button[onclick="nusaCloseChoiceDialog()"] * {
+  color: #B8EE62 !important;
+  stroke: #B8EE62 !important;
+}
+</style>
+
+
+<style id="KELUAR-LIME-KALKULATOR-TOP">
+/* Konfirmasi Keluar: teks "Ya, Keluar" menjadi Lime Neon Green. */
+#nusaLogoutDialog button[onclick="nusaConfirmLogout()"] {
+  color: #B8EE62 !important;
+}
+#nusaLogoutDialog button[onclick="nusaConfirmLogout()"] * {
+  color: #B8EE62 !important;
+  stroke: #B8EE62 !important;
+}
+
+/* Saat halaman Kalkulator dibuka, selalu mulai dari bagian paling atas. */
+#calculator {
+  scroll-margin-top: 0 !important;
+}
+</style>
+
+
+<style id="NUSA-BERANDA-TAMPIL-PENUH-FINAL">
+html, body {
+  scroll-padding-top: 0 !important;
+  scroll-margin-top: 0 !important;
+  overflow-anchor: none !important;
+}
+.app { min-height: 100dvh !important; }
+#main {
+  scroll-padding-top: 0 !important;
+  scroll-margin-top: 0 !important;
+  overflow-anchor: none !important;
+}
+#home, #catalog, #transaction, #history, #calculator {
+  scroll-margin-top: 0 !important;
+  scroll-padding-top: 0 !important;
+}
+#main { scroll-padding-top: 0 !important; }
+#home {
+  scroll-margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: max(108px, calc(70px + env(safe-area-inset-bottom) + 28px)) !important;
+}
+</style>
+
+</head>
+<body>
+<script>
+/* Jangan pulihkan posisi scroll halaman sebelumnya saat aplikasi dibuka. */
+try {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+} catch (_) {}
+</script>
+
+
+<script>
+/* NUsa Percetakan - kontrol login:
+   Login hanya muncul setelah user menekan tombol Logout.
+   Saat membuka/refresh aplikasi, langsung tampil Beranda. */
+function nusaWasExplicitlyLoggedOut() {
+  try { return localStorage.getItem('nusa_explicit_logout') === '1'; }
+  catch (_) { return false; }
+}
+function nusaMarkExplicitLogout(value) {
+  try {
+    if (value) localStorage.setItem('nusa_explicit_logout', '1');
+    else localStorage.removeItem('nusa_explicit_logout');
+  } catch (_) {}
+}
+(function nusaInitialAuthView(){
+  try {
+    if (nusaWasExplicitlyLoggedOut()) {
+      document.getElementById('authScreen')?.classList.remove('hidden');
+      document.body.classList.add('auth-locked');
+    } else {
+      document.getElementById('authScreen')?.classList.add('hidden');
+      document.body.classList.remove('auth-locked');
+    }
+  } catch (_) {}
+})();
+</script>
+<div id="authScreen" class="hidden">
+  <div class="auth-card">
+    <img class="auth-logo" src="./logo.png" alt="NUsa Percetakan">
+    <h2 class="auth-title">NUsa Percetakan</h2>
+    <p class="auth-sub">Aplikasi Pengelola Keuangan Digital</p>
+    <input id="authUsername" class="auth-input" autocomplete="username" placeholder="Username">
+    <div class="password-wrap">
+      <input id="authPassword" class="auth-input" type="password" autocomplete="current-password" placeholder="Password">
+      <button type="button" id="togglePassword" class="password-toggle" aria-label="Tampilkan password" title="Tampilkan password"><i data-lucide="eye-off" class="w-5 h-5"></i></button>
+    </div>
+    <button class="auth-btn" onclick="nusaLogin()">Masuk</button>
+      <div class="text-center text-[10px] text-gray-500 mt-2">Developer by M. Khoiruddin Murtadlo</div>
+    <div id="authError"></div>
+  </div>
+</div>
+
+<div class="app">
+  <!-- Header Aplikasi Baru Sesuai Referensi -->
+  <header class="gradient text-white px-5 py-4 sticky top-0 z-40">
+    <div class="flex items-center justify-between w-full">
+      <div class="flex flex-col">
+        <h1 class="text-xl font-extrabold tracking-tight text-white flex items-center gap-1.5">
+          <span>NUsa</span><span class="text-[#B8EE62] font-extrabold">Percetakan</span>
+        </h1>
+        <p class="text-[11px] text-white font-semibold mt-0.5">Laporan Keuangan Digital</p>
+      </div>
+      <button onclick="nusaLogout()" aria-label="Keluar" title="Keluar" class="flex items-center justify-center w-9 h-9 rounded-full bg-white/15 text-white border-0 cursor-pointer hover:bg-white/25 transition-colors">
+        <i data-lucide="log-out" class="w-[18px] h-[18px]"></i>
+      </button>
+    </div>
+  </header>
+
+<!-- Dialog konfirmasi logout -->
+<div id="nusaLogoutDialog" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/40 p-4" onclick="if(event.target===this)nusaCloseLogoutDialog()">
+  <div class="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl" role="alertdialog" aria-modal="true" aria-labelledby="nusaLogoutTitle" aria-describedby="nusaLogoutDesc">
+    <h3 id="nusaLogoutTitle" class="text-base font-extrabold text-[#0F3822] mb-1">Keluar dari aplikasi?</h3>
+    <p id="nusaLogoutDesc" class="text-sm text-[#66816b] mb-5">Data Anda sudah tersimpan di cloud. Apakah Anda yakin ingin keluar?</p>
+    <div class="flex items-center justify-end gap-2">
+      <button onclick="nusaCloseLogoutDialog()" class="rounded-xl px-4 py-2 text-sm font-bold text-[#66816b] hover:bg-[#f5f8f5] transition-colors">Batal</button>
+      <button onclick="nusaConfirmLogout()" class="rounded-xl bg-[#0F3822] px-4 py-2 text-sm font-bold text-white shadow hover:bg-[#163d25] transition-colors">Ya, Keluar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog konfirmasi hapus transaksi: desain SAMA dengan konfirmasi Keluar -->
+<div id="nusaDeleteDialog" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/40 p-4" onclick="if(event.target===this)nusaCloseDeleteDialog()">
+  <div class="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl" role="alertdialog" aria-modal="true" aria-labelledby="nusaDeleteTitle" aria-describedby="nusaDeleteDesc">
+    <h3 id="nusaDeleteTitle" class="text-base font-extrabold text-[#0F3822] mb-1">Hapus transaksi?</h3>
+    <p id="nusaDeleteDesc" class="text-sm text-[#66816b] mb-5">Apakah Anda yakin ingin menghapus transaksi ini?</p>
+    <div class="flex items-center justify-end gap-2">
+      <button type="button" onclick="nusaCloseDeleteDialog()" class="rounded-xl px-4 py-2 text-sm font-bold text-[#66816b] hover:bg-[#f5f8f5] transition-colors">Batal</button>
+      <button type="button" onclick="nusaConfirmDelete()" class="rounded-xl bg-[#0F3822] px-4 py-2 text-sm font-bold text-white shadow hover:bg-[#163d25] transition-colors">Oke</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog pilihan: desain SAMA dengan konfirmasi Keluar -->
+<div id="nusaChoiceDialog" class="fixed inset-0 z-[65] hidden items-center justify-center bg-black/40 p-4" onclick="if(event.target===this)nusaCloseChoiceDialog()">
+  <div class="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="nusaChoiceTitle">
+    <h3 id="nusaChoiceTitle" class="text-base font-extrabold text-[#0F3822] mb-1">Pilih</h3>
+    <p id="nusaChoiceDesc" class="text-sm text-[#66816b] mb-4">Silakan pilih salah satu.</p>
+    <div id="nusaChoiceOptions" class="space-y-2"></div>
+    <div class="flex items-center justify-end gap-2 mt-4">
+      <button type="button" onclick="nusaCloseChoiceDialog()" class="rounded-xl px-4 py-2 text-sm font-bold text-[#66816b] hover:bg-[#f5f8f5] transition-colors">Batal</button>
+    </div>
+  </div>
+</div>
+
+<div id="nusaDateTimeBar" aria-live="polite">
+  <i data-lucide="calendar-clock"></i>
+  <span id="nusaDateTimeText"></span>
+</div>
+
+
+  <!-- Main Content Area -->
+  <main id="main" class="p-4 pb-28 min-h-screen">
+
+    <!-- BERANDA (HOME) -->
+    <section id="home" class="space-y-4">
+      <div id="home-app-card">
+        <span class="home-app-card-label">DASHBOARD KEUANGAN</span>
+        
+        <h2 class="home-app-card-title">
+          Kelola bisnis,<br><span>lebih mudah.</span>
+        </h2>
+        
+        <p class="home-app-card-quote">Pantau pemasukan, pengeluaran, komisi, dan laba dalam satu tampilan.</p>
+        
+        <div class="home-app-card-status-badge">
+          <span class="home-app-card-status-dot"></span>
+          <span>Data siap digunakan</span>
+        </div>
+      </div>
+
+      <div id="beranda-finance-cards" class="flex flex-col gap-3">
+        <div class="flex items-center gap-2 px-1 mb-0 text-[#0F3822]">
+          <i data-lucide="chart-no-axes-combined" class="w-5 h-5 text-[#0F3822]"></i>
+          <h3 class="text-sm font-extrabold text-[#0F3822]">Ringkasan</h3>
+        </div>
+
+        <!-- Pemasukan -->
+        <div class="bg-[#0F3822] text-white rounded-2xl p-3 shadow-sm" id="beranda-pemasukan-card">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col items-start">
+              <i data-lucide="arrow-down-circle" class="w-5 h-5 text-white mb-1"></i>
+              <span class="text-sm font-bold text-white">Pemasukan</span>
+            </div>
+            <div class="text-right">
+              <b id="todayIn" class="text-sm font-bold text-[#A3E635]">Rp 0</b>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pengeluaran -->
+        <div class="bg-[#0F3822] text-white rounded-2xl p-3 shadow-sm" id="beranda-pengeluaran-card">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col items-start">
+              <i data-lucide="arrow-up-circle" class="w-5 h-5 text-white mb-1"></i>
+              <span class="text-sm font-bold text-white">Pengeluaran</span>
+            </div>
+            <div class="text-right">
+              <b id="todayOut" class="text-sm font-bold text-[#A3E635]">Rp 0</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Komisi -->
+      <div class="bg-[#0F3822] text-white rounded-2xl p-3 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col items-start">
+            <i data-lucide="hand-coins" class="w-5 h-5 text-white mb-1"></i>
+            <span class="text-sm font-bold text-white">Komisi</span>
+          </div>
+          <div class="text-right">
+            <b id="allProfit" class="text-sm font-bold text-[#A3E635]">Rp 0</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laba Bersih -->
+      <div class="bg-[#0F3822] text-white rounded-2xl p-3 shadow-sm" id="beranda-jumlah-laba-bersih-card">
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col items-start">
+            <i data-lucide="trending-up" class="w-5 h-5 text-white mb-1"></i>
+            <span class="text-sm font-bold text-white">Laba Bersih</span>
+          </div>
+          <div class="text-right">
+            <b id="todayProfit" class="text-sm font-bold text-[#A3E635]">Rp 0</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tambahan Beranda: grafik laba dan aktivitas hari ini -->
+<section id="homeExtraDashboard" class="space-y-3 mt-1">
+  <div class="bg-white rounded-2xl border border-[#DDEBE0] shadow-sm p-4">
+    <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2">
+        <i data-lucide="chart-line" class="w-5 h-5 text-[#2e7d32]"></i>
+        <h3 class="text-sm font-extrabold text-[#0F3822]">Perkembangan Laba</h3>
+      </div>
+      <span class="text-[10px] font-semibold text-[#6b8172]">7 hari terakhir</span>
+    </div>
+    <div id="homeProfitChart" class="w-full h-[105px]"></div>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-[#DDEBE0] shadow-sm p-4">
+    <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2">
+        <i data-lucide="clock-3" class="w-5 h-5 text-[#2e7d32]"></i>
+        <h3 class="text-sm font-extrabold text-[#0F3822]">Aktivitas Hari Ini</h3>
+      </div>
+      <button type="button" onclick="showPage('history', document.querySelector('.nav button:nth-child(4)'))"
+              class="text-[10px] font-bold text-[#2e7d32]">Lihat semua ›</button>
+    </div>
+    <div id="homeTodayActivity"></div>
+  </div>
+</section>
+    </section>
+
+    <!-- KATALOG -->
+    <section id="catalog" class="hidden space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="font-extrabold text-base flex gap-2 items-center text-[#0F3822]">
+          <span class="bg-[#dff5e2] p-1.5 rounded-lg"><i data-lucide="book-open" class="w-5 h-5 text-[#438f4f]"></i></span>Katalog Produk & Harga
+        </h2>
+        <button onclick="toggleSearch()" class="p-2 bg-[#eef8ef] rounded-xl active:scale-95 active:opacity-80 transition-transform"><i data-lucide="search" class="w-4 h-4"></i></button>
+      </div>
+
+      <div id="searchBox" class="hidden">
+        <form onsubmit="handleCatalogSearchSubmit(event)" class="relative">
+          <input id="search" type="search" oninput="renderProducts()" onkeydown="handleCatalogSearchKeyDown(event)" placeholder="Cari nama produk..." class="w-full border rounded-xl px-3 py-2 text-xs">
+        </form>
+      </div>
+
+      <button id="catalogProductToggle" type="button" onclick="toggleCatalogProductForm()" class="w-full bg-[#eef8ef] border border-[#d9eadb] text-[#0F3822] rounded-xl px-3 py-2.5 text-xs font-bold flex items-center justify-between gap-2 active:scale-95 active:opacity-80 transition-transform">
+        <span class="flex items-center gap-2"><i data-lucide="plus-circle" class="w-4 h-4"></i><span>Tambah Produk</span></span>
+        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+      </button>
+
+      <div id="catalogProductForm" class="bg-white border border-[#dfe9e1] rounded-2xl p-4 shadow-sm space-y-3 hidden">
+        <label class="block text-xs font-bold text-[#0F3822]">Masukkan Produk
+          <input id="pn" placeholder="Masukkan nama produk" class="w-full border rounded-xl px-3 py-2 text-xs mt-1">
+        </label>
+        <label class="block text-xs font-bold text-[#0F3822]">Satuan
+          <input id="pu" type="text" placeholder="Contoh: Pcs, Meter, Lembar" class="w-full border rounded-xl px-3 py-2 text-xs mt-1">
+        </label>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="text-xs font-bold text-[#0F3822]">Modal (Rp)
+            <input id="pc" type="text" inputmode="numeric" placeholder="0" oninput="formatRupiahInput(this)" class="w-full border rounded-xl px-3 py-2 text-xs mt-1">
+          </label>
+          <label class="text-xs font-bold text-[#0F3822]">Harga (Rp)
+            <input id="pp" type="text" inputmode="numeric" placeholder="0" oninput="formatRupiahInput(this)" onkeydown="handleCatalogPriceKeyDown(event, this)" class="w-full border rounded-xl px-3 py-2 text-xs mt-1">
+          </label>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-2">
+          <button id="productCancelBtn" type="button" onclick="cancelCatalogProductEdit()" class="bg-[#eef8ef] text-[#438f4f] border border-[#d9eadb] rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 active:opacity-80 transition-transform">
+            <i data-lucide="x" class="w-4 h-4"></i><span>Batal</span>
+          </button>
+          <button id="productSaveBtn" type="button" onclick="saveProduct()" class="bg-[#0F3822] text-[#A3E635] rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 active:opacity-80 transition-transform">
+            <i data-lucide="save" class="w-4 h-4"></i><span>Simpan Produk</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-between text-xs font-bold text-[#0F3822]">
+        <span>Produk Tersimpan</span>
+        <span id="productCount">0 Item</span>
+      </div>
+      <div id="products" class="space-y-2"></div>
+    </section>
+
+    <!-- TRANSAKSI -->
+    <section id="transaction" class="hidden space-y-4">
+      <h2 class="font-extrabold text-base flex gap-2 items-center text-[#0F3822]">
+        <span class="bg-[#dff5e2] p-1.5 rounded-lg"><i data-lucide="receipt" class="w-5 h-5 text-[#438f4f]"></i></span>Catat Transaksi
+      </h2>
+
+      <label class="block text-xs font-bold text-[#0F3822]">Jenis Transaksi
+        <select id="transactionType" data-choice-select data-choice-title="Pilih jenis transaksi" class="w-full border rounded-xl px-3 py-2 text-xs mt-1" onchange="toggleTransactionType()">
+          <option value="sale" selected>🛒 Penjualan</option>
+          <option value="expense">🛒 Pembelian</option>
+        </select>
+      </label>
+
+      <form id="salesTransactionForm" onsubmit="saveTx(event)" class="border border-[#dfe9e1] rounded-2xl p-4 tx-form space-y-3 bg-white">
+        <label class="block text-xs font-bold text-[#0F3822]">Tanggal Transaksi
+          <div class="relative mt-1">
+            <input id="td" type="date" required class="w-full border rounded-xl px-3 py-2 text-xs" onchange="tampilkanHariTanggal()" onkeydown="handleGeneralInputEnter(event, this)">
+            <div id="tdDisplay" class="absolute inset-y-0 left-0 right-0 flex items-center px-3 text-xs pointer-events-none bg-[#f3f3f3] rounded-xl text-[#0F3822] font-bold"></div>
+            <i data-lucide="calendar-days" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#0F3822] pointer-events-none z-10"></i>
+          </div>
+        </label>
+
+        <label class="block text-xs font-bold text-[#0F3822]">Nama Pembeli
+          <input id="tb" placeholder="Masukkan nama pembeli" required class="w-full border rounded-xl px-3 py-2 text-xs mt-1" onkeydown="handleGeneralInputEnter(event, this)">
+        </label>
+
+        <label class="block text-xs font-bold text-[#0F3822]">Kategori Pembeli
+          <select id="tk" data-choice-select data-choice-title="Pilih kategori pembeli" required class="w-full border rounded-xl px-3 py-2 text-xs mt-1" onchange="updateTransactionSummary()" onkeydown="handleGeneralInputEnter(event, this)">
+            <option value="" disabled selected>Pilih kategori pembeli</option>
+            <option value="Ansor">Ansor</option>
+            <option value="Perantara Ansor">Perantara Ansor</option>
+            <option value="Umum">Umum</option>
+          </select>
+        </label>
+
+        <div class="flex justify-between items-center tx-product-list-heading pt-1">
+          <h3 class="text-xs font-extrabold text-[#0F3822]">Daftar Produk</h3>
+        </div>
+
+        <div id="txItems" class="space-y-3"></div>
+<div id="txSummary" class="tx-summary grid grid-cols-2 gap-x-3 gap-y-2">
+          <div>
+            <div class="text-[9px] font-bold text-[#66816b]">Total Modal</div>
+            <div id="txTotalModal" class="font-extrabold text-[#0F3822]">Rp0</div>
+          </div>
+          <div class="text-right">
+            <div class="text-[9px] font-bold text-[#66816b]">Total Harga</div>
+            <div id="txTotalHarga" class="font-extrabold text-[#0F3822]">Rp0</div>
+          </div>
+          <div>
+            <div class="text-[9px] font-bold text-[#66816b]">Total Laba Bersih</div>
+            <div id="txTotalLaba" class="font-extrabold text-[#438f4f]">Rp0</div>
+          </div>
+          <div class="text-right">
+            <div class="text-[9px] font-bold text-[#66816b]">Komisi</div>
+            <div id="txTotalKomisi" class="font-extrabold text-[#438f4f]">Rp0</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="batalTransaksi()" class="bg-[#eef8ef] text-[#0F3822] border border-[#cfe4d2] rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 active:opacity-80 transition-transform">
+            <i data-lucide="x" class="w-4 h-4"></i><span>Batal</span>
+          </button>
+          <button type="submit" class="bg-[#0F3822] text-[#A3E635] rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 active:opacity-80 transition-transform">
+            <i data-lucide="save" class="w-4 h-4"></i><span>Simpan Transaksi</span>
+          </button>
+        </div>
+      </form>
+
+      <form id="expenseTransactionForm" onsubmit="saveExpenseTx(event)" class="hidden border border-[#dfe9e1] rounded-2xl p-4 space-y-3 bg-white">
+        <label class="block text-xs font-bold text-[#0F3822]">Tanggal Transaksi
+          <div class="relative mt-1">
+            <input id="ed" type="date" required class="w-full border rounded-xl px-3 py-2 text-xs" onchange="tampilkanHariTanggalPengeluaran()" onkeydown="handleGeneralInputEnter(event, this)">
+            <div id="edDisplay" class="absolute inset-y-0 left-0 right-0 flex items-center px-3 text-xs pointer-events-none bg-[#f3f3f3] rounded-xl text-[#0F3822] font-bold"></div>
+            <i data-lucide="calendar-days" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#0F3822] pointer-events-none z-10"></i>
+          </div>
+        </label>
+
+        <label class="block text-xs font-bold text-[#0F3822]">Keperluan
+          <textarea id="ep" rows="2" placeholder="Contoh: Pembelian Barang" required class="w-full border rounded-xl px-3 py-2 text-xs mt-1 resize-none" onkeydown="handleGeneralInputEnter(event, this)"></textarea>
+        </label>
+
+        <div class="flex justify-between items-center pt-1">
+          <h3 class="text-xs font-extrabold text-[#0F3822]">Daftar Barang</h3>
+        </div>
+
+        <div id="expenseItems" class="space-y-3"></div>
+
+        <div class="tx-summary">
+          <div class="flex justify-between items-center gap-2">
+            <span class="font-extrabold text-[#0F3822]">TOTAL PENGELUARAN</span>
+            <b id="expenseTotal" class="font-extrabold text-[#438f4f]">Rp0</b>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="cancelExpenseTx()" class="bg-[#eef8ef] text-[#0F3822] border border-[#cfe4d2] rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 active:opacity-80 transition-transform">
+            <i data-lucide="x" class="w-4 h-4"></i><span>Batal</span>
+          </button>
+          <button type="submit" class="bg-[#0F3822] text-[#A3E635] rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 active:opacity-80 transition-transform">
+            <i data-lucide="save" class="w-4 h-4"></i><span>Simpan</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- RIWAYAT -->
+    <section id="history" class="hidden space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="font-extrabold text-base flex gap-2 items-center text-[#0F3822]">
+          <span class="bg-[#dff5e2] p-1.5 rounded-lg"><i data-lucide="file-chart-column" class="w-5 h-5 text-[#438f4f]"></i></span>Laporan Transaksi
+        </h2>
+        <!-- Baris Tombol Aksi Riwayat -->
+        <div id="historyActionButtons" class="flex items-center gap-1.5">
+          <button onclick="toggleHistorySearch()" class="p-2 bg-[#eef8ef] rounded-xl active:scale-95 active:opacity-80 transition-transform" title="Cari"><i data-lucide="search" class="w-4 h-4 text-[#0F3822]"></i></button>
+          <button onclick="openHistoryNotaPreview()" class="p-2 bg-[#eef8ef] rounded-xl active:scale-95 active:opacity-80 transition-transform" title="Laporan Transaksi"><i data-lucide="file-text" class="w-4 h-4 text-[#0F3822]"></i></button>
+          <button onclick="openLaporanKomisiPreview()" class="px-2.5 py-2 bg-[#0F3822] text-[#A3E635] rounded-xl flex items-center gap-1 text-xs font-bold active:scale-95 active:opacity-80 transition-transform" title="Laporan Komisi">
+            <i data-lucide="hand-coins" class="w-4 h-4 text-[#A3E635]"></i>
+            <span class="hidden xs:inline">Lap. Komisi</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Form Cari Nama Pembeli -->
+      <div id="historySearchBox" class="hidden">
+        <form onsubmit="handleHistorySearchSubmit(event)" class="relative">
+          <input id="historySearch" type="search" oninput="renderHistory()" onkeydown="handleHistorySearchKeyDown(event)" placeholder="Cari pembeli / keperluan..." class="w-full border rounded-xl px-3 py-2 text-xs">
+        </form>
+      </div>
+
+      <div id="historyPeriodFilterFinal" class="space-y-2">
+        <div class="grid grid-cols-3 gap-2">
+          <div class="min-w-0">
+            <label for="historyCategoryFilterFinal" class="block text-xs font-bold text-[#0F3822] mb-1 text-center">Kategori Pembeli</label>
+            <select id="historyCategoryFilterFinal" data-choice-select data-choice-title="Pilih kategori pembeli" class="w-full border border-[#d9eadb] rounded-xl p-2 text-xs font-bold text-[#0F3822]" onchange="setHistoryCategoryFilterFinal(this.value)">
+              <option value="Semua">Semua</option>
+              <option value="Ansor">Ansor</option>
+              <option value="Perantara Ansor">Perantara Ansor</option>
+              <option value="Umum">Umum</option>
+            </select>
+          </div>
+          <div class="min-w-0">
+            <label for="historyPeriodModeFinal" class="block text-xs font-bold text-[#0F3822] mb-1 text-center">Periode</label>
+            <select id="historyPeriodModeFinal" data-choice-select data-choice-title="Pilih periode" class="w-full border border-[#0F3822] rounded-xl p-2 text-xs font-bold bg-[#0F3822] text-white" onchange="setHistoryPeriodModeFinal(this.value)">
+              <option value="semua">Semua</option>
+              <option value="periode">Periode Transaksi</option>
+            </select>
+          </div>
+          <div class="min-w-0">
+            <label for="historyTransactionTypeFilter" class="block text-xs font-bold text-[#0F3822] mb-1 text-center">Jenis Transaksi</label>
+            <select id="historyTransactionTypeFilter" data-choice-select data-choice-title="Pilih jenis transaksi" class="w-full border border-[#d9eadb] rounded-xl p-2 text-xs font-bold text-[#0F3822]" onchange="setHistoryTransactionTypeFilter(this.value)">
+              <option value="all">Semua</option>
+              <option value="sale">Penjualan</option>
+              <option value="expense">Pembelian</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="historyPeriodDatesFinal" class="hidden space-y-2 pt-2">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label for="historyStartDateFinal" class="block text-xs font-bold text-[#0F3822] mb-1">Mulai Tanggal</label>
+              <input id="historyStartDateFinal" type="date" class="w-full border rounded-xl p-2 text-xs font-bold text-[#0F3822]" onchange="renderHistory()">
+            </div>
+            <div>
+              <label for="historyEndDateFinal" class="block text-xs font-bold text-[#0F3822] mb-1">Sampai Tanggal</label>
+              <input id="historyEndDateFinal" type="date" class="w-full border rounded-xl p-2 text-xs font-bold text-[#0F3822]" onchange="renderHistory()">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="applyHistoryPeriodFinal()" class="bg-[#0F3822] text-[#A3E635] py-2 rounded-xl text-xs font-bold active:scale-95 active:opacity-80 transition-transform">Terapkan</button>
+            <button type="button" onclick="resetHistoryPeriodFinal()" class="bg-[#eef8ef] text-[#0F3822] border border-[#cfe4d2] py-2 rounded-xl text-xs font-bold active:scale-95 active:opacity-80 transition-transform">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Ringkasan Riwayat -->
+      <div class="bg-[#0F3822] text-white rounded-2xl p-4 space-y-3">
+        <div class="flex justify-between items-center">
+          <p class="text-xs font-bold text-[#a0c4aa]">Laporan Transaksi</p>
+          <p id="filterTitle" class="text-[10px] text-[#A3E635] font-extrabold text-right">Semua | Semua Periode</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <p class="text-xs font-bold text-white">Pemasukan</p>
+            <b id="hin" class="text-[#A3E635] text-sm block mt-0.5">Rp0</b>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-white">Pengeluaran</p>
+            <b id="hout" class="text-[#A3E635] text-sm block mt-0.5">Rp0</b>
+          </div>
+        </div>
+        <div class="border-t border-[#3e7046] pt-2 grid grid-cols-2 gap-3">
+          <div>
+            <p class="text-xs font-bold text-white">Laba Bersih</p>
+            <b id="hprofit" class="text-[#A3E635] text-sm block mt-0.5">Rp0</b>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-white">Komisi</p>
+            <b id="hgpansor" class="text-[#A3E635] text-sm block mt-0.5">Rp0</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center text-xs font-bold text-[#0F3822]">
+        <span>Daftar Transaksi</span>
+        <span id="txCount">0 Transaksi</span>
+      </div>
+      <div id="historyList" class="space-y-2"></div>
+    </section>
+
+    <!-- KALKULATOR -->
+    <section id="calculator" class="hidden space-y-4">
+      <h2 class="font-extrabold text-base flex gap-2 items-center text-[#0F3822]">
+        <span class="bg-[#dff5e2] p-1.5 rounded-lg"><i data-lucide="calculator" class="w-5 h-5 text-[#438f4f]"></i></span>Kalkulator
+      </h2>
+      <div class="border border-[#dfe9e1] bg-white rounded-2xl p-3 shadow-sm">
+        <div class="bg-[#0F3822] text-white rounded-2xl p-4 mb-3 overflow-hidden">
+          <!-- Layar Input Kalkulator dengan Garis Edit Berkedip -->
+          <div id="calcDisplay" class="text-right text-2xl font-bold min-h-[60px] flex items-center justify-end break-all">
+            <input id="calcText" type="text" value="0" inputmode="none"
+              autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+              aria-label="Layar kalkulator"
+              class="w-full bg-transparent border-0 outline-none text-right text-2xl font-bold text-white p-0 m-0"
+              style="caret-color:#B7FF00; caret-width:3px; -webkit-user-select:text; user-select:text;">
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-2 calc-keypad">
+          <button class="calc-btn calc-danger active:scale-95 active:opacity-80 transition-transform" onclick="calcClear()">AC</button>
+          <button class="calc-btn calc-danger active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('%')">%</button>
+          <button class="calc-btn calc-danger active:scale-95 active:opacity-80 transition-transform" onclick="calcBack()"><i data-lucide="delete" class="w-5 h-5 mx-auto"></i></button>
+          <button class="calc-btn calc-op active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('÷')">÷</button>
+          
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('7')">7</button>
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('8')">8</button>
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('9')">9</button>
+          <button class="calc-btn calc-op active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('x')">x</button>
+          
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('4')">4</button>
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('5')">5</button>
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('6')">6</button>
+          <button class="calc-btn calc-op active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('-')">−</button>
+          
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('1')">1</button>
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('2')">2</button>
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('3')">3</button>
+          <button class="calc-btn calc-op active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('+')">+</button>
+          
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('00')">00</button>
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput('0')">0</button>
+          <button class="calc-btn active:scale-95 active:opacity-80 transition-transform" onclick="calcInput(',')">,</button>
+          <button class="calc-btn calc-eq active:scale-95 active:opacity-80 transition-transform" onclick="calcResult()">=</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL MEMO / NOTA / LAPORAN KOMISI -->
+  <div id="modalNota" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-3">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-4 space-y-3 max-h-[92vh] flex flex-col justify-between shadow-2xl">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 id="modalNotaTitle" class="font-extrabold text-sm text-[#0F3822]">Detail Nota</h3>
+        <button id="btnCloseModalNotaTop" onclick="closeModalNota()" class="text-gray-500 hover:text-gray-800 p-1 active:scale-95 active:opacity-80 transition-transform" aria-label="Tutup"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      
+      <div id="modalNotaCaptureArea" class="bg-white p-2 rounded-xl border border-gray-100 space-y-3 overflow-y-auto max-h-[70vh]">
+        <div id="modalNotaContent" class="text-xs space-y-2"></div>
+      </div>
+
+      <!-- Tombol Aksi Nota & Laporan -->
+      <div class="grid grid-cols-3 gap-2 pt-1 border-t">
+        <button id="btnDownloadOption" onclick="downloadNotaImage()" class="bg-[#eef8ef] text-[#0F3822] rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-1 active:scale-95 active:opacity-80 transition-transform">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i><span id="lblDownloadOption">Unduh</span>
+        </button>
+        <button onclick="shareNota()" class="bg-[#0F3822] text-[#A3E635] border border-[#cfe4d2] rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-1 active:scale-95 active:opacity-80 transition-transform">
+          <i data-lucide="share-2" class="w-3.5 h-3.5"></i><span>Bagikan</span>
+        </button>
+        <button onclick="closeModalNota()" class="bg-[#eef8ef] text-[#0F3822] rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-1 active:scale-95 active:opacity-80 transition-transform">
+          <span>Tutup</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- Navigasi Bawah -->
+  <nav class="nav grid grid-cols-5 gap-1">
+    <button onclick="showPage('home',this)" class="active active:scale-95 active:opacity-80 transition-transform">
+      <span class="ico"><i data-lucide="house" style="width:28px;height:28px;"></i></span>
+      <span>Beranda</span>
+    </button>
+<button onclick="showPage('catalog',this)" class="active:scale-95 active:opacity-80 transition-transform">
+      <span class="ico"><i data-lucide="book-open"></i></span>
+      <span>Katalog</span>
+    </button>
+    <button onclick="showPage('transaction',this)" class="active:scale-95 active:opacity-80 transition-transform">
+      <span class="ico"><i data-lucide="plus-circle"></i></span>
+      <span>Transaksi</span>
+    </button>
+    
+    <button onclick="showPage('history',this)" class="active:scale-95 active:opacity-80 transition-transform">
+      <span class="ico"><i data-lucide="file-chart-column"></i></span>
+      <span>Laporan</span>
+    </button>
+    <button onclick="showPage('calculator',this)" class="active:scale-95 active:opacity-80 transition-transform">
+      <span class="ico"><i data-lucide="calculator"></i></span>
+      <span>Kalkulator</span>
+    </button>
+  </nav>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Konfigurasi Supabase — tetap menggunakan project NUsa Percetakan.
+  window.NUSA_SUPABASE_URL = "https://ihkgqlvthgffjlozttts.supabase.co";
+  window.NUSA_SUPABASE_ANON_KEY = "sb_publishable_iNicdVgBB0A56y_iU_huYA_MwwEuVDD";
+</script>
+<script>
+const KEY = 'nusa_keuangan_v1';
+let db = JSON.parse(localStorage.getItem(KEY) || '{"products":[],"transactions":[]}');
+let nusaSupabase = null;
+let nusaUser = null;
+let nusaCloudReady = false;
+let nusaCloudLoading = false;
+let nusaCloudSaveInProgress = false;
+let filter = 'semua';
+let categoryFilter = 'Semua';
+let editingProductId = null;
+let editingTransactionId = null;
+let transactionEditReturnPage = null;
+let currentModalMode = 'nota';
+  document.getElementById('modalNota')?.classList.add('preview-no-x'); // 'nota', 'laporan', 'komisi'
+let currentPage = 'home';
+
+const rp = n => 'Rp' + (Number(n) || 0).toLocaleString('id-ID');
+const today = () => new Date().toISOString().slice(0, 10);
+
+async function save() {
+  // Selalu simpan lokal sebagai cache. Data utama tetap Supabase saat user login.
+  localStorage.setItem(KEY, JSON.stringify(db));
+
+  // Jangan pernah mengirim data lokal ke cloud sebelum data cloud akun selesai dimuat.
+  if (!nusaUser || !nusaCloudReady || nusaCloudLoading) return false;
+
+  return await nusaSaveCloud();
+}
+
+function nusaSetAuthError(msg) {
+  const el = document.getElementById('authError');
+  if (el) el.textContent = msg || '';
+}
+function nusaSetLoggedInUI() {
+  document.body.classList.remove('auth-locked');
+  document.getElementById('authScreen')?.classList.add('hidden');
+}
+function nusaSetLoggedOutUI() {
+  document.body.classList.add('auth-locked');
+  document.getElementById('authScreen')?.classList.remove('hidden');
+  const usernameInput = document.getElementById('authUsername');
+  const passwordInput = document.getElementById('authPassword');
+  if (usernameInput) usernameInput.value = '';
+  if (passwordInput) passwordInput.value = '';
+}
+function nusaInitSupabase() {
+  try {
+    if (
+      typeof window.supabase === 'undefined' ||
+      typeof window.supabase.createClient !== 'function' ||
+      !window.NUSA_SUPABASE_URL ||
+      !window.NUSA_SUPABASE_ANON_KEY
+    ) {
+      console.error('Supabase belum dikonfigurasi atau library belum termuat.');
+      return false;
+    }
+
+    nusaSupabase = window.supabase.createClient(
+      window.NUSA_SUPABASE_URL,
+      window.NUSA_SUPABASE_ANON_KEY
+    );
+    return !!nusaSupabase;
+  } catch (e) {
+    console.error('Supabase init:', e);
+    nusaSupabase = null;
+    return false;
+  }
+}
+async function nusaLoadCloud() {
+  if (!nusaSupabase || !nusaUser) return false;
+
+  nusaCloudLoading = true;
+  nusaCloudReady = false;
+
+  try {
+    const { data, error } = await nusaSupabase
+      .from('app_data')
+      .select('data')
+      .eq('user_id', nusaUser.id)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    if (data && data.data) {
+      // Supabase adalah sumber data utama setelah login/refresh.
+      // Jangan mencampur atau menimpa data cloud dengan localStorage.
+      db = {
+        products: Array.isArray(data.data.products) ? data.data.products : [],
+        transactions: Array.isArray(data.data.transactions) ? data.data.transactions : []
+      };
+      localStorage.setItem(KEY, JSON.stringify(db));
+    } else {
+      // Akun benar-benar belum memiliki baris cloud.
+      // Hanya buat data kosong agar cache dari akun/perangkat lain tidak
+      // pernah masuk ke akun baru secara tidak sengaja.
+      db = { products: [], transactions: [] };
+      const { error: insertError } = await nusaSupabase
+        .from('app_data')
+        .upsert(
+          { user_id: nusaUser.id, data: db },
+          { onConflict: 'user_id' }
+        );
+      if (insertError) throw insertError;
+      localStorage.setItem(KEY, JSON.stringify(db));
+    }
+
+    nusaCloudReady = true;
+    updateDashboard();
+    renderProducts();
+    renderHistory();
+    return true;
+  } finally {
+    nusaCloudLoading = false;
+  }
+}
+
+async function nusaSaveCloud() {
+  localStorage.setItem(KEY, JSON.stringify(db));
+
+  if (!nusaSupabase || !nusaUser || !nusaCloudReady || nusaCloudLoading) return false;
+  if (nusaCloudSaveInProgress) return false;
+
+  nusaCloudSaveInProgress = true;
+  try {
+    const payload = {
+      user_id: nusaUser.id,
+      data: {
+        products: Array.isArray(db.products) ? db.products : [],
+        transactions: Array.isArray(db.transactions) ? db.transactions : []
+      }
+    };
+
+    const { error } = await nusaSupabase
+      .from('app_data')
+      .upsert(payload, { onConflict: 'user_id' });
+
+    if (error) {
+      console.warn('Cloud save:', error.message);
+      toast('Gagal menyimpan ke Supabase: ' + error.message);
+      return false;
+    }
+
+    return true;
+  } finally {
+    nusaCloudSaveInProgress = false;
+  }
+}
+async function nusaLogin() {
+  nusaSetAuthError('');
+  const username = (document.getElementById('authUsername')?.value || '').trim().toLowerCase();
+  const password = document.getElementById('authPassword')?.value || '';
+
+  if (!username || !password) return nusaSetAuthError('Isi username dan password.');
+
+  // Pada pembukaan pertama, nusaBootAuth memang menunggu di halaman login.
+  // Inisialisasi Supabase dilakukan saat tombol Masuk ditekan.
+  if (!nusaSupabase && !nusaInitSupabase()) {
+    return nusaSetAuthError('Supabase belum dapat terhubung. Periksa koneksi internet.');
+  }
+
+  const email = username.includes('@') ? username : username + '@nusapercetakan.local';
+  const { data, error } = await nusaSupabase.auth.signInWithPassword({ email, password });
+
+  if (error) return nusaSetAuthError(error.message);
+
+  nusaUser = data.user;
+  nusaMarkExplicitLogout(false);
+  try { sessionStorage.setItem('nusa_app_initialized', '1'); } catch (_) {}
+  nusaCloudReady = false;
+
+  try {
+    await nusaLoadCloud();
+    nusaSetLoggedInUI();
+    currentPage = 'home';
+    window.__nusaOnPushedPage = false;
+    showPage('home', null, false);
+    history.replaceState({ page: 'home', searchOpen: false, homeGuard: true }, '', '#home');
+  } catch (e) {
+    nusaSetAuthError('Login berhasil, tetapi data online gagal dimuat: ' + e.message);
+    try { await nusaSupabase.auth.signOut(); } catch (_) {}
+    nusaUser = null;
+    nusaCloudReady = false;
+  }
+}
+async function nusaLogout() {
+  nusaShowLogoutDialog();
+}
+let nusaChoiceSelect = null;
+
+function nusaOpenChoiceDialog(select) {
+  if (!select || !select.options?.length) return;
+  const dialog = document.getElementById('nusaChoiceDialog');
+  const title = document.getElementById('nusaChoiceTitle');
+  const desc = document.getElementById('nusaChoiceDesc');
+  const optionsBox = document.getElementById('nusaChoiceOptions');
+  if (!dialog || !title || !desc || !optionsBox) return;
+
+  nusaChoiceSelect = select;
+  title.textContent = select.dataset.choiceTitle || 'Pilih';
+  desc.textContent = 'Silakan pilih salah satu.';
+  optionsBox.innerHTML = '';
+
+  [...select.options].forEach(option => {
+    if (option.disabled) return;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'nusa-choice-option' + (option.value === select.value ? ' selected' : '');
+    button.textContent = option.textContent;
+    button.onclick = () => nusaChooseOption(option.value);
+    optionsBox.appendChild(button);
+  });
+
+  dialog.classList.remove('hidden');
+  dialog.classList.add('flex');
+}
+
+function nusaChooseOption(value) {
+  const select = nusaChoiceSelect;
+  if (!select) return;
+  select.value = value;
+  select.dispatchEvent(new Event('change', { bubbles: true }));
+  nusaCloseChoiceDialog();
+}
+
+function nusaCloseChoiceDialog() {
+  const dialog = document.getElementById('nusaChoiceDialog');
+  if (!dialog) return;
+  dialog.classList.add('hidden');
+  dialog.classList.remove('flex');
+  nusaChoiceSelect = null;
+}
+
+// Tangkap interaksi SEBELUM Android/WebView membuka dialog <select> bawaannya.
+// Cukup satu dialog custom yang tampil; jangan sampai dialog native ikut terbuka.
+function nusaHandleChoicePointer(event) {
+  const select = event.target.closest?.('[data-choice-select]');
+  if (!select) return;
+  event.preventDefault();
+  event.stopPropagation();
+  nusaOpenChoiceDialog(select);
+}
+
+document.addEventListener('pointerdown', nusaHandleChoicePointer, true);
+document.addEventListener('touchstart', nusaHandleChoicePointer, { capture: true, passive: false });
+document.addEventListener('mousedown', nusaHandleChoicePointer, true);
+document.addEventListener('click', function(event) {
+  const select = event.target.closest?.('[data-choice-select]');
+  if (!select) return;
+  event.preventDefault();
+  event.stopPropagation();
+}, true);
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') nusaCloseChoiceDialog();
+});
+
+function nusaShowLogoutDialog() {
+  const d = document.getElementById('nusaLogoutDialog');
+  if (!d) return;
+  d.classList.remove('hidden');
+  d.classList.add('flex');
+}
+function nusaCloseLogoutDialog() {
+  const d = document.getElementById('nusaLogoutDialog');
+  if (!d) return;
+  d.classList.add('hidden');
+  d.classList.remove('flex');
+}
+async function nusaConfirmLogout() {
+  nusaCloseLogoutDialog();
+  nusaMarkExplicitLogout(true);
+
+  // Jangan biarkan proses signOut yang lambat membuat tombol keluar terlihat
+  // seperti tidak bekerja. Beri Supabase waktu singkat, lalu tetap lanjut keluar.
+  try {
+    if (nusaSupabase && nusaSupabase.auth) {
+      await Promise.race([
+        nusaSupabase.auth.signOut(),
+        new Promise(resolve => setTimeout(resolve, 1500))
+      ]);
+    }
+  } catch (e) {
+    console.warn('Logout:', e.message);
+  }
+
+  nusaUser = null;
+  nusaCloudReady = false;
+  try { sessionStorage.removeItem('nusa_app_initialized'); } catch (_) {}
+
+  // Setelah menekan "Ya, Keluar", arahkan langsung ke halaman Login.
+  nusaSetLoggedOutUI();
+  const authScreen = document.getElementById('authScreen');
+  if (authScreen) {
+    authScreen.classList.remove('hidden');
+    authScreen.classList.add('flex');
+  }
+  document.body.classList.add('auth-locked');
+}
+
+function nusaExitAppNow() {
+  // 1) Utamakan bridge dari aplikasi pembungkus (Android/iOS).
+  try {
+    if (typeof window.nusaExitAppHost === 'function' && window.nusaExitAppHost()) return;
+  } catch (_) {}
+
+  // 2) Coba API penutupan browser/window. Beberapa WebView mengizinkannya.
+  const tryClose = () => {
+    try { window.open('', '_self'); } catch (_) {}
+    try { window.close(); } catch (_) {}
+  };
+  tryClose();
+
+  // 3) Bila browser menolak close(), kosongkan dokumen lalu keluar ke blank page.
+  // Ini mencegah aplikasi kembali terlihat di halaman Beranda setelah logout.
+  setTimeout(() => {
+    try {
+      if (document.visibilityState === 'visible') {
+        document.documentElement.innerHTML = '';
+        document.body = document.createElement('body');
+        document.body.innerHTML = '';
+        try { window.open('', '_self'); } catch (_) {}
+        try { window.close(); } catch (_) {}
+        try { location.replace('about:blank'); } catch (_) {}
+      }
+    } catch (_) {
+      try { location.replace('about:blank'); } catch (__) {}
+    }
+  }, 180);
+}
+async function nusaPerformLogout() {
+  // Hanya logout manual yang mengakhiri akses dan menampilkan Login.
+  nusaMarkExplicitLogout(true);
+  // Data sudah tersimpan di Supabase; logout hanya mengakhiri sesi.
+  try {
+    if (nusaSupabase) await nusaSupabase.auth.signOut();
+  } catch (e) {
+    console.warn('Logout:', e.message);
+  }
+
+  nusaUser = null;
+  nusaCloudReady = false;
+  try { sessionStorage.removeItem('nusa_app_initialized'); } catch (_) {}
+  nusaSetLoggedOutUI();
+
+  // Setelah logout dikonfirmasi, lanjutkan proses keluar aplikasi melalui nusaExitApp.
+  if (typeof nusaExitApp === 'function') {
+    nusaExitApp();
+  }
+}
+// Menjadikan Beranda sebagai entri dasar (titik awal) history aplikasi.
+// Halaman pembuka selain Beranda ditaruh tepat SATU tingkat di atasnya,
+// sehingga Back dari halaman itu -> Beranda, dan Back berikutnya -> keluar.
+function nusaSetBaseHistory(page) {
+  // Bila guard sudah dipasang secara SINKRON saat dokumen mulai dimuat,
+  // jangan timpa history-nya setelah proses Supabase/async selesai.
+  if (window.__nusaEarlyRefreshGuard) {
+    window.__nusaOnPushedPage = page !== 'home';
+    window.__nusaEarlyRefreshGuard = false;
+    return;
+  }
+
+  window.__nusaOnPushedPage = false;
+  window.__nusaRefreshBackGuard = false;
+
+  history.replaceState({ page: 'home', searchOpen: false, homeGuard: true }, '', '#home');
+
+  if (page !== 'home') {
+    history.pushState({ page, searchOpen: false }, '', '#' + page);
+    window.__nusaOnPushedPage = true;
+  }
+}
+
+// IMPORTANT: Setelah REFRESH pada halaman selain Beranda,
+// susun history menjadi [Beranda] -> [halaman aktif].
+// Jadi Back pertama selalu kembali ke Beranda.
+(function nusaInstallEarlyRefreshBackGuard() {
+  try {
+    if (nusaWasExplicitlyLoggedOut()) return;
+    const nav = performance.getEntriesByType('navigation')[0];
+    const isReload = !!(nav && nav.type === 'reload');
+    if (!isReload) return;
+
+    const raw = (location.hash || '').replace(/^#/, '');
+    const allowed = ['home','catalog','transaction','history','calculator'];
+    const safePage = allowed.includes(raw.split('-')[0]) ? raw.split('-')[0] : 'home';
+
+    if (safePage !== 'home') {
+      history.replaceState(
+        { page: 'home', searchOpen: false, homeGuard: true, refreshBase: true },
+        '',
+        '#home'
+      );
+      history.pushState(
+        { page: safePage, searchOpen: false, refreshPage: true },
+        '',
+        '#' + safePage
+      );
+      window.__nusaOnPushedPage = true;
+    } else {
+      history.replaceState(
+        { page: 'home', searchOpen: false, homeGuard: true, refreshBase: true },
+        '',
+        '#home'
+      );
+      window.__nusaOnPushedPage = false;
+    }
+
+    window.__nusaEarlyRefreshGuard = true;
+    window.__nusaRefreshBackGuard = false;
+  } catch (e) {
+    console.warn('Refresh history guard:', e);
+  }
+})();
+
+async function nusaBootAuth() {
+  // Login bukan halaman pembuka. Aplikasi selalu membuka Beranda,
+  // kecuali user memang sebelumnya menekan tombol Logout.
+  if (nusaWasExplicitlyLoggedOut()) {
+    nusaSetLoggedOutUI();
+    return;
+  }
+  nusaSetLoggedInUI();
+
+  // Tampilkan halaman yang sedang dibuka berdasarkan hash SECEPAT mungkin.
+  const hashPage = location.hash.replace('#', '').split('-')[0];
+  const allowed = ['home','catalog','transaction','history','calculator'];
+  const page = allowed.includes(hashPage) ? hashPage : 'home';
+
+  currentPage = page;
+  showPage(page, null, false);
+  if (page === 'home') {
+    try { window.scrollTo(0, 0); } catch (_) {}
+    const main = document.getElementById('main');
+    if (main) main.scrollTop = 0;
+  }
+
+  // Supabase tetap diinisialisasi untuk sinkronisasi jika session tersedia.
+  if (!nusaInitSupabase()) {
+    nusaUser = null;
+    nusaCloudReady = false;
+    nusaSetBaseHistory(page);
+    return;
+  }
+
+  try {
+    const { data, error } = await nusaSupabase.auth.getSession();
+
+    if (error) {
+      console.warn('Session:', error.message);
+    } else if (data?.session?.user) {
+      nusaUser = data.session.user;
+      try {
+        await nusaLoadCloud();
+      } catch (e) {
+        // Gagal memuat cloud tidak boleh mengubah halaman menjadi Login.
+        console.warn('Load cloud:', e.message);
+        nusaUser = null;
+        nusaCloudReady = false;
+      }
+    } else {
+      // Tidak ada session: halaman tetap terbuka.
+      nusaUser = null;
+      nusaCloudReady = false;
+    }
+  } catch (e) {
+    // Error Auth/network tidak boleh memunculkan Login saat refresh.
+    console.warn('Auth boot:', e.message);
+    nusaUser = null;
+    nusaCloudReady = false;
+  }
+
+  nusaSetBaseHistory(page);
+
+  nusaSupabase.auth.onAuthStateChange((_event, session) => {
+    if (session?.user) {
+      nusaUser = session.user;
+      nusaMarkExplicitLogout(false);
+    } else {
+      // Expired session/network issue tidak boleh memunculkan Login.
+      // Login hanya dipicu oleh logout manual.
+      nusaUser = null;
+      nusaCloudReady = false;
+      if (!nusaWasExplicitlyLoggedOut()) nusaSetLoggedInUI();
+    }
+  });
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  setTimeout(() => el.classList.add('hidden'), 2200);
+}
+
+function scrollToTopInstant() {
+  try { window.scrollTo(0, 0); } catch (_) {}
+  try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); } catch (_) {}
+  try { document.documentElement.scrollTop = 0; } catch (_) {}
+  try { document.body.scrollTop = 0; } catch (_) {}
+  try {
+    const main = document.getElementById('main');
+    if (main) main.scrollTop = 0;
+  } catch (_) {}
+}
+
+/* NUSA GLOBAL PAGE-TOP FIX
+   Semua halaman selalu dibuka dari posisi paling atas.
+   Mencegah browser/WebView memulihkan posisi scroll lama setelah hash,
+   refresh, render ulang, atau perpindahan menu. */
+function nusaForcePageTop() {
+  scrollToTopInstant();
+  requestAnimationFrame(() => {
+    scrollToTopInstant();
+    requestAnimationFrame(scrollToTopInstant);
+  });
+  setTimeout(scrollToTopInstant, 0);
+  setTimeout(scrollToTopInstant, 80);
+  setTimeout(scrollToTopInstant, 180);
+}
+
+window.addEventListener('pageshow', nusaForcePageTop, { passive: true });
+window.addEventListener('hashchange', nusaForcePageTop, { passive: true });
+document.addEventListener('visibilitychange', function () {
+  if (!document.hidden) nusaForcePageTop();
+});
+
+
+function pushPageState(page, searchState = false) {
+  currentPage = page;
+  // Berpindah antar halaman selain Beranda TIDAK menambah tumpukan history.
+  // Cukup ganti state saat ini, sehingga di atas Beranda maksimal ada
+  // SATU halaman: Back dari halaman mana pun -> Beranda, Back lagi -> keluar.
+  if (!searchState && page !== 'home' && window.__nusaOnPushedPage) {
+    history.replaceState({ page: page, searchOpen: false }, '', '#' + page);
+    return;
+  }
+  history.pushState(
+    { page: page, searchOpen: searchState },
+    '',
+    '#' + page + (searchState ? '-search' : '')
+  );
+  if (page !== 'home') window.__nusaOnPushedPage = true;
+}
+
+function showPage(id, btn, addHistory = true) {
+  currentPage = id;
+
+  ['home','catalog','transaction','history','calculator'].forEach(x => {
+    const pageEl = document.getElementById(x);
+    if (pageEl) pageEl.classList.toggle('hidden', x !== id);
+  });
+
+  document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
+
+  const targetBtn = btn || Array.from(document.querySelectorAll('.nav button')).find(button => {
+    const match = button.getAttribute('onclick')?.match(/showPage\('([^']+)'/);
+    return match && match[1] === id;
+  });
+
+  if (targetBtn) targetBtn.classList.add('active');
+
+  if (id === 'catalog') renderProducts();
+  if (id === 'history') renderHistory();
+
+  // Setiap halaman dibuka dari bagian paling atas, tanpa loncat/terpotong.
+  nusaForcePageTop();
+
+  if (addHistory) {
+    if (id === 'home') {
+      // Beranda adalah titik awal aplikasi dan TIDAK PERNAH di-push ke history.
+      // Jika ada halaman lain di atasnya, pop kembali ke entri dasar Beranda
+      // agar satu kali Back berikutnya langsung keluar dari aplikasi.
+      if (window.__nusaOnPushedPage) {
+        window.__nusaGoingHome = true;
+        history.back();
+      } else {
+        history.replaceState({ page: 'home', searchOpen: false, homeGuard: true }, '', '#home');
+      }
+    } else {
+      pushPageState(id, false);
+    }
+  }
+}
+
+function angkaRupiah(v) {
+  return Number(String(v ?? '').replace(/\D/g, '')) || 0;
+}
+
+function rupiah(v) {
+  return 'Rp' + (Number(v) || 0).toLocaleString('id-ID');
+}
+
+/* Format Rupiah Input Real-Time */
+function formatRupiahInput(input) {
+  const val = angkaRupiah(input.value);
+  input.value = val ? rupiah(val) : '';
+}
+
+function handleCatalogPriceKeyDown(e, input) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    e.stopPropagation();
+    input.blur();
+  }
+}
+
+function toggleCatalogProductForm(forceOpen = null) {
+  const form = document.getElementById('catalogProductForm');
+  const toggle = document.getElementById('catalogProductToggle');
+  if (!form) return;
+  const shouldOpen = forceOpen === null ? form.classList.contains('hidden') : !!forceOpen;
+  form.classList.toggle('hidden', !shouldOpen);
+  if (toggle) {
+    const label = toggle.querySelector('span span');
+    if (label) label.textContent = editingProductId ? 'Edit Produk' : 'Tambah Produk';
+    const icon = toggle.querySelector('[data-lucide="chevron-down"]');
+    if (icon) icon.style.transform = shouldOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function resetCatalogProductForm() {
+  document.getElementById('pn').value = '';
+  document.getElementById('pu').value = '';
+  document.getElementById('pc').value = '';
+  document.getElementById('pp').value = '';
+  editingProductId = null;
+  document.getElementById('productSaveBtn').innerHTML = '<i data-lucide="save" class="w-4 h-4"></i><span>Simpan Produk</span>';
+  toggleCatalogProductForm(false);
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function cancelCatalogProductEdit() {
+  resetCatalogProductForm();
+}
+
+/* Catalog Functions */
+async function saveProduct() {
+  const pn = document.getElementById('pn');
+  const pc = document.getElementById('pc');
+  const pp = document.getElementById('pp');
+  const pu = document.getElementById('pu');
+
+  const name = pn.value.trim();
+  const cost = angkaRupiah(pc.value);
+  const price = angkaRupiah(pp.value);
+  const unit = pu.value.trim();
+
+  if(!name || cost < 0 || price < 0) return toast('Lengkapi data produk');
+
+  if(editingProductId) {
+    const p = db.products.find(x => x.id === editingProductId);
+    if(p) { p.name = name; p.unit = unit; p.cost = cost; p.price = price; }
+    editingProductId = null;
+    document.getElementById('productSaveBtn').innerHTML = '<i data-lucide="save" class="w-4 h-4"></i><span>Simpan Produk</span>';
+    toast('Produk berhasil diperbarui');
+  } else {
+    db.products.unshift({ id: Date.now(), name, unit, cost, price });
+    toast('Produk disimpan');
+  }
+
+  await save();
+  resetCatalogProductForm();
+  renderProducts();
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function renderProducts() {
+  const q = (document.getElementById('search')?.value || '').toLowerCase();
+  const arr = db.products.filter(p => p.name.toLowerCase().includes(q));
+  const elCount = document.getElementById('productCount');
+  if(elCount) elCount.textContent = db.products.length + ' Item';
+
+  const container = document.getElementById('products');
+  if(!container) return;
+
+  container.innerHTML = arr.length ? arr.map(p => `
+    <div class="tx-history-card p-3 flex justify-between items-center gap-2">
+      <div class="flex-1 min-w-0 flex flex-col justify-between">
+        <div class="font-extrabold text-sm text-[#0F3822] truncate">${esc(p.name)} ${p.unit ? `<span class="text-xs text-[#527b59] font-normal">| ${esc(p.unit)}</span>` : ''}</div>
+        <div class="grid grid-cols-2 gap-1.5 mt-1.5">
+          <div class="bg-[#f5fbf5] border border-[#b7e4bc] rounded-lg p-1.5 text-xs">
+            <div class="text-[8px] text-[#527b59] font-extrabold uppercase leading-none mb-0.5">Modal</div>
+            <div class="font-extrabold text-[#214f29] text-[11px] leading-tight">${rupiah(p.cost)}</div>
+          </div>
+          <div class="bg-[#e8f7ea] border border-[#b7e4bc] rounded-lg p-1.5 text-xs">
+            <div class="text-[8px] text-[#527b59] font-extrabold uppercase leading-none mb-0.5">Harga</div>
+            <div class="font-extrabold text-[#438f4f] text-[11px] leading-tight">${rupiah(p.price)}</div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1 shrink-0 items-stretch justify-center">
+        <div class="flex gap-1 justify-end">
+          <button onclick="editProduct(${p.id})" class="bg-[#eef8ef] text-[#438f4f] p-1.5 rounded-lg active:scale-95 active:opacity-80 transition-transform" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+          <button onclick="deleteProduct(${p.id})" class="bg-[#e9f6eb] text-[#4b9254] p-1.5 rounded-lg active:scale-95 active:opacity-80 transition-transform" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+        </div>
+        <button onclick="useProduct(${p.id})" class="bg-[#dff5e2] text-[#438f4f] px-3 py-1.5 rounded-lg text-xs font-bold active:scale-95 active:opacity-80 transition-transform w-full text-center">Pakai</button>
+      </div>
+    </div>
+  `).join('') : '<div class="text-center text-xs text-gray-500 py-6">Belum ada produk.</div>';
+
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function handleCatalogSearchSubmit(e) {
+  e.preventDefault();
+  const input = document.getElementById('search');
+  if (input) input.blur();
+  renderProducts();
+}
+
+function handleCatalogSearchKeyDown(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const input = document.getElementById('search');
+    if (input) input.blur();
+    renderProducts();
+  } else if (e.key === 'Escape') {
+    closeCatalogSearch();
+  }
+}
+
+function closeCatalogSearch(pushState = true) {
+  const box = document.getElementById('searchBox');
+  if(box && !box.classList.contains('hidden')) {
+    box.classList.add('hidden');
+    const input = document.getElementById('search');
+    if(input) input.value = '';
+    renderProducts();
+    if (pushState) pushPageState('catalog', false);
+  }
+}
+
+function toggleSearch() {
+  const box = document.getElementById('searchBox');
+  if(box) {
+    if(box.classList.contains('hidden')) {
+      box.classList.remove('hidden');
+      const input = document.getElementById('search');
+      if(input) input.focus();
+      pushPageState('catalog', true);
+    } else {
+      closeCatalogSearch();
+    }
+  }
+}
+
+function useProduct(id) {
+  const p = db.products.find(x => x.id === id);
+  if(!p) return;
+  showPage('transaction');
+  if (document.getElementById('transactionType')) toggleTransactionType('sale');
+  if(!document.querySelector('#txItems .tx-item')) tambahItemTransaksi();
+  const row = document.querySelector('#txItems .tx-item:last-child');
+  if(row) {
+    row.querySelector('.tx-product').value = p.name;
+    row.querySelector('.tx-modal').value = rupiah(p.cost);
+    row.querySelector('.tx-price').value = rupiah(p.price);
+    if(p.unit) row.querySelector('.tx-unit').value = p.unit;
+    updateTransactionSummary();
+  }
+  toast('Produk dimasukkan ke transaksi');
+}
+
+function editProduct(id) {
+  const p = db.products.find(x => x.id === id);
+  if(!p) return;
+
+  // Tutup keyboard dengan melepas fokus dari input yang sedang aktif.
+  const active = document.activeElement;
+  if (active && typeof active.blur === 'function') active.blur();
+
+  // Tetap di halaman Katalog dan kembali ke posisi paling atas.
+  currentPage = 'catalog';
+  showPage('catalog', null, false);
+  scrollToTopInstant();
+  requestAnimationFrame(scrollToTopInstant);
+  setTimeout(scrollToTopInstant, 50);
+
+  document.getElementById('pn').value = p.name;
+  document.getElementById('pu').value = p.unit || '';
+  document.getElementById('pc').value = rupiah(p.cost);
+  document.getElementById('pp').value = rupiah(p.price);
+  editingProductId = id;
+  toggleCatalogProductForm(true);
+
+  // Jangan focus ke input agar keyboard tidak muncul kembali.
+  document.getElementById('productSaveBtn').innerHTML = '<i data-lucide="save" class="w-4 h-4"></i><span>Simpan Perubahan</span>';
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+let nusaDeleteAction = null;
+
+function nusaShowDeleteDialog(type, id, extra = {}) {
+  const d = document.getElementById('nusaDeleteDialog');
+  const title = document.getElementById('nusaDeleteTitle');
+  const desc = document.getElementById('nusaDeleteDesc');
+  if (!d || !title || !desc) return;
+
+  if (type === 'product') {
+    title.textContent = 'Hapus produk?';
+    desc.textContent = 'Produk ini akan dihapus dari katalog. Apakah Anda yakin ingin menghapusnya?';
+  } else if (type === 'transaction') {
+    const tx = db.transactions.find(t => t.id === id);
+    const isExpense = tx && (tx.type === 'expense' || tx.transactionType === 'Pengeluaran');
+    title.textContent = isExpense ? 'Hapus pembelian?' : 'Hapus penjualan?';
+    desc.textContent = isExpense
+      ? 'Transaksi pembelian ini akan dihapus dari riwayat. Apakah Anda yakin ingin menghapusnya?'
+      : 'Transaksi penjualan ini akan dihapus dari riwayat. Apakah Anda yakin ingin menghapusnya?';
+  } else if (type === 'transactionItem') {
+    const isExpense = extra.mode === 'purchase';
+    title.textContent = isExpense ? 'Hapus daftar produk pembelian?' : 'Hapus daftar produk penjualan?';
+    desc.textContent = isExpense
+      ? 'Daftar produk pembelian ini akan dihapus. Apakah Anda yakin ingin menghapusnya?'
+      : 'Daftar produk penjualan ini akan dihapus. Apakah Anda yakin ingin menghapusnya?';
+  }
+
+  nusaDeleteAction = { type, id, ...extra };
+  d.classList.remove('hidden');
+  d.classList.add('flex');
+}
+
+function nusaCloseDeleteDialog() {
+  const d = document.getElementById('nusaDeleteDialog');
+  if (!d) return;
+  d.classList.add('hidden');
+  d.classList.remove('flex');
+  nusaDeleteAction = null;
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && nusaDeleteAction) nusaCloseDeleteDialog();
+});
+
+async function nusaConfirmDelete() {
+  const action = nusaDeleteAction;
+  nusaCloseDeleteDialog();
+  if (!action) return;
+
+  if (action.type === 'product') {
+    db.products = db.products.filter(p => p.id !== action.id);
+    await save();
+    renderProducts();
+    toast('Produk dihapus');
+  } else if (action.type === 'transaction') {
+    db.transactions = db.transactions.filter(t => t.id !== action.id);
+    await save();
+    updateDashboard();
+    renderHistory();
+    toast('Transaksi dihapus');
+  } else if (action.type === 'transactionItem') {
+    if (action.row && action.row.isConnected) {
+      action.row.remove();
+      if (action.mode === 'purchase') {
+        updateExpenseSummary();
+      } else {
+        updateTransactionSummary();
+      }
+    }
+  }
+}
+
+function deleteProduct(id) {
+  nusaShowDeleteDialog('product', id);
+}
+
+function batalTransaksi() {
+  // Saat mengedit dari Laporan, Batal kembali ke daftar Transaksi pembeli.
+  // Saat input transaksi baru, tetap di halaman Transaksi.
+  const returnPage = transactionEditReturnPage || 'transaction';
+  const wasEditing = !!editingTransactionId;
+  editingTransactionId = null;
+  transactionEditReturnPage = null;
+  const form = document.querySelector('#transaction form');
+  if (form) form.reset();
+  const td = document.getElementById('td');
+  if (td) td.value = today();
+  tampilkanHariTanggal();
+  const container = document.getElementById('txItems');
+  if (container) {
+    container.innerHTML = '';
+    tambahItemTransaksi();
+  }
+  updateTransactionSummary();
+  showPage(returnPage);
+  toast(wasEditing
+    ? 'Pengeditan dibatalkan'
+    : 'Pengisian transaksi dibatalkan');
+}
+
+/* Transaksi Functions */
+function handleGeneralInputEnter(e, currentEl) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    currentEl.blur();
+    
+    const form = currentEl.closest('form');
+    if (!form) return;
+    const focusables = Array.from(form.querySelectorAll('input, select, textarea')).filter(el => !el.disabled && el.offsetParent !== null);
+    const idx = focusables.indexOf(currentEl);
+    if (idx > -1 && idx < focusables.length - 1) {
+      const nextEl = focusables[idx + 1];
+      nextEl.focus();
+      nextEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+}
+
+function handleTransactionPriceEnter(e, currentEl) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    currentEl.blur();
+  }
+}
+
+function handleTransactionItemEnter(e, currentEl) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    currentEl.blur();
+
+    const form = document.querySelector('#transaction form');
+    if (!form) return;
+    const focusables = Array.from(form.querySelectorAll('input, select, textarea')).filter(el => !el.disabled && el.offsetParent !== null);
+    const idx = focusables.indexOf(currentEl);
+    if (idx > -1 && idx < focusables.length - 1) {
+      const nextEl = focusables[idx + 1];
+      nextEl.focus();
+      nextEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      tambahItemTransaksi();
+    }
+  }
+}
+
+function updateTransactionSummary() {
+  let totalCost = 0;
+  let totalSell = 0;
+  document.querySelectorAll('#txItems .tx-item').forEach(row => {
+    const qty = Number(row.querySelector('.tx-qty')?.value) || 0;
+    const cost = angkaRupiah(row.querySelector('.tx-modal')?.value || '');
+    const price = angkaRupiah(row.querySelector('.tx-price')?.value || '');
+    totalCost += cost * qty;
+    totalSell += price * qty;
+  });
+  const profit = totalSell - totalCost;
+  const category = document.getElementById('tk')?.value || '';
+  const commission = (category === 'Ansor' || category === 'Perantara Ansor')
+    ? Math.max(0, Math.round(profit * 0.10))
+    : 0;
+
+  const values = {
+    txTotalModal: totalCost,
+    txTotalHarga: totalSell,
+    txTotalLaba: profit,
+    txTotalKomisi: commission
+  };
+  Object.entries(values).forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = rupiah(value);
+  });
+}
+
+function tambahItemTransaksi(data = {}) {
+  const container = document.getElementById('txItems');
+  if(!container) return;
+  const row = document.createElement('div');
+  row.className = 'tx-item';
+
+  row.innerHTML = `
+    <div class="tx-item-grid">
+      <label class="text-xs font-bold text-[#0F3822] full">Nama Produk
+        <input class="tx-product border rounded-xl px-3 py-2 mt-1 w-full text-xs" placeholder="Masukkan nama produk" value="${esc(data.item||'')}" onkeydown="handleTransactionItemEnter(event, this)" required>
+      </label>
+      <label class="text-xs font-bold text-[#0F3822]">Jumlah
+        <input class="tx-qty border rounded-xl px-3 py-2 mt-1 w-full text-xs" type="number" min="1" placeholder="Masukkan jumlah" value="${data.qty||''}" oninput="updateTransactionSummary()" onkeydown="handleTransactionItemEnter(event, this)" required>
+      </label>
+      <label class="text-xs font-bold text-[#0F3822]">Satuan
+        <input class="tx-unit border rounded-xl px-3 py-2 mt-1 w-full text-xs" placeholder="Pcs/Meter" value="${esc(data.unit||'')}" onkeydown="handleTransactionItemEnter(event, this)">
+      </label>
+      <div class="full">
+        <div class="flex items-center justify-between gap-2">
+          <label class="text-xs font-bold text-[#0F3822]" for="modal-type-${Date.now()}-${Math.random().toString(36).slice(2,7)}">Modal</label>
+          <select data-choice-select data-choice-title="Pilih sumber modal" class="tx-modal-type border border-[#cfe4d2] rounded-lg px-2 py-1 text-[10px] font-bold text-[#0F3822] bg-[#eef8ef]" onchange="updateTransactionSummary()">
+            <option value="NUsa Percetakan" ${(data.modalType || 'NUsa Percetakan') === 'NUsa Percetakan' ? 'selected' : ''}>NUsa Percetakan</option>
+            <option value="Non NUsa Percetakan" ${(data.modalType || 'NUsa Percetakan') === 'Non NUsa Percetakan' ? 'selected' : ''}>Non NUsa Percetakan</option>
+          </select>
+        </div>
+        <input class="tx-modal border rounded-xl px-3 py-2 mt-1 w-full text-xs" inputmode="numeric" placeholder="Modal (Rp)" value="${data.cost ? rupiah(data.cost) : ''}" oninput="formatRupiahInput(this); updateTransactionSummary()" onkeydown="handleTransactionItemEnter(event, this)" required>
+      </div>
+      <label class="text-xs font-bold text-[#0F3822] full">Harga (Rp)
+        <input class="tx-price border rounded-xl px-3 py-2 mt-1 w-full text-xs" inputmode="numeric" placeholder="Harga (Rp)" value="${data.price ? rupiah(data.price) : ''}" oninput="formatRupiahInput(this); updateTransactionSummary()" onkeydown="handleTransactionPriceEnter(event, this)" required>
+      </label>
+      <div class="full mt-1 grid grid-cols-2 gap-2">
+        <button type="button" class="tx-remove bg-[#e9f6eb] text-[#438f4f] rounded-xl py-2 px-2 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 active:opacity-80 transition-transform" onclick="hapusItemTransaksi(this)">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i><span>Hapus Produk</span>
+        </button>
+        <button type="button" class="tx-add bg-[#dff5e2] text-[#438f4f] rounded-xl py-2 px-2 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 active:opacity-80 transition-transform" onclick="tambahItemTransaksi()">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>Tambah Produk</span>
+        </button>
+      </div>
+    </div>
+  `;
+  container.appendChild(row);
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+  updateTransactionSummary();
+}
+
+function hapusItemTransaksi(btn) {
+  const rows = document.querySelectorAll('#txItems .tx-item');
+  if(rows.length > 1) {
+    const row = btn.closest('.tx-item');
+    if (!row) return;
+    nusaShowDeleteDialog('transactionItem', null, { row, mode: 'sale' });
+  } else {
+    toast('Transaksi minimal berisi 1 produk');
+  }
+}
+
+function getTransactionItems() {
+  return [...document.querySelectorAll('#txItems .tx-item')].map(row => ({
+    item: row.querySelector('.tx-product').value.trim(),
+    qty: Number(row.querySelector('.tx-qty').value) || 1,
+    unit: row.querySelector('.tx-unit').value.trim(),
+    modalType: row.querySelector('.tx-modal-type')?.value || 'NUsa Percetakan',
+    cost: angkaRupiah(row.querySelector('.tx-modal').value),
+    price: angkaRupiah(row.querySelector('.tx-price').value)
+  })).filter(x => x.item);
+}
+
+async function saveTx(e) {
+  e.preventDefault();
+  const tb = document.getElementById('tb');
+  const tk = document.getElementById('tk');
+  const td = document.getElementById('td');
+
+  const buyer = tb.value.trim();
+  const category = tk.value;
+  const dateVal = td.value || today();
+  const items = getTransactionItems();
+
+  if(!buyer || !category || !items.length) {
+    return toast('Lengkapi nama pembeli, kategori, dan produk');
+  }
+
+  let totalCost = 0, totalSell = 0;
+  items.forEach(x => {
+    totalCost += x.cost * x.qty;
+    totalSell += x.price * x.qty;
+  });
+  const profit = totalSell - totalCost;
+  const commission = (category === 'Ansor' || category === 'Perantara Ansor') ? Math.max(0, Math.round(profit * 0.10)) : 0;
+
+  const tx = {
+    id: editingTransactionId || Date.now(),
+    type: 'sale',
+    date: dateVal,
+    buyer,
+    category,
+    items,
+    totalCost,
+    totalSell,
+    profit,
+    commission
+  };
+
+  if(editingTransactionId) {
+    const idx = db.transactions.findIndex(x => x.id === editingTransactionId);
+    if(idx >= 0) db.transactions[idx] = tx;
+    editingTransactionId = null;
+    toast('Transaksi diperbarui');
+  } else {
+    db.transactions.unshift(tx);
+    toast('Transaksi berhasil disimpan');
+  }
+
+  await save();
+  resetTransactionForms();
+  updateDashboard();
+  renderHistory();
+  showPage('history');
+}
+
+function toggleTransactionType(mode) {
+  const select = document.getElementById('transactionType');
+  if (mode) select.value = mode;
+  const isExpense = select?.value === 'expense';
+  document.getElementById('salesTransactionForm')?.classList.toggle('hidden', isExpense);
+  document.getElementById('expenseTransactionForm')?.classList.toggle('hidden', !isExpense);
+
+  if (isExpense) {
+    const ed = document.getElementById('ed');
+    if (ed && !ed.value) ed.value = today();
+    tampilkanHariTanggalPengeluaran();
+    if (!document.querySelector('#expenseItems .expense-item')) tambahItemPengeluaran();
+  }
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function tampilkanHariTanggalPengeluaran() {
+  const input = document.getElementById('ed');
+  const display = document.getElementById('edDisplay');
+  if(input && display) display.textContent = input.value ? formatDate(input.value) : '';
+}
+
+function tambahItemPengeluaran(data = {}) {
+  const container = document.getElementById('expenseItems');
+  if(!container) return;
+  const row = document.createElement('div');
+  row.className = 'tx-item expense-item';
+  row.innerHTML = `
+    <div class="tx-item-grid">
+      <label class="text-xs font-bold text-[#0F3822] full">Produk
+        <input class="expense-product border rounded-xl px-3 py-2 mt-1 w-full text-xs" placeholder="Nama barang" value="${esc(data.item || '')}" onkeydown="handleExpenseItemEnter(event, this)" required>
+      </label>
+      <label class="text-xs font-bold text-[#0F3822]">Jumlah
+        <input class="expense-qty border rounded-xl px-3 py-2 mt-1 w-full text-xs" type="number" min="1" placeholder="Jumlah" value="${data.qty || ''}" oninput="updateExpenseSummary()" onkeydown="handleExpenseItemEnter(event, this)" required>
+      </label>
+      <label class="text-xs font-bold text-[#0F3822]">Harga Satuan (Rp)
+        <input class="expense-price border rounded-xl px-3 py-2 mt-1 w-full text-xs" inputmode="numeric" placeholder="Harga Satuan" value="${data.price ? rupiah(data.price) : ''}" oninput="formatRupiahInput(this); updateExpenseSummary()" onkeydown="handleExpensePriceEnter(event, this)" required>
+      </label>
+      <div class="full bg-[#f8fcf8] border border-[#e1efe3] rounded-xl px-3 py-2 flex justify-between items-center">
+        <span class="text-xs font-bold text-[#66816b]">Total Barang</span>
+        <b class="expense-line-total text-xs font-extrabold text-[#0F3822]">${rupiah((Number(data.qty)||0) * (Number(data.price)||0))}</b>
+      </div>
+      <div class="full grid grid-cols-2 gap-2 mt-1">
+        <button type="button" class="bg-[#e9f6eb] text-[#438f4f] rounded-xl py-2 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 active:opacity-80 transition-transform" onclick="hapusItemPengeluaran(this)">
+          <i data-lucide="trash-2" class="w-4 h-4"></i><span>Hapus</span>
+        </button>
+        <button type="button" class="bg-[#dff5e2] text-[#438f4f] rounded-xl py-2 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 active:opacity-80 transition-transform" onclick="tambahItemPengeluaran()">
+          <i data-lucide="plus" class="w-4 h-4"></i><span>Tambah</span>
+        </button>
+      </div>
+    </div>
+  `;
+  container.appendChild(row);
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+  updateExpenseSummary();
+}
+
+function hapusItemPengeluaran(btn) {
+  const rows = document.querySelectorAll('#expenseItems .expense-item');
+  if (rows.length > 1) {
+    const row = btn.closest('.expense-item');
+    if (!row) return;
+    nusaShowDeleteDialog('transactionItem', null, { row, mode: 'purchase' });
+  } else {
+    toast('Pengeluaran minimal berisi 1 barang');
+  }
+}
+
+function updateExpenseSummary() {
+  let total = 0;
+  document.querySelectorAll('#expenseItems .expense-item').forEach(row => {
+    const qty = Number(row.querySelector('.expense-qty')?.value) || 0;
+    const price = angkaRupiah(row.querySelector('.expense-price')?.value || '');
+    const lineTotal = qty * price;
+    total += lineTotal;
+    const lineEl = row.querySelector('.expense-line-total');
+    if (lineEl) lineEl.textContent = rupiah(lineTotal);
+  });
+  const el = document.getElementById('expenseTotal');
+  if (el) el.textContent = rupiah(total);
+  return total;
+}
+
+function handleExpensePriceEnter(e, currentEl) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    currentEl.blur();
+  }
+}
+
+function handleExpenseItemEnter(e, currentEl) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    currentEl.blur();
+    const form = document.getElementById('expenseTransactionForm');
+    const focusables = form ? Array.from(form.querySelectorAll('input, textarea')).filter(el => !el.disabled && el.offsetParent !== null) : [];
+    const idx = focusables.indexOf(currentEl);
+    if (idx > -1 && idx < focusables.length - 1) {
+      focusables[idx + 1].focus();
+      focusables[idx + 1].scrollIntoView({behavior:'smooth', block:'center'});
+    } else {
+      tambahItemPengeluaran();
+    }
+  }
+}
+
+function getExpenseItems() {
+  return [...document.querySelectorAll('#expenseItems .expense-item')].map(row => ({
+    item: row.querySelector('.expense-product')?.value.trim() || '',
+    qty: Number(row.querySelector('.expense-qty')?.value) || 0,
+    price: angkaRupiah(row.querySelector('.expense-price')?.value || '')
+  })).filter(x => x.item);
+}
+
+async function saveExpenseTx(e) {
+  e.preventDefault();
+  const dateVal = document.getElementById('ed')?.value || today();
+  const purpose = document.getElementById('ep')?.value.trim() || '';
+  const items = getExpenseItems();
+
+  if (!purpose || !items.length || items.some(x => x.qty <= 0 || x.price < 0)) {
+    return toast('Lengkapi keperluan, produk, jumlah, dan harga satuan');
+  }
+
+  const totalExpense = items.reduce((sum, x) => sum + (x.qty * x.price), 0);
+  if (totalExpense <= 0) return toast('Total pengeluaran harus lebih dari Rp0');
+
+  const tx = {
+    id: editingTransactionId || Date.now(),
+    type: 'expense',
+    transactionType: 'Pengeluaran',
+    date: dateVal,
+    purpose,
+    buyer: '',
+    category: '',
+    items,
+    totalCost: totalExpense,
+    totalSell: 0,
+    profit: -totalExpense,
+    commission: 0
+  };
+
+  if (editingTransactionId) {
+    const idx = db.transactions.findIndex(x => x.id === editingTransactionId);
+    if (idx >= 0) db.transactions[idx] = tx;
+    editingTransactionId = null;
+    transactionEditReturnPage = null;
+    toast('Pengeluaran diperbarui');
+  } else {
+    db.transactions.unshift(tx);
+    toast('Pengeluaran berhasil disimpan');
+  }
+
+  await save();
+  resetTransactionForms();
+  updateDashboard();
+  renderHistory();
+  showPage('history');
+}
+
+function resetTransactionForms() {
+  editingTransactionId = null;
+  transactionEditReturnPage = null;
+  const salesForm = document.getElementById('salesTransactionForm');
+  const expenseForm = document.getElementById('expenseTransactionForm');
+  salesForm?.reset();
+  expenseForm?.reset();
+  document.getElementById('txItems').innerHTML = '';
+  document.getElementById('expenseItems').innerHTML = '';
+  tambahItemTransaksi();
+  tambahItemPengeluaran();
+  document.getElementById('transactionType').value = 'sale';
+  toggleTransactionType('sale');
+  document.getElementById('td').value = today();
+  tampilkanHariTanggal();
+  document.getElementById('ed').value = today();
+  tampilkanHariTanggalPengeluaran();
+  updateTransactionSummary();
+  updateExpenseSummary();
+}
+
+function cancelExpenseTx() {
+  // Saat mengedit dari Laporan, Batal kembali ke daftar Transaksi pembeli.
+  // Saat input pembelian baru, tetap di halaman Transaksi.
+  const returnPage = transactionEditReturnPage || 'transaction';
+  resetTransactionForms();
+  showPage(returnPage);
+}
+
+function getTransactionExpenseAmount(t) {
+  const isExpense = t.type === 'expense' || t.transactionType === 'Pengeluaran';
+  if (isExpense) return Number(t.totalCost) || 0;
+  return (Array.isArray(t.items) ? t.items : []).reduce((sum, item) => {
+    const modalType = item.modalType || 'Non NUsa Percetakan';
+    return sum + (modalType === 'Non NUsa Percetakan' ? (Number(item.cost) || 0) * (Number(item.qty) || 0) : 0);
+  }, 0);
+}
+
+function updateDashboard() {
+  const all = db.transactions;
+  const inn = all.reduce((s, t) => s + (t.type === 'expense' ? 0 : (Number(t.totalSell) || 0)), 0);
+  const out = all.reduce((s, t) => s + getTransactionExpenseAmount(t), 0);
+  const prof = inn - out;
+  const comm = all.reduce((s, t) => s + (Number(t.commission) || 0), 0);
+
+  document.getElementById('todayIn').textContent = rupiah(inn);
+  document.getElementById('todayOut').textContent = rupiah(out);
+  document.getElementById('todayProfit').textContent = rupiah(prof);
+  document.getElementById('allProfit').textContent = rupiah(comm);
+}
+
+/* Riwayat Functions */
+function handleHistorySearchSubmit(e) {
+  e.preventDefault();
+  const input = document.getElementById('historySearch');
+  if (input) input.blur();
+  renderHistory();
+}
+
+function handleHistorySearchKeyDown(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const input = document.getElementById('historySearch');
+    if (input) input.blur();
+    renderHistory();
+  } else if (e.key === 'Escape') {
+    closeHistorySearch();
+  }
+}
+
+function closeHistorySearch(pushState = true) {
+  const box = document.getElementById('historySearchBox');
+  if(box && !box.classList.contains('hidden')) {
+    box.classList.add('hidden');
+    const input = document.getElementById('historySearch');
+    if(input) input.value = '';
+    renderHistory();
+    if (pushState) pushPageState('history', false);
+  }
+}
+
+function toggleHistorySearch() {
+  const box = document.getElementById('historySearchBox');
+  if(box) {
+    if(box.classList.contains('hidden')) {
+      box.classList.remove('hidden');
+      const input = document.getElementById('historySearch');
+      if(input) input.focus();
+      pushPageState('history', true);
+    } else {
+      closeHistorySearch();
+    }
+  }
+}
+
+function getFilteredTransactions() {
+  const q = (document.getElementById('historySearch')?.value || '').trim().toLowerCase();
+  const category = document.getElementById('historyCategoryFilterFinal')?.value || 'Semua';
+  const txType = document.getElementById('historyTransactionTypeFilter')?.value || 'all';
+  const mode = document.getElementById('historyPeriodModeFinal')?.value || 'semua';
+
+  return db.transactions.filter(t => {
+    const isExpense = t.type === 'expense' || t.transactionType === 'Pengeluaran';
+    if (txType === 'expense' && !isExpense) return false;
+    if (txType === 'sale' && isExpense) return false;
+    const searchText = isExpense
+      ? String(t.purpose || '').toLowerCase()
+      : String(t.buyer || '').toLowerCase();
+    if(q && !searchText.includes(q)) return false;
+    if(category !== 'Semua' && t.category !== category) return false;
+    if(mode === 'periode') {
+      const start = document.getElementById('historyStartDateFinal')?.value;
+      const end = document.getElementById('historyEndDateFinal')?.value;
+      if(start && t.date < start) return false;
+      if(end && t.date > end) return false;
+    }
+    return true;
+  });
+}
+
+function formatDateShort(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T12:00:00');
+  if (isNaN(d.getTime())) return dateStr;
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+function setHistoryTransactionTypeFilter(value) {
+  const select = document.getElementById('historyTransactionTypeFilter');
+  if (select) select.value = value || 'all';
+  renderHistory();
+}
+
+function renderHistory() {
+  const arr = getFilteredTransactions().sort((a, b) => {
+    const dateCompare = String(b.date || '').localeCompare(String(a.date || ''));
+    if (dateCompare !== 0) return dateCompare;
+    return (Number(b.id) || 0) - (Number(a.id) || 0);
+  });
+
+  const inn = arr.reduce((s, t) => s + ((t.type === 'expense' || t.transactionType === 'Pengeluaran') ? 0 : (Number(t.totalSell) || 0)), 0);
+  const out = arr.reduce((s, t) => s + getTransactionExpenseAmount(t), 0);
+  const prof = inn - out;
+  const comm = arr.reduce((s, t) => s + (Number(t.commission) || 0), 0);
+
+  document.getElementById('hin').textContent = rupiah(inn);
+  document.getElementById('hout').textContent = rupiah(out);
+  document.getElementById('hprofit').textContent = rupiah(prof);
+  document.getElementById('hgpansor').textContent = rupiah(comm);
+  document.getElementById('txCount').textContent = arr.length + ' Transaksi';
+
+  const catVal = document.getElementById('historyCategoryFilterFinal')?.value || 'Semua';
+  const modeVal = document.getElementById('historyPeriodModeFinal')?.value || 'semua';
+  let periodText = 'Semua Periode';
+  if (modeVal === 'periode') {
+    const startVal = document.getElementById('historyStartDateFinal')?.value;
+    const endVal = document.getElementById('historyEndDateFinal')?.value;
+    const startFormatted = startVal ? formatDateShort(startVal) : '...';
+    const endFormatted = endVal ? formatDateShort(endVal) : '...';
+    periodText = `${startFormatted} s.d. ${endFormatted}`;
+  }
+  const filterTitleEl = document.getElementById('filterTitle');
+  if (filterTitleEl) filterTitleEl.textContent = `${catVal} | ${periodText}`;
+
+  const list = document.getElementById('historyList');
+  if(!list) return;
+
+  list.innerHTML = arr.length ? arr.map(t => {
+    const isExpense = t.type === 'expense' || t.transactionType === 'Pengeluaran';
+    const total = Number(t.totalCost) || 0;
+    const title = isExpense ? '🛒 Pembelian' : esc(t.buyer || 'Tanpa Nama');
+    const subtitle = isExpense ? esc(t.purpose || 'Tanpa keperluan') : `${formatDate(t.date)} · ${esc(t.category || '')}`;
+    const itemsHtml = t.items && t.items.length ? t.items.map(i => {
+      const qty = Number(i.qty) || 0;
+      const unitPrice = isExpense ? (Number(i.price) || 0) : (Number(i.price) || 0);
+      const lineTotal = isExpense ? qty * unitPrice : qty * unitPrice;
+      return `
+        <div class="flex justify-between items-center text-[11px] py-0.5 border-b border-dashed border-[#e1efe3] last:border-0">
+          <span class="text-[#193022] font-medium">${esc(i.item)} <span class="text-[#66816b] text-[10px]">(${qty}${i.unit ? ' ' + esc(i.unit) : ''})</span></span>
+          <div class="text-right">
+            <span class="text-[10px] text-[#66816b] mr-2">Satuan: ${rupiah(unitPrice)}</span>
+            <span class="font-bold text-[#0F3822]">${rupiah(lineTotal)}</span>
+          </div>
+        </div>`;
+    }).join('') : '<div class="text-[10px] text-gray-400">Tidak ada rincian produk</div>';
+
+    return `
+    <div class="tx-history-card space-y-2">
+      <div class="flex justify-between items-start gap-2">
+        <div>
+          <b class="text-xs ${isExpense ? 'text-[#438f4f]' : 'text-[#0F3822]'}">${title}</b>
+          <div class="text-[10px] text-[#66816b]">${formatDate(t.date)}${isExpense ? '' : ' · ' + esc(t.category || '')}</div>
+          ${isExpense ? `<div class="text-[10px] text-[#193022] font-semibold mt-0.5">${subtitle}</div>` : ''}
+        </div>
+        <div class="text-right">
+          <div class="text-[9px] text-[#66816b] font-bold uppercase">${isExpense ? 'Total Pembelian' : 'Total Bayar'}</div>
+          <div class="text-xs font-extrabold text-[#438f4f]">${rupiah(isExpense ? total : (Number(t.totalSell) || 0))}</div>
+        </div>
+      </div>
+
+      <div class="bg-[#f8fcf8] rounded-xl p-2.5 border border-[#e1efe3] space-y-1">
+        <div class="text-[9px] font-extrabold text-[#527b59] uppercase tracking-wider">Rincian ${isExpense ? 'Barang' : 'Produk'}:</div>
+        ${itemsHtml}
+      </div>
+
+      ${isExpense ? `
+      <div class="tx-history-grid-3">
+        <div><div class="tx-history-label">Total Pembelian</div><div class="tx-history-value">${rupiah(total)}</div></div>
+        <div><div class="tx-history-label">Jenis</div><div class="tx-history-value">Pembelian</div></div>
+        <div><div class="tx-history-label">Komisi</div><div class="tx-history-value">${rupiah(0)}</div></div>
+      </div>` : `
+      <div class="tx-history-grid-3">
+        <div><div class="tx-history-label">Modal Total</div><div class="tx-history-value">${rupiah(t.totalCost)}</div></div>
+        <div><div class="tx-history-label">Laba Bersih</div><div class="tx-history-value">${rupiah(t.profit)}</div></div>
+        <div><div class="tx-history-label">Komisi</div><div class="tx-history-value text-[#276e38]">${rupiah(t.commission || 0)}</div></div>
+      </div>`}
+
+      <div class="pt-1 flex gap-2">
+        <button onclick="lihatNota(${t.id})" class="text-[10px] text-[#0F3822] font-bold bg-[#dff5e2] px-2.5 py-1.5 rounded-lg flex items-center gap-1 active:scale-95 active:opacity-80 transition-transform">
+          <i data-lucide="receipt" class="w-3.5 h-3.5"></i>Lihat ${isExpense ? 'Detail' : 'Nota'}
+        </button>
+        <button onclick="editTx(${t.id})" class="text-[10px] text-[#438f4f] font-bold bg-[#e8f7ea] px-2.5 py-1.5 rounded-lg flex items-center gap-1 active:scale-95 active:opacity-80 transition-transform">
+          <i data-lucide="pencil" class="w-3.5 h-3.5"></i>Edit
+        </button>
+        <button type="button" onclick="deleteTx(${t.id})" type="button" class="text-[10px] text-[#4b9254] font-bold bg-[#e9f6eb] px-2.5 py-1.5 rounded-lg flex items-center gap-1 active:scale-95 active:opacity-80 transition-transform">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>Hapus
+        </button>
+      </div>
+    </div>`;
+  }).join('') : '<div class="text-center text-xs text-gray-500 py-6">Tidak ada transaksi ditemukan.</div>';
+
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+/* Modal Functions untuk Lihat Nota, Laporan Transaksi, dan LAPORAN KOMISI */
+function lihatNota(id) {
+  const t = db.transactions.find(x => x.id === id);
+  if(!t) return;
+  const isExpense = t.type === 'expense' || t.transactionType === 'Pengeluaran';
+  currentModalMode = 'nota';
+  document.getElementById('modalNotaTitle').textContent = isExpense ? 'Detail Pembelian' : 'Nota Pembayaran Digital';
+  document.getElementById('lblDownloadOption').textContent = 'Unduh';
+
+  let html = `
+    <div class="text-center pb-3 mb-2 border-b border-gray-200">
+      <h4 class="font-extrabold text-sm text-[#0F3822]">NUsa Percetakan</h4>
+      <p class="text-[10px] text-gray-500">${isExpense ? 'Detail Transaksi Pembelian' : 'Nota Transaksi Pengadaan & Cetak'}</p>
+    </div>
+    <div class="pb-2 mb-2 text-gray-700">
+      <div class="flex justify-between"><span>Jenis Transaksi:</span><b class="text-[#0F3822]">${isExpense ? '🛒 Pembelian' : '🛒 Penjualan'}</b></div>
+      ${isExpense
+        ? `<div class="flex justify-between gap-3"><span>Keperluan:</span><b class="text-[#0F3822] text-right">${esc(t.purpose || '')}</b></div>`
+        : `<div class="flex justify-between"><span>Nama Pembeli:</span><b class="text-[#0F3822]">${esc(t.buyer)}</b></div>
+           <div class="flex justify-between"><span>Kategori:</span><b>${esc(t.category)}</b></div>`}
+      <div class="flex justify-between"><span>Tanggal:</span><span>${formatDate(t.date)}</span></div>
+    </div>
+    <div class="space-y-1.5 pb-2 mb-2">
+      <div class="font-bold text-gray-500 text-[10px] uppercase">Rincian ${isExpense ? 'Barang' : 'Item'}:</div>
+      ${t.items.map(i => `
+        <div class="flex justify-between items-center text-xs py-1 border-b border-dashed border-gray-100 last:border-0">
+          <div>
+            <div class="font-semibold text-gray-800">${esc(i.item)}</div>
+            <div class="text-[10px] text-gray-400">${i.qty}${i.unit ? ' ' + esc(i.unit) : ''} x ${rupiah(i.price)}</div>
+          </div>
+          <b class="text-[#0F3822]">${rupiah((Number(i.qty)||0) * (Number(i.price)||0))}</b>
+        </div>
+      `).join('')}
+    </div>
+    <div class="pt-2 border-t border-gray-200 space-y-1.5">
+      <div class="flex justify-between font-extrabold text-sm text-[#0F3822]">
+        <span>${isExpense ? 'Total Pembelian' : 'Total Bayar'}</span>
+        <span class="text-[#438f4f]">${rupiah(isExpense ? t.totalCost : t.totalSell)}</span>
+      </div>
+      ${!isExpense ? `<div class="flex justify-between text-xs text-gray-700 pt-1.5 border-t border-dashed border-gray-200">
+        <span>Komisi</span><b class="text-[#0F3822]">${rupiah(t.commission || 0)}</b>
+      </div>` : ''}
+    </div>
+  `;
+  document.getElementById('modalNotaContent').innerHTML = html;
+  document.getElementById('modalNota').classList.remove('hidden');
+  document.documentElement.classList.add('preview-page-scroll-locked');
+  document.body.classList.add('preview-page-scroll-locked');
+  document.getElementById('btnCloseModalNotaTop')?.classList.add('hidden');
+  document.querySelector('.nav')?.classList.add('preview-hidden');
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function getDownloadDateText() {
+  const now = new Date();
+  const hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][now.getDay()];
+  const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'][now.getMonth()];
+  const pad = n => String(n).padStart(2, '0');
+  return `${hari}, ${pad(now.getDate())} ${bulan} ${now.getFullYear()} - ${pad(now.getHours())}:${pad(now.getMinutes())} WIB`;
+}
+
+function openHistoryNotaPreview() {
+  const arr = getFilteredTransactions().slice().sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
+  currentModalMode = 'laporan';
+  document.getElementById('modalNota')?.classList.add('preview-no-x');
+  document.getElementById('modalNotaTitle').textContent = 'Laporan Transaksi';
+  document.getElementById('lblDownloadOption').textContent = 'Unduh';
+
+  const inn = arr.reduce((s, t) => s + ((t.type === 'expense' || t.transactionType === 'Pengeluaran') ? 0 : (Number(t.totalSell) || 0)), 0);
+  const out = arr.reduce((s, t) => s + getTransactionExpenseAmount(t), 0);
+  const prof = inn - out;
+  const comm = arr.reduce((s, t) => s + (Number(t.commission) || 0), 0);
+
+  let html = `
+    <div class="pdf-a4-container">
+      <div class="text-center border-b-2 border-[#0F3822] pb-3 mb-4">
+        <h2 class="font-black text-lg text-[#0F3822] uppercase tracking-wider">NUsa Percetakan</h2>
+        <p class="font-bold text-xs text-[#438f4f] uppercase">Laporan Transaksi</p>
+        <p data-download-date class="text-[10px] text-gray-500 mt-0.5">Diunduh pada: ${getDownloadDateText()}</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="pdf-table">
+          <thead>
+            <tr>
+              <th style="width: 28px; text-align: center;">No</th>
+              <th>Tanggal</th>
+              <th>Jenis Transaksi</th>
+              <th>Keperluan / Pembeli</th>
+              <th>Daftar Barang / Produk</th>
+              <th style="text-align: right;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${arr.length ? arr.map((t, idx) => {
+              const isExpense = t.type === 'expense' || t.transactionType === 'Pengeluaran';
+              const detail = isExpense
+                ? esc(t.purpose || '')
+                : `${esc(t.buyer || '')} (${esc(t.category || '')})`;
+              const prodText = (t.items || []).map(i =>
+                `${esc(i.item)} (${Number(i.qty)||0}${i.unit ? ' ' + esc(i.unit) : ''} @ ${rupiah(i.price)}) = ${rupiah((Number(i.qty)||0)*(Number(i.price)||0))}`
+              ).join('<br>');
+              const total = isExpense ? (Number(t.totalCost)||0) : (Number(t.totalSell)||0);
+              return `
+                <tr>
+                  <td style="text-align:center;font-weight:bold;">${idx + 1}</td>
+                  <td style="white-space:nowrap;">${formatDate(t.date)}</td>
+                  <td><span class="inline-block px-1.5 py-0.5 text-[9px] font-bold rounded ${isExpense ? 'bg-[#e8f7ea]' : 'bg-gray-100'}">${isExpense ? '🛒 Pembelian' : '🛒 Penjualan'}</span></td>
+                  <td>${detail}</td>
+                  <td>${prodText || '-'}</td>
+                  <td style="text-align:right;font-weight:bold;color:#438f4f;">${rupiah(total)}</td>
+                </tr>`;
+            }).join('') : `<tr><td colspan="6" style="text-align:center;padding:12px;color:#888;">Tidak ada data transaksi</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4 pt-3 border-t-2 border-gray-200">
+        <div class="bg-[#e8f7ea] border border-[#b7e4bc] rounded-xl p-3 space-y-1.5 text-xs">
+          <div class="flex justify-between"><span>Total Pemasukan:</span><b class="text-[#438f4f]">${rupiah(inn)}</b></div>
+          <div class="flex justify-between"><span>Total Pengeluaran:</span><b>${rupiah(out)}</b></div>
+          <div class="flex justify-between"><span>Laba Bersih:</span><b class="text-[#438f4f]">${rupiah(prof)}</b></div>
+          <div class="flex justify-between"><span>Total Komisi:</span><b>${rupiah(comm)}</b></div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modalNotaContent').innerHTML = html;
+  document.getElementById('modalNota').classList.remove('hidden');
+  document.documentElement.classList.add('preview-page-scroll-locked');
+  document.body.classList.add('preview-page-scroll-locked');
+  document.getElementById('btnCloseModalNotaTop')?.classList.add('hidden');
+  document.querySelector('.nav')?.classList.add('preview-hidden');
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function openLaporanKomisiPreview() {
+  const arr = getFilteredTransactions().slice().sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
+  currentModalMode = 'komisi';
+  document.getElementById('modalNota')?.classList.add('preview-no-x');
+  document.getElementById('modalNotaTitle').textContent = 'Laporan Komisi Penjualan';
+  document.getElementById('lblDownloadOption').textContent = 'Unduh';
+
+  const komisiTx = arr.filter(t => t.category === 'Ansor' || t.category === 'Perantara Ansor');
+
+  let komisiAnsor = 0;
+  let komisiPerantara = 0;
+
+  arr.forEach(t => {
+    const comm = Number(t.commission) || 0;
+    if (t.category === 'Ansor') komisiAnsor += comm;
+    else if (t.category === 'Perantara Ansor') komisiPerantara += comm;
+  });
+
+  const totalKomisiSemua = komisiAnsor + komisiPerantara;
+
+  let html = `
+    <div class="pdf-a4-container">
+      <div class="text-center border-b-2 border-[#0F3822] pb-3 mb-4">
+        <h2 class="font-black text-lg text-[#0F3822] uppercase tracking-wider">NUsa Percetakan</h2>
+        <p class="font-bold text-xs text-[#438f4f] uppercase">Laporan Komisi Penjualan</p>
+        <p data-download-date class="text-[10px] text-gray-500 mt-0.5">Diunduh pada: ${getDownloadDateText()}</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="pdf-table">
+          <thead>
+            <tr>
+              <th style="width: 28px; text-align: center;">No</th>
+              <th>Tanggal</th>
+              <th>Nama Pembeli</th>
+              <th>Kategori</th>
+              <th>Rincian Produk</th>
+              <th style="text-align: right;">Total Bayar</th>
+              <th style="text-align: right;">Komisi</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${komisiTx.length ? komisiTx.map((t, idx) => {
+              const prodText = t.items.map(i => `${esc(i.item)} (${i.qty} ${esc(i.unit||'pcs')} @ ${rupiah(i.price)})`).join(', ');
+              return `
+                <tr>
+                  <td style="text-align: center; font-weight: bold;">${idx + 1}</td>
+                  <td style="white-space: nowrap;">${formatDate(t.date)}</td>
+                  <td style="font-weight: bold;">${esc(t.buyer)}</td>
+                  <td><span class="inline-block px-1.5 py-0.5 text-[9px] font-bold rounded bg-gray-100">${esc(t.category)}</span></td>
+                  <td>${prodText}</td>
+                  <td style="text-align: right; font-weight: bold;">${rupiah(t.totalSell)}</td>
+                  <td style="text-align: right; font-weight: bold; color: #0F3822;">${rupiah(t.commission || 0)}</td>
+                </tr>
+              `;
+            }).join('') : `<tr><td colspan="7" style="text-align: center; padding: 12px; color: #888;">Tidak ada data komisi ditemukan</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4 pt-3 border-t-2 border-gray-200">
+        <h4 class="font-extrabold text-xs text-[#0F3822] uppercase mb-2">Ringkasan Laporan Komisi</h4>
+        <div class="bg-[#f5fbf5] border border-[#b7e4bc] rounded-xl p-3 space-y-1.5 text-xs">
+          <div class="flex justify-between"><span>1. Total Komisi Kategori Ansor:</span><b class="text-[#0F3822]">${rupiah(komisiAnsor)}</b></div>
+          <div class="flex justify-between"><span>2. Total Komisi Perantara Ansor:</span><b class="text-[#0F3822]">${rupiah(komisiPerantara)}</b></div>
+          <div class="flex justify-between border-t border-[#cfe4d2] pt-1.5 text-sm font-extrabold text-[#0F3822]">
+            <span>Total Seluruh Komisi:</span>
+            <span class="text-[#438f4f]">${rupiah(totalKomisiSemua)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('modalNotaContent').innerHTML = html;
+  document.getElementById('modalNota').classList.remove('hidden');
+  document.documentElement.classList.add('preview-page-scroll-locked');
+  document.body.classList.add('preview-page-scroll-locked');
+  document.getElementById('btnCloseModalNotaTop')?.classList.add('hidden');
+  document.querySelector('.nav')?.classList.add('preview-hidden');
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function closeModalNota() {
+  document.getElementById('modalNota').classList.add('hidden');
+  document.getElementById('modalNota')?.classList.remove('preview-no-x');
+  document.querySelector('.nav')?.classList.remove('preview-hidden');
+  document.documentElement.classList.remove('preview-page-scroll-locked');
+  document.body.classList.remove('preview-page-scroll-locked');
+}
+
+function downloadNotaImage() {
+  if (currentModalMode === 'komisi' || currentModalMode === 'laporan') {
+    downloadLaporanPDF();
+    return;
+  }
+
+  const el = document.getElementById('modalNotaCaptureArea');
+  if(typeof html2canvas !== 'undefined' && el) {
+    html2canvas(el).then(canvas => {
+      const link = document.createElement('a');
+      link.download = `Nota-NUsa-Percetakan-${today()}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      toast('Gambar nota berhasil diunduh');
+    }).catch(() => toast('Gagal mengunduh gambar nota'));
+  } else {
+    toast('Fungsi pengunduhan gambar tidak tersedia');
+  }
+}
+
+function downloadLaporanPDF() {
+  const el = document.querySelector('#modalNotaContent .pdf-a4-container');
+  if (!el) return toast('Gagal memproses dokumen');
+  const downloadStamp = el.querySelector('[data-download-date]');
+  if (downloadStamp) downloadStamp.textContent = 'Diunduh pada: ' + getDownloadDateText();
+  toast('Menyiapkan file PDF A4...');
+
+  const opt = {
+    margin: [8, 8, 8, 8],
+    filename: `${currentModalMode === 'komisi' ? 'Laporan-Komisi' : 'Laporan-Transaksi'}-NUsa-Percetakan-${today()}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  if (typeof html2pdf !== 'undefined') {
+    html2pdf().set(opt).from(el).save().then(() => {
+      toast('Laporan PDF berhasil diunduh!');
+    }).catch(() => {
+      toast('Gagal mengunduh PDF');
+    });
+  } else {
+    window.print();
+  }
+}
+
+async function shareNota() {
+  const el = document.getElementById('modalNotaCaptureArea');
+  if(!el) return;
+  toast('Menyiapkan berkas...');
+  
+  if (currentModalMode === 'komisi' || currentModalMode === 'laporan') {
+    sharePDFDocument();
+    return;
+  }
+
+  try {
+    if (typeof html2canvas !== 'undefined') {
+      const canvas = await html2canvas(el);
+      canvas.toBlob(async (blob) => {
+        if (!blob) return fallbackShareText();
+        const file = new File([blob], 'Nota-NUsa-Percetakan.png', { type: 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: 'Nota NUsa Percetakan',
+              text: 'Berikut nota transaksi NUsa Percetakan'
+            });
+          } catch(err) {
+            if (err.name !== 'AbortError') fallbackShareText();
+          }
+        } else {
+          fallbackShareText();
+        }
+      }, 'image/png');
+    } else {
+      fallbackShareText();
+    }
+  } catch(e) {
+    fallbackShareText();
+  }
+}
+
+async function sharePDFDocument() {
+  const el = document.querySelector('#modalNotaContent .pdf-a4-container');
+  if (!el || typeof html2pdf === 'undefined') return fallbackShareText();
+
+  const fileName = `${currentModalMode === 'komisi' ? 'Laporan-Komisi' : 'Laporan-Transaksi'}-NUsa-Percetakan.pdf`;
+  const opt = {
+    margin: [8, 8, 8, 8],
+    filename: fileName,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  try {
+    const pdfBlob = await html2pdf().set(opt).from(el).output('blob');
+    const pdfFile = new File([pdfBlob], fileName, { type: 'application/pdf' });
+    
+    if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+      await navigator.share({
+        files: [pdfFile],
+        title: 'Laporan NUsa Percetakan PDF',
+        text: 'Berikut lampiran laporan PDF Keuangan NUsa Percetakan'
+      });
+    } else {
+      downloadLaporanPDF();
+    }
+  } catch (err) {
+    if (err.name !== 'AbortError') fallbackShareText();
+  }
+}
+
+function fallbackShareText() {
+  const text = document.getElementById('modalNotaContent')?.innerText || '';
+  try {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    toast('Rincian laporan berhasil disalin!');
+  } catch (err) {
+    toast('Gagal membagikan laporan');
+  }
+}
+
+function deleteTx(id) {
+  nusaShowDeleteDialog('transaction', id);
+}
+
+function editTx(id) {
+  const t = db.transactions.find(x => x.id === id);
+  if(!t) return;
+  editingTransactionId = id;
+  transactionEditReturnPage = 'history';
+
+  const isExpense = t.type === 'expense' || t.transactionType === 'Pengeluaran';
+  showPage('transaction', null);
+  const typeSelect = document.getElementById('transactionType');
+  if (typeSelect) typeSelect.value = isExpense ? 'expense' : 'sale';
+  toggleTransactionType(isExpense ? 'expense' : 'sale');
+
+  if (isExpense) {
+    document.getElementById('ed').value = t.date || today();
+    document.getElementById('ep').value = t.purpose || '';
+    tampilkanHariTanggalPengeluaran();
+    const container = document.getElementById('expenseItems');
+    container.innerHTML = '';
+    (t.items || []).forEach(x => tambahItemPengeluaran(x));
+    if (!container.children.length) tambahItemPengeluaran();
+    updateExpenseSummary();
+  } else {
+    document.getElementById('tb').value = t.buyer || '';
+    document.getElementById('tk').value = t.category || '';
+    document.getElementById('td').value = t.date || today();
+    tampilkanHariTanggal();
+    const container = document.getElementById('txItems');
+    container.innerHTML = '';
+    (t.items || []).forEach(x => tambahItemTransaksi(x));
+    if (!container.children.length) tambahItemTransaksi();
+    updateTransactionSummary();
+  }
+}
+
+function setHistoryCategoryFilterFinal(val) {
+  categoryFilter = val;
+  renderHistory();
+}
+
+function setHistoryPeriodModeFinal(val) {
+  const dates = document.getElementById('historyPeriodDatesFinal');
+  if(dates) dates.classList.toggle('hidden', val !== 'periode');
+  renderHistory();
+}
+
+function applyHistoryPeriodFinal() {
+  const dates = document.getElementById('historyPeriodDatesFinal');
+  if(dates) dates.classList.add('hidden');
+  renderHistory();
+}
+
+function resetHistoryPeriodFinal() {
+  document.getElementById('historyPeriodModeFinal').value = 'semua';
+  document.getElementById('historyPeriodDatesFinal').classList.add('hidden');
+  renderHistory();
+}
+
+/* Kalkulator Functions */
+let calcExpr = '';
+let calcCaret = 0;
+
+function calcShownValue() {
+  if (!calcExpr) return '0';
+  return calcExpr.replace(/\d+/g, function(match) {
+    return Number(match).toLocaleString('id-ID');
+  });
+}
+
+function calcRawIndexFromShownIndex(shownIndex) {
+  const shown = calcShownValue();
+  let raw = 0, shownPos = 0;
+
+  while (raw < calcExpr.length && shownPos < shownIndex) {
+    const ch = calcExpr[raw];
+    if (/\d/.test(ch)) {
+      const m = calcExpr.slice(raw).match(/^\d+/)[0];
+      const formatted = Number(m).toLocaleString('id-ID');
+      const take = Math.min(formatted.length, shownIndex - shownPos);
+      if (take < formatted.length) {
+        return raw + Math.min(m.length, take);
+      }
+      shownPos += formatted.length;
+      raw += m.length;
+    } else {
+      shownPos++;
+      raw++;
+    }
+  }
+  return raw;
+}
+
+function calcShownIndexFromRawIndex(rawIndex) {
+  const before = calcExpr.slice(0, rawIndex);
+  return before.replace(/\d+/g, function(match) {
+    return Number(match).toLocaleString('id-ID');
+  }).length;
+}
+
+function calcGetCaretRaw() {
+  const el = document.getElementById('calcText');
+  if (!el) return calcExpr.length;
+  return calcRawIndexFromShownIndex(el.selectionStart || 0);
+}
+
+function calcSetCaretRaw(rawIndex) {
+  const el = document.getElementById('calcText');
+  if (!el) return;
+  rawIndex = Math.max(0, Math.min(rawIndex, calcExpr.length));
+  const shownIndex = calcShownIndexFromRawIndex(rawIndex);
+  el.setSelectionRange(shownIndex, shownIndex);
+  // Jangan memfokuskan input saat tombol kalkulator ditekan.
+  // Di Android/WebView, focus() dapat memaksa viewport bergeser ke atas.
+  calcCaret = rawIndex;
+}
+
+function calcRestoreViewport(pos) {
+  if (!pos) return;
+  try {
+    window.scrollTo(pos.x, pos.y);
+    document.documentElement.scrollTop = pos.y;
+    document.body.scrollTop = pos.y;
+  } catch (_) {}
+  const main = document.getElementById('main');
+  if (main && typeof pos.mainTop === 'number') main.scrollTop = pos.mainTop;
+}
+
+function calcCaptureViewport() {
+  const main = document.getElementById('main');
+  return {
+    x: window.scrollX || 0,
+    y: window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0,
+    mainTop: main ? main.scrollTop : 0
+  };
+}
+
+function renderCalcDisplay(caretRaw = calcCaret) {
+  const el = document.getElementById('calcText');
+  if (!el) return;
+
+  // Jangan biarkan perubahan value/selection pada input memindahkan halaman.
+  // Fokus dan garis kursor tetap dipertahankan.
+  const viewport = calcCaptureViewport();
+  const wasFocused = document.activeElement === el;
+  const shown = calcShownValue();
+  el.value = shown;
+
+  const restore = () => {
+    const shownIndex = calcShownIndexFromRawIndex(caretRaw);
+    try {
+      if (wasFocused && document.activeElement !== el) el.focus({ preventScroll: true });
+      el.setSelectionRange(shownIndex, shownIndex);
+    } catch (_) {}
+    calcRestoreViewport(viewport);
+  };
+
+  // Android/WebView dapat melakukan auto-pan sedikit setelah selectionStart/End
+  // berubah. Kembalikan posisi pada beberapa frame tanpa menghilangkan caret.
+  restore();
+  requestAnimationFrame(restore);
+  requestAnimationFrame(() => requestAnimationFrame(restore));
+  setTimeout(restore, 0);
+  setTimeout(restore, 50);
+  setTimeout(restore, 150);
+}
+
+function calcInput(v) {
+  const pos = calcGetCaretRaw();
+
+  if (v === ',') {
+    const lastToken = calcExpr.split(/[+\-x÷%]/).pop();
+    if (lastToken.includes(',')) return;
+    if (!calcExpr || /[+\-x÷%]$/.test(calcExpr)) v = '0,';
+  }
+
+  calcExpr = calcExpr.slice(0, pos) + v + calcExpr.slice(pos);
+  calcCaret = pos + v.length;
+  renderCalcDisplay(calcCaret);
+}
+
+function calcClear() {
+  calcExpr = '';
+  calcCaret = 0;
+  renderCalcDisplay(0);
+}
+
+function calcBack() {
+  const pos = calcGetCaretRaw();
+  if (pos <= 0) return;
+
+  calcExpr = calcExpr.slice(0, pos - 1) + calcExpr.slice(pos);
+  calcCaret = pos - 1;
+  renderCalcDisplay(calcCaret);
+}
+
+function calcResult() {
+  try {
+    let expr = calcExpr.replace(/x/g, '*').replace(/÷/g, '/').replace(/,/g, '.').replace(/%/g, '/100');
+    let res = Function('"use strict";return (' + expr + ')')();
+
+    if (isNaN(res) || !isFinite(res)) throw new Error('Invalid');
+
+    let strRes = String(res).replace('.', ',');
+    const parts = strRes.split(',');
+    parts[0] = Number(parts[0]).toLocaleString('id-ID');
+
+    calcExpr = parts.join(',');
+    calcCaret = calcExpr.length;
+    renderCalcDisplay(calcCaret);
+  } catch(e) {
+    const el = document.getElementById('calcText');
+    if (el) el.value = 'Error';
+    calcExpr = '';
+    calcCaret = 0;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const el = document.getElementById('calcText');
+  if (!el) return;
+
+  el.setAttribute('inputmode', 'none');
+
+  // Tombol keypad tidak boleh mengambil fokus dari layar kalkulator.
+  // Di Android/WebView, fokus tombol + selectionRange pada input dapat memicu
+  // auto-pan/scroll. Untuk perangkat sentuh, batalkan default touch lalu
+  // jalankan click secara programatik agar onclick lama tetap bekerja.
+  document.querySelectorAll('#calculator .calc-keypad button').forEach(function(btn) {
+    btn.setAttribute('type', 'button');
+
+    btn.addEventListener('touchstart', function(e) {
+      if (e.touches && e.touches.length > 1) return;
+      const viewport = calcCaptureViewport();
+      e.preventDefault();
+      // Tampilkan kursor edit segera saat tombol angka/simbol ditekan,
+      // meskipun sebelumnya input belum pernah disentuh. preventScroll
+      // mencegah Android/WebView menggeser halaman saat input mendapat fokus.
+      try {
+        el.focus({ preventScroll: true });
+        const shownIndex = calcShownIndexFromRawIndex(calcCaret);
+        el.setSelectionRange(shownIndex, shownIndex);
+      } catch (_) {}
+      try { btn.click(); } catch (_) {}
+      requestAnimationFrame(function() {
+        try {
+          el.focus({ preventScroll: true });
+          const shownIndex = calcShownIndexFromRawIndex(calcCaret);
+          el.setSelectionRange(shownIndex, shownIndex);
+        } catch (_) {}
+        calcRestoreViewport(viewport);
+      });
+      setTimeout(function() {
+        calcRestoreViewport(viewport);
+      }, 0);
+    }, { passive: false });
+
+    // Jangan biarkan tombol keypad mengambil fokus dari layar kalkulator.
+    // Fokus input tetap dipertahankan agar garis kursor edit tetap terlihat.
+    btn.addEventListener('pointerdown', function(e) {
+      e.preventDefault();
+    });
+    btn.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+    });
+  });
+
+  el.addEventListener('click', function() {
+    calcCaret = calcGetCaretRaw();
+  });
+
+  el.addEventListener('keyup', function() {
+    calcCaret = calcGetCaretRaw();
+  });
+
+  el.addEventListener('keydown', function(e) {
+    if (e.key === 'Backspace') {
+      e.preventDefault();
+      calcBack();
+    } else if (e.key === 'Delete') {
+      e.preventDefault();
+      const pos = calcGetCaretRaw();
+      if (pos < calcExpr.length) {
+        calcExpr = calcExpr.slice(0, pos) + calcExpr.slice(pos + 1);
+        calcCaret = pos;
+        renderCalcDisplay(calcCaret);
+      }
+    } else if (e.key === 'Enter' || e.key === '=') {
+      e.preventDefault();
+      calcResult();
+    }
+  });
+});
+
+/* PENANGANAN KONTROL KEMBALI APLIKASI */
+
+window.onpopstate = function(event) {
+  // Jika login gagal, satu kali Back langsung keluar dari halaman aplikasi.
+  // Tanpa ini, dua state history (#home) membuat Back harus ditekan dua kali.
+  const authScreen = document.getElementById('authScreen');
+  if (authScreen && !authScreen.classList.contains('hidden')) {
+    // Saat logout, satu state Beranda lama dipop dan state saat ini
+    // dijadikan Login. Back berikutnya akan langsung meninggalkan aplikasi.
+    if (window.__resettingLogoutHistory) {
+      window.__resettingLogoutHistory = false;
+      nusaSetLoggedOutUI();
+      const u = document.getElementById('authUsername');
+      const pw = document.getElementById('authPassword');
+      if (u) u.value = '';
+      if (pw) pw.value = '';
+      history.replaceState({ page: 'login', loggedOut: true }, '', '#login');
+      return;
+    }
+    // Login biasa tetap mengikuti perilaku existing.
+    return;
+  }
+
+  // Pop yang berasal dari tombol Beranda: kita sudah sampai di entri dasar
+  // Beranda. Rapikan menjadi satu-satunya state agar Back berikutnya keluar.
+  if (window.__nusaGoingHome) {
+    window.__nusaGoingHome = false;
+    window.__nusaOnPushedPage = false;
+    showPage('home', null, false);
+    history.replaceState(
+      { page: 'home', searchOpen: false, homeGuard: true },
+      '',
+      '#home'
+    );
+    return;
+  }
+
+  const catalogSearchBox = document.getElementById('searchBox');
+  const historySearchBox = document.getElementById('historySearchBox');
+  const modalNota = document.getElementById('modalNota');
+
+  // Modal terbuka -> Back hanya menutup modal.
+  if (modalNota && !modalNota.classList.contains('hidden')) {
+    closeModalNota();
+    history.pushState({ page: currentPage, searchOpen: false }, '', '#' + currentPage);
+    return;
+  }
+
+  // Pencarian Katalog terbuka -> Back pertama hanya menutup pencarian.
+  // Jangan membuat history baru, agar Back berikutnya menuju Beranda.
+  if (currentPage === 'catalog' && catalogSearchBox && !catalogSearchBox.classList.contains('hidden')) {
+    closeCatalogSearch(false);
+    currentPage = 'catalog';
+    // Pastikan state setelah pencarian tertutup tetap berada di Katalog.
+    // Back berikutnya akan menuju Beranda.
+    history.replaceState(
+      { page: 'catalog', searchOpen: false },
+      '',
+      '#catalog'
+    );
+    // Kembalikan katalog ke posisi awal secara paksa setelah pencarian ditutup.
+    scrollToTopInstant();
+    requestAnimationFrame(() => {
+      scrollToTopInstant();
+      const main = document.getElementById('main');
+      if (main) main.scrollTop = 0;
+    });
+    setTimeout(() => {
+      scrollToTopInstant();
+      const main = document.getElementById('main');
+      if (main) main.scrollTop = 0;
+    }, 50);
+    return;
+  }
+
+  // Pencarian Riwayat terbuka -> Back pertama hanya menutup pencarian.
+  // Jangan membuat history baru, agar Back berikutnya menuju Beranda.
+  if (currentPage === 'history' && historySearchBox && !historySearchBox.classList.contains('hidden')) {
+    closeHistorySearch(false);
+    currentPage = 'history';
+    // Kembali dari pencarian harus menampilkan bagian paling atas Riwayat.
+    history.replaceState(
+      { page: 'history', searchOpen: false },
+      '',
+      '#history'
+    );
+    scrollToTopInstant();
+    requestAnimationFrame(scrollToTopInstant);
+    setTimeout(scrollToTopInstant, 50);
+    return;
+  }
+
+  // Dari menu selain Beranda -> kembali ke Beranda.
+  // State hasil pop juga diperiksa agar tetap aman setelah refresh.
+  const poppedPage = (event && event.state && event.state.page) || '';
+  if (currentPage !== 'home' || poppedPage === 'home') {
+    showPage('home', null, false);
+    // Entri halaman tadi sudah ter-pop; Beranda kembali menjadi satu-satunya state.
+    window.__nusaOnPushedPage = false;
+
+    // State yang baru saja ditinggalkan sudah ter-pop oleh Back.
+    // Cukup ubah state saat ini menjadi satu-satunya pengaman Beranda.
+    history.replaceState(
+      { page: 'home', searchOpen: false, homeGuard: true },
+      '',
+      '#home'
+    );
+
+    currentPage = 'home';
+    scrollToTopInstant();
+    return;
+  }
+
+  // SUDAH DI BERANDA -> langsung keluar aplikasi TANPA logout dan tanpa dialog.
+  // Sesi login tetap aktif; sesi hanya berakhir lewat tombol Keluar di header.
+  // Kembalikan state Beranda dulu agar Back berikutnya (jika tab tidak tertutup)
+  // kembali memicu keluar aplikasi.
+  history.replaceState(
+    { page: 'home', searchOpen: false, homeGuard: true },
+    '',
+    '#home'
+  );
+  // Tutup aplikasi (berfungsi saat dipasang sebagai PWA / tab dibuka skrip).
+  window.close();
+  return;
+};
+
+
+/* Helpers */
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]));
+}
+
+function formatDate(s) {
+  const d = new Date(s + 'T12:00:00');
+  if(isNaN(d.getTime())) return s;
+  return d.toLocaleDateString('id-ID', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function tampilkanHariTanggal() {
+  const input = document.getElementById('td');
+  const display = document.getElementById('tdDisplay');
+  if(input && display) {
+    display.textContent = input.value ? formatDate(input.value) : '';
+  }
+}
+
+// Inisialisasi awal saat halaman dimuat
+document.getElementById('td').value = today();
+tampilkanHariTanggal();
+document.getElementById('ed').value = today();
+tampilkanHariTanggalPengeluaran();
+tambahItemTransaksi();
+tambahItemPengeluaran();
+toggleTransactionType('sale');
+updateDashboard();
+
+if(typeof lucide !== 'undefined') lucide.createIcons();
+
+// Memastikan posisi langsung di atas tanpa scroll manual
+scrollToTopInstant();
+requestAnimationFrame(scrollToTopInstant);
+setTimeout(scrollToTopInstant, 50);
+
+nusaBootAuth()
+  .catch(err => console.warn('Auth boot:', err))
+  .finally(() => {
+  });
+
+/* Legacy Service Worker registration removed. Supabase is the data source. */
+</script>
+
+<script>
+(function(){
+  const btn=document.getElementById('togglePassword');
+  const input=document.getElementById('authPassword');
+  if(btn && input){
+    btn.addEventListener('click', function(){
+      const visible=input.type === 'text';
+      input.type=visible ? 'password' : 'text';
+      btn.innerHTML=visible ? '<i data-lucide="eye-off" class="w-5 h-5"></i>' : '<i data-lucide="eye" class="w-5 h-5"></i>';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      btn.setAttribute('aria-label', visible ? 'Tampilkan password' : 'Sembunyikan password');
+      btn.title=visible ? 'Tampilkan password' : 'Sembunyikan password';
+    });
+  }
+})();
+</script>
+
+<script>
+(function nusaLiveDateTime(){
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+  function update(){
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const ss = String(now.getSeconds()).padStart(2,'0');
+    const text = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()} • ${hh}:${mm}:${ss} WIB`;
+    const el = document.getElementById('nusaDateTimeText');
+    if (el) el.textContent = text;
+  }
+
+  update();
+  setInterval(update, 1000);
+})();
+</script>
+
+
+<script id="NUSA-DATETIME-HOME-ONLY">
+(function nusaDateTimeHomeOnly(){
+  function sync(){
+    const home = document.getElementById('home');
+    const active = !!home && !home.classList.contains('hidden');
+    document.body.classList.toggle('nusa-home-active', active);
+  }
+  sync();
+  const main = document.getElementById('main');
+  if (main) new MutationObserver(sync).observe(main, {subtree:true, attributes:true, attributeFilter:['class']});
+  document.addEventListener('click', () => setTimeout(sync, 0));
+})();
+</script>
+
+
+<script id="HOME-EXTRA-DASHBOARD-FIXED-SCRIPT">
+(function(){
+  const days = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+
+  function rupiah(n){ return 'Rp' + Number(n||0).toLocaleString('id-ID'); }
+
+  function getDb(){
+    try { return JSON.parse(localStorage.getItem('nusa_keuangan_v1') || '{"products":[],"transactions":[]}'); }
+    catch(e){ return {products:[],transactions:[]}; }
+  }
+
+  function dateOf(t){
+    const v=t && (t.date||t.tanggal||t.createdAt||t.created_at||t.datetime);
+    if(!v) return null;
+    const d=new Date(v);
+    return isNaN(d) ? null : d;
+  }
+
+  function num(t, keys){
+    for(const k of keys){
+      if(t && t[k]!==undefined && t[k]!==null && t[k]!==''){
+        const n=Number(String(t[k]).replace(/[^\d-]/g,''));
+        if(Number.isFinite(n)) return n;
+      }
+    }
+    return 0;
+  }
+
+  function profitOf(t){
+    const direct=num(t,['profit','laba','labaBersih','laba_bersih']);
+    if(direct) return direct;
+    return num(t,['totalJual','total_jual','pemasukan','income']) -
+           num(t,['totalModal','total_modal','modal','hpp','pengeluaran','expense']);
+  }
+
+  function renderChart(){
+    const el=document.getElementById('homeProfitChart'); if(!el) return;
+    const tx=getDb().transactions||[], now=new Date(), vals=[];
+    for(let i=6;i>=0;i--){
+      const d=new Date(now); d.setHours(0,0,0,0); d.setDate(d.getDate()-i);
+      const e=new Date(d); e.setDate(e.getDate()+1);
+      let v=0;
+      tx.forEach(t=>{const td=dateOf(t); if(td&&td>=d&&td<e)v+=profitOf(t);});
+      vals.push({l:days[d.getDay()],v});
+    }
+    const max=Math.max(1,...vals.map(x=>x.v)), w=320,h=105,p=12;
+    const pts=vals.map((x,i)=>[p+i*(w-2*p)/6,h-25-(Math.max(0,x.v)/max)*(h-45)]);
+    const line=pts.map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' ');
+    const area=line+' L '+pts[6][0]+' '+(h-p)+' L '+pts[0][0]+' '+(h-p)+' Z';
+    el.innerHTML='<svg viewBox="0 0 320 105" preserveAspectRatio="none">'+
+      '<path d="'+area+'" fill="rgba(184,238,98,.18)"></path>'+
+      '<path d="'+line+'" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>'+
+      pts.map(q=>'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="3.2" fill="#B8EE62" stroke="#2e7d32" stroke-width="2"></circle>').join('')+
+      vals.map((x,i)=>'<text x="'+pts[i][0]+'" y="101" text-anchor="middle" font-size="9" fill="#6b8172">'+x.l+'</text>').join('')+
+      '</svg>';
+  }
+
+  function renderActivity(){
+    const el=document.getElementById('homeTodayActivity'); if(!el) return;
+    const tx=getDb().transactions||[], n=new Date();
+    const rows=tx.filter(t=>{
+      const d=dateOf(t);
+      return d&&d.getFullYear()===n.getFullYear()&&d.getMonth()===n.getMonth()&&d.getDate()===n.getDate();
+    }).slice(-4).reverse();
+    if(!rows.length){
+      el.innerHTML='<div class="text-[11px] text-[#6b8172] py-2">Belum ada aktivitas hari ini.</div>';
+      return;
+    }
+    el.innerHTML=rows.map(t=>{
+      const name=t.namaProduk||t.produk||t.item||t.productName||t.nama||'Transaksi';
+      const value=num(t,['totalJual','total_jual','pemasukan','income','total']);
+      return '<div class="activity-row"><span class="activity-name">'+
+        String(name).replace(/[<>&"]/g,'')+'</span><span class="activity-value">'+rupiah(value)+'</span></div>';
+    }).join('');
+  }
+
+  function render(){
+    const home=document.getElementById('home');
+    if(!home||home.classList.contains('hidden')) return;
+    renderChart(); renderActivity();
+    if(window.lucide) lucide.createIcons();
+  }
+  window.renderHomeExtras=render;
+  setTimeout(render,300);
+  document.addEventListener('click',()=>setTimeout(render,100));
+  setInterval(render,5000);
+})();
+</script>
+
+
+<script id="NUSA-EXIT-APP-BRIDGE-FINAL">
+(function () {
+  window.nusaExitAppHost = function () {
+    try {
+      if (window.Android && typeof window.Android.closeApp === 'function') {
+        window.Android.closeApp();
+        return true;
+      }
+    } catch (_) {}
+    try {
+      if (window.webkit && window.webkit.messageHandlers &&
+          window.webkit.messageHandlers.closeApp) {
+        window.webkit.messageHandlers.closeApp.postMessage('close');
+        return true;
+      }
+    } catch (_) {}
+    return false;
+  };
+
+  const originalExit = window.nusaExitAppNow;
+  window.nusaExitAppNow = function () {
+    if (window.nusaExitAppHost()) return;
+    try { originalExit(); } catch (_) {}
+  };
+})();
+</script>
+
+</body>
+</html>
