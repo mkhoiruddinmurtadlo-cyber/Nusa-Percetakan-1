@@ -1470,6 +1470,33 @@ function nusaMarkExplicitLogout(value) {
   } catch (_) {}
 })();
 </script>
+  <script>
+(function nusaMarkRefreshForBack() {
+  try {
+    const nav = performance.getEntriesByType('navigation')[0];
+    const isReload = nav
+      ? nav.type === 'reload'
+      : (performance.navigation && performance.navigation.type === 1);
+
+    const page = (location.hash || '#home')
+      .replace('#', '')
+      .split('-')[0];
+
+    // Hanya tandai jika benar-benar REFRESH
+    // dan halaman yang direfresh bukan Beranda.
+    if (isReload && page !== 'home') {
+      sessionStorage.setItem(
+        'nusa_back_to_home_after_refresh',
+        page
+      );
+    } else if (!isReload) {
+      sessionStorage.removeItem(
+        'nusa_back_to_home_after_refresh'
+      );
+    }
+  } catch (e) {}
+})();
+  </script>
 <div id="authScreen" class="hidden">
   <div class="auth-card">
     <img class="auth-logo" src="./logo.png" alt="NUsa Percetakan">
@@ -4030,22 +4057,43 @@ document.addEventListener('DOMContentLoaded', function() {
 // Tandai bahwa halaman baru saja dimuat/refresh
 window.__nusaJustRefreshed = true;
 window.onpopstate = function(event) {
-  // Setelah refresh, tombol Back diarahkan ke Beranda
-if (window.__nusaJustRefreshed) {
-  window.__nusaJustRefreshed = false;
+   // Setelah refresh di halaman selain Beranda,
+  // tombol Back diarahkan langsung ke Beranda.
+  try {
+    const refreshedPage = sessionStorage.getItem(
+      'nusa_back_to_home_after_refresh'
+    );
 
-  currentPage = 'home';
-  showPage('home', null, false);
+    if (
+      refreshedPage &&
+      currentPage === refreshedPage &&
+      currentPage !== 'home'
+    ) {
+      sessionStorage.removeItem(
+        'nusa_back_to_home_after_refresh'
+      );
 
-  history.replaceState(
-    { page: 'home', searchOpen: false, homeGuard: true },
-    '',
-    '#home'
-  );
+      window.__nusaGoingHome = false;
+      window.__nusaOnPushedPage = false;
 
-  scrollToTopInstant();
-  return;
-  }
+      currentPage = 'home';
+
+      showPage('home', null, false);
+
+      history.replaceState(
+        {
+          page: 'home',
+          searchOpen: false,
+          homeGuard: true
+        },
+        '',
+        '#home'
+      );
+
+      scrollToTopInstant();
+      return;
+    }
+  } catch (e) {}
   // Jika login gagal, satu kali Back langsung keluar dari halaman aplikasi.
   // Tanpa ini, dua state history (#home) membuat Back harus ditekan dua kali.
   const authScreen = document.getElementById('authScreen');
