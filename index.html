@@ -4161,13 +4161,10 @@ setTimeout(scrollToTopInstant, 50);
 nusaBootAuth()
   .catch(err => console.warn('Auth boot:', err))
   .finally(() => {
-    const splash = document.getElementById('nusaRefreshSplash');
-    if (!splash) return;
-    requestAnimationFrame(() => {
-      splash.classList.add('nusa-refresh-splash-hide');
-      setTimeout(() => splash.remove(), 220);
-    });
-  });
+  const splash = document.getElementById('nusaRefreshSplash');
+  if (!splash) return;
+  splash.remove();
+});
 
 /* Legacy Service Worker registration removed. Supabase is the data source. */
 </script>
