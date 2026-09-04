@@ -3929,99 +3929,8 @@ document.addEventListener('DOMContentLoaded', function() {
   } catch (_) {}
 })();
 
-window.onpopstate = function(event) {
-  // Setelah aplikasi di-refresh pada halaman selain Beranda,
-  // tombol Back pertama wajib kembali ke Beranda, bukan keluar aplikasi.
-  try {
-    const refreshedPage = sessionStorage.getItem('nusa_back_to_home_after_refresh');
-    if (refreshedPage && currentPage === refreshedPage && currentPage !== 'home') {
-      sessionStorage.removeItem('nusa_back_to_home_after_refresh');
-      window.__nusaGoingHome = false;
-      window.__nusaOnPushedPage = false;
-      currentPage = 'home';
-      showPage('home', null, false);
-      history.replaceState(
-        { page: 'home', searchOpen: false, homeGuard: true },
-        '',
-        '#home'
-      );
-      scrollToTopInstant();
-      return;
-    }
-  } catch (_) {}
 
-  // Jika login gagal, satu kali Back langsung keluar dari halaman aplikasi.
-  // Tanpa ini, dua state history (#home) membuat Back harus ditekan dua kali.
-  const authScreen = document.getElementById('authScreen');
-  if (authScreen && !authScreen.classList.contains('hidden')) {
-    // Saat logout, satu state Beranda lama dipop dan state saat ini
-    // dijadikan Login. Back berikutnya akan langsung meninggalkan aplikasi.
-    if (window.__resettingLogoutHistory) {
-      window.__resettingLogoutHistory = false;
-      nusaSetLoggedOutUI();
-      const u = document.getElementById('authUsername');
-      const pw = document.getElementById('authPassword');
-      if (u) u.value = '';
-      if (pw) pw.value = '';
-      history.replaceState({ page: 'login', loggedOut: true }, '', '#login');
-      return;
-    }
-    // Login biasa tetap mengikuti perilaku existing.
-    return;
-  }
 
-  // Pop yang berasal dari tombol Beranda: kita sudah sampai di entri dasar
-  // Beranda. Rapikan menjadi satu-satunya state agar Back berikutnya keluar.
-  if (window.__nusaGoingHome) {
-    window.__nusaGoingHome = false;
-    window.__nusaOnPushedPage = false;
-    showPage('home', null, false);
-    history.replaceState(
-      { page: 'home', searchOpen: false, homeGuard: true },
-      '',
-      '#home'
-    );
-    return;
-  }
-
-  // Back dari halaman selain Beranda = kembali ke Beranda
-if (currentPage !== 'home') {
-  showPage('home', null, false);
-  currentPage = 'home';
-  window.__nusaOnPushedPage = false;
-
-  history.replaceState(
-    { page: 'home', searchOpen: false, homeGuard: true },
-    '',
-    '#home'
-  );
-
-  scrollToTopInstant();
-  return;
-  }
-
-  const catalogSearchBox = document.getElementById('searchBox');
-  const historySearchBox = document.getElementById('historySearchBox');
-  const modalNota = document.getElementById('modalNota');
-
-  // Modal terbuka -> Back hanya menutup modal.
-  if (modalNota && !modalNota.classList.contains('hidden')) {
-    closeModalNota();
-    history.pushState({ page: currentPage, searchOpen: false }, '', '#' + currentPage);
-    return;
-  }
-
-  // Pencarian Katalog terbuka -> Back pertama hanya menutup pencarian.
-  // Jangan membuat history baru, agar Back berikutnya menuju Beranda.
-  if (currentPage === 'catalog' && catalogSearchBox && !catalogSearchBox.classList.contains('hidden')) {
-    closeCatalogSearch(false);
-    currentPage = 'catalog';
-    // Pastikan state setelah pencarian tertutup tetap berada di Katalog.
-    // Back berikutnya akan menuju Beranda.
-    history.replaceState(
-      { page: 'catalog', searchOpen: false },
-      '',
-      '#catalog'
     );
     // Kembalikan katalog ke posisi awal secara paksa setelah pencarian ditutup.
     scrollToTopInstant();
@@ -4071,24 +3980,6 @@ if (currentPage !== 'home') {
 
     currentPage = 'home';
     scrollToTopInstant();
-    return;
-  }
-
-  // SUDAH DI BERANDA -> langsung keluar aplikasi TANPA logout dan tanpa dialog.
-  // Sesi login tetap aktif; sesi hanya berakhir lewat tombol Keluar di header.
-  // Kembalikan state Beranda dulu agar Back berikutnya (jika tab tidak tertutup)
-  // kembali memicu keluar aplikasi.
-  history.replaceState(
-    { page: 'home', searchOpen: false, homeGuard: true },
-    '',
-    '#home'
-  );
-  // Tutup aplikasi (berfungsi saat dipasang sebagai PWA / tab dibuka skrip).
-  window.close();
-  return;
-};
-
-
 
 /* Helpers */
 function esc(s) {
