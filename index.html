@@ -4026,15 +4026,6 @@ document.addEventListener('DOMContentLoaded', function() {
 /* PENANGANAN KONTROL KEMBALI APLIKASI */
 
 window.onpopstate = function(event) {
-  // Setelah refresh pada halaman selain Beranda, Android/WebView kadang
-  // mengirim popstate sebelum variabel currentPage tersinkron. Ambil halaman
-  // dari state/hash terlebih dahulu agar Back pertama tetap kembali ke Beranda.
-  const allowedBackPages = ['home','catalog','transaction','history','calculator'];
-  const statePage = event?.state?.page;
-  const hashPageNow = location.hash.replace('#', '').split('-')[0];
-  if (allowedBackPages.includes(statePage)) currentPage = statePage;
-  else if (allowedBackPages.includes(hashPageNow)) currentPage = hashPageNow;
-
   // Jika login gagal, satu kali Back langsung keluar dari halaman aplikasi.
   // Tanpa ini, dua state history (#home) membuat Back harus ditekan dua kali.
   const authScreen = document.getElementById('authScreen');
@@ -4156,6 +4147,7 @@ window.onpopstate = function(event) {
   window.close();
   return;
 };
+
 
 
 /* Helpers */
