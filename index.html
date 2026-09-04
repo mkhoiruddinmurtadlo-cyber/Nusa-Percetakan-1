@@ -4025,9 +4025,27 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-/* PENANGANAN KONTROL KEMBALI APLIKASI */
 
+/* PENANGANAN KONTROL KEMBALI APLIKASI */
+// Tandai bahwa halaman baru saja dimuat/refresh
+window.__nusaJustRefreshed = true;
 window.onpopstate = function(event) {
+  // Setelah refresh, tombol Back diarahkan ke Beranda
+if (window.__nusaJustRefreshed) {
+  window.__nusaJustRefreshed = false;
+
+  currentPage = 'home';
+  showPage('home', null, false);
+
+  history.replaceState(
+    { page: 'home', searchOpen: false, homeGuard: true },
+    '',
+    '#home'
+  );
+
+  scrollToTopInstant();
+  return;
+  }
   // Jika login gagal, satu kali Back langsung keluar dari halaman aplikasi.
   // Tanpa ini, dua state history (#home) membuat Back harus ditekan dua kali.
   const authScreen = document.getElementById('authScreen');
