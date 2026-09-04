@@ -4062,6 +4062,22 @@ window.onpopstate = function(event) {
     return;
   }
 
+  // Back dari halaman selain Beranda = kembali ke Beranda
+if (currentPage !== 'home') {
+  showPage('home', null, false);
+  currentPage = 'home';
+  window.__nusaOnPushedPage = false;
+
+  history.replaceState(
+    { page: 'home', searchOpen: false, homeGuard: true },
+    '',
+    '#home'
+  );
+
+  scrollToTopInstant();
+  return;
+  }
+
   const catalogSearchBox = document.getElementById('searchBox');
   const historySearchBox = document.getElementById('historySearchBox');
   const modalNota = document.getElementById('modalNota');
