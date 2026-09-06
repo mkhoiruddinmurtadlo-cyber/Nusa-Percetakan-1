@@ -4115,6 +4115,25 @@ document.getElementById('td').value = today();
 tampilkanHariTanggal();
 document.getElementById('ed').value = today();
 tampilkanHariTanggalPengeluaran();
+  
+// Otomatis memperbarui tanggal ketika hari berganti
+setInterval(() => {
+  const hariIni = today();
+
+  const td = document.getElementById('td');
+  const ed = document.getElementById('ed');
+
+  if (td && td.value !== hariIni) {
+    td.value = hariIni;
+    tampilkanHariTanggal();
+  }
+
+  if (ed && ed.value !== hariIni) {
+    ed.value = hariIni;
+    tampilkanHariTanggalPengeluaran();
+  }
+}, 30000);
+  
 tambahItemTransaksi();
 tambahItemPengeluaran();
 toggleTransactionType('sale');
