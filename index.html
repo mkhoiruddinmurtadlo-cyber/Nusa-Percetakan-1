@@ -1747,8 +1747,13 @@ let currentModalMode = 'nota';
 let currentPage = 'home';
 
 const rp = n => 'Rp' + (Number(n) || 0).toLocaleString('id-ID');
-const today = () => new Date().toISOString().slice(0, 10);
-
+const today = () => {
+  const d = new Date();
+  const tahun = d.getFullYear();
+  const bulan = String(d.getMonth() + 1).padStart(2, '0');
+  const tanggal = String(d.getDate()).padStart(2, '0');
+  return `${tahun}-${bulan}-${tanggal}`;
+};
 async function save() {
   // Selalu simpan lokal sebagai cache. Data utama tetap Supabase saat user login.
   localStorage.setItem(KEY, JSON.stringify(db));
